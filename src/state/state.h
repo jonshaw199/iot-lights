@@ -1,0 +1,14 @@
+#ifndef STATE_STATE_H_
+#define STATE_STATE_H_
+
+enum JSState
+{
+  STATE_NONE,
+  STATE_INIT,
+  STATE_RUN,
+  STATE_OTA,
+  STATE_IDLE,
+  STATE_RESTART
+};
+
+#endif // STATE_STATE_H
