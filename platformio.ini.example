@@ -1,0 +1,178 @@
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter
+;   Upload options: custom upload port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Please visit documentation for the other options and examples
+; https://docs.platformio.org/page/projectconf.html
+
+[base]
+platform = espressif32
+framework = arduino
+monitor_speed = 115200
+lib_deps = 
+  fastled/FastLED@^3.5.0 
+  https://github.com/me-no-dev/ESPAsyncWebServer.git
+  ayushsharma82/WebSerial@^1.3.0
+build_flags = 
+	'-DJSSSID="your-ssid-here"'
+	'-DJSPASS="your-password-here"'
+	-DGATEWAY_A=192
+	-DGATEWAY_B=168
+	-DGATEWAY_C=1
+	-DGATEWAY_D=254
+	-DSUBNET_A=255
+	-DSUBNET_B=255
+	-DSUBNET_C=255
+	-DSUBNET_D=0
+	-DESPNOW_CHANNEL=0
+	-DSLAVE_CNT=4
+	-DPRINT_SLAVE_SCAN_RESULTS=false
+	-DLED_CNT_BACK=287
+	-DLED_CNT_PATIO=378
+	-DLED_CNT_KITCHEN=150
+	-DLED_CNT_GARAGE_A=409
+	-DLED_CNT_GARAGE_B=350
+	-DLED_CNT_FRONT=330
+
+[master]
+build_flags = 
+	-DMASTER=true
+	-DJS_ID=1
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=180
+
+[master_usb]
+
+[master_ota]
+upload_port = 192.168.1.180
+
+[slave]
+build_flags = 
+	-DMASTER=false
+
+[2]
+build_flags = 
+	-DJS_ID=2
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=181
+
+[2_usb]
+
+[2_ota]
+upload_port = 192.168.1.181
+
+[3]
+build_flags = 
+	-DJS_ID=3
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=182
+
+[3_usb]
+
+[3_ota]
+upload_port = 192.168.1.182
+
+[4]
+build_flags = 
+	-DJS_ID=4
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=183
+
+[4_usb]
+
+[4_ota]
+upload_port = 192.168.1.183
+
+[5]
+build_flags = 
+	-DJS_ID=5
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=184
+
+[5_usb]
+
+[5_ota]
+upload_port = 192.168.1.184
+
+[dummy]
+build_flags = 
+	-DJS_ID=6
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=185
+
+[dummy_usb]
+
+[dummy_ota]
+upload_port = 192.168.1.185
+
+[wemos_d1_mini32]
+board = wemos_d1_mini32
+build_flags = 
+	-DLED_PIN_A=16
+	-DLED_PIN_B=17
+
+[ota]
+upload_protocol = espota
+
+[env:wemos_d1_mini32_master_usb]
+extends = base, wemos_d1_mini32, master, master_usb
+build_flags = ${base.build_flags} ${master.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_master_ota]
+extends = base, wemos_d1_mini32, ota, master, master_ota
+build_flags = ${base.build_flags} ${master.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_2_usb]
+extends = base, wemos_d1_mini32, slave, 2, 2_usb
+build_flags = ${base.build_flags} ${slave.build_flags} ${2.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_2_ota]
+extends = base, wemos_d1_mini32, slave, 2, ota, 2_ota
+build_flags = ${base.build_flags} ${slave.build_flags} ${2.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_3_usb]
+extends = base, wemos_d1_mini32, slave, 3, 3_usb
+build_flags = ${base.build_flags} ${slave.build_flags} ${3.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_3_ota]
+extends = base, wemos_d1_mini32, slave, 3, ota, 3_ota
+build_flags = ${base.build_flags} ${slave.build_flags} ${3.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_4_usb]
+extends = base, wemos_d1_mini32, slave, 4, 4_usb
+build_flags = ${base.build_flags} ${slave.build_flags} ${4.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_4_ota]
+extends = base, wemos_d1_mini32, slave, 4, ota, 4_ota
+build_flags = ${base.build_flags} ${slave.build_flags} ${4.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_5_usb]
+extends = base, wemos_d1_mini32, slave, 5, 5_usb
+build_flags = ${base.build_flags} ${slave.build_flags} ${5.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_5_ota]
+extends = base, wemos_d1_mini32, slave, 5, ota, 5_ota
+build_flags = ${base.build_flags} ${slave.build_flags} ${5.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_dummy_usb]
+extends = base, wemos_d1_mini32, slave, dummy, dummy_usb
+build_flags = ${base.build_flags} ${slave.build_flags} ${5.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_dummy_ota]
+extends = base, wemos_d1_mini32, slave, dummy, ota, dummy_ota
+build_flags = ${base.build_flags} ${slave.build_flags} ${5.build_flags} ${wemos_d1_mini32.build_flags}
