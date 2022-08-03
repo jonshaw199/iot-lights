@@ -3,7 +3,6 @@
 
 enum JSState
 {
-  STATE_NONE,
   STATE_INIT,
   STATE_RUN,
   STATE_OTA,
