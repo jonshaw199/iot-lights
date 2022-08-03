@@ -31,6 +31,7 @@ void OTA::setup()
   Serial.println("MAC: " + WiFi.macAddress());
   delay(1000);
 
+#if JS_IP_A
   // Set your Static IP address
   IPAddress local_IP(JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D);
   // Set your Gateway IP address
@@ -45,6 +46,7 @@ void OTA::setup()
   {
     Serial.println("Static IP config success");
   }
+#endif
 
   // Connect to Wi-Fi network with SSID and password
   WiFi.begin(JSSSID, JSPASS);
