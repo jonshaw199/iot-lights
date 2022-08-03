@@ -27,8 +27,8 @@ void LED::setup()
     ledsA = ledsFront;
     ledsCntA = LED_CNT_FRONT;
     break;
-  case 6:
-    Serial.println("Dummy; no LEDs");
+  default:
+    Serial.println("No assigned LEDs");
     break;
   }
 
