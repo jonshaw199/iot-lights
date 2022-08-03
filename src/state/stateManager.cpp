@@ -21,7 +21,7 @@ JSState StateManager::getPrevState()
 StateManager::StateManager()
 {
   curState = STATE_INIT;
-  requestedState = STATE_NONE;
+  requestedState = curState;
   webServer = new AsyncWebServer(80);
 }
 
@@ -65,10 +65,17 @@ void StateManager::handleUserInput(String s)
   if (s.indexOf("o") == 0)
   {
     getInstance().setRequestedState(STATE_OTA);
+    Serial.println("Requesting OTA state");
   }
   else if (s.indexOf("r") == 0)
   {
     getInstance().setRequestedState(STATE_RUN);
+    Serial.println("Requesting run state");
+  }
+  else if (s.indexOf("i") == 0)
+  {
+    getInstance().setRequestedState(STATE_IDLE);
+    Serial.println("Requesting idle state");
   }
 }
 
