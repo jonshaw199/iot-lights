@@ -8,10 +8,12 @@
 #include "state/stateManager.h"
 #include "base/base.h"
 #include "restart/restart.h"
+#include "idle/idle.h"
 
 Base *espEnt;
 OTA ota;
 Restart restart;
+Idle idle;
 
 Base *stateEnt;
 
@@ -26,18 +28,15 @@ void setup()
 
   ota = OTA();
   restart = Restart();
+  idle = Idle();
 
-  if (MASTER)
-  {
-    espEnt = new Master();
-  }
-  else
-  {
-    espEnt = new Slave();
-  }
+#if MASTER
+  espEnt = new Master();
+#else
+  espEnt = new Slave();
+#endif
 
-  espEnt->setup();
-  stateEnt = espEnt;
+  stateEnt = &idle;
 
   StateManager::setRequestedState(STATE_RUN);
 }
@@ -70,6 +69,9 @@ void loop()
       case STATE_RESTART:
         stateEnt = &restart;
         break;
+      case STATE_IDLE:
+        stateEnt = &idle;
+        break;
       }
 
       stateEnt->setup();
@@ -80,8 +82,5 @@ void loop()
     }
   }
 
-  if (stateEnt != NULL)
-  {
-    stateEnt->loop();
-  }
+  stateEnt->loop();
 }
