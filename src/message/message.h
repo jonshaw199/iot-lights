@@ -9,10 +9,6 @@
 
 typedef struct js_message
 {
-  char a[32];
-  int b;
-  float c;
-  bool d;
   String s;
   JSState state;
   CRGB color;
