@@ -207,7 +207,7 @@ void Master::connectToSlaves()
   else
   {
     // No slaves found in scan
-    Serial.print("No slaves found to connect");
+    Serial.println("No slaves found to connect");
   }
 }
 
