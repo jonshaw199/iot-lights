@@ -16,27 +16,21 @@ void Master::loop()
 {
   Serial.println("Master looping");
 
-  // In the loop we scan for slave
-  scanForSlaves();
-  // If Slave is found, it would be populate in `slave` variable
-  // We will check if `slave` is defined and then we proceed further
-  if (curSlaveCnt)
-  { // check if slave channel is defined
-    // `slave` is defined
-    // Add slave as peer if it has not been added already
+  if (curSlaveCnt < SLAVE_CNT)
+  {
+    scanForSlaves();
     connectToSlaves();
-    // pair success or already paired
-    // Send data to device
+  }
+
+  if (curSlaveCnt)
+  {
     js_message msg;
     msg.s = "Testing...";
     msg.state = StateManager::getCurState();
     msg.color = LED::getRandColor();
     sendData(msg);
   }
-  else
-  {
-    // No slave found to process
-  }
+
   delay(MASTER_LOOP_DELAY);
 }
 
