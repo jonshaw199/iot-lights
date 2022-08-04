@@ -28,6 +28,7 @@ void Master::loop()
     msg.s = "Testing...";
     msg.state = StateManager::getCurState();
     msg.color = LED::getRandColor();
+    msg.recipients = {};
     sendData(msg);
   }
 
@@ -264,6 +265,7 @@ bool Master::preStateChange(JSState s)
     Serial.println("Informing the slaves of OTA");
     js_message msg;
     msg.state = STATE_OTA;
+    msg.recipients = {};
     sendData(msg);
     delay(3000);
   }

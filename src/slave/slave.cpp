@@ -70,7 +70,11 @@ void Slave::onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
   Serial.println(macStr);
   js_message msg;
   memcpy(&msg, incomingData, sizeof(msg));
-  StateManager::queueMsg(msg);
+  if (msg.recipients.size() == 0 || msg.recipients.find(JS_ID) != msg.recipients.end())
+  {
+    // This is a recipient so queue message
+    StateManager::queueMsg(msg);
+  }
 }
 
 // Init ESP Now with fallback
