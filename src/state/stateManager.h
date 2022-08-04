@@ -26,7 +26,7 @@ protected:
 public:
   static StateManager &getInstance();
   static JSState getCurState();
-  // Removed to force "requesting" state change
+  // Removed to encourage "requesting" state change
   // void setCurState(JSState s);
   static JSState getPrevState();
   static void queueMsg(js_message msg);

@@ -198,6 +198,7 @@ void Master::connectToSlaves()
         {
           Serial.println("Not sure what happened");
         }
+
         delay(MASTER_SLAVE_CONNECT_DELAY);
       }
     }
@@ -250,6 +251,7 @@ void Master::sendData(js_message data)
     {
       Serial.println("Not sure what happened");
     }
+
     delay(MASTER_SLAVE_SEND_DELAY);
   }
 }
