@@ -62,7 +62,10 @@ void StateManager::changeToRequestedState()
 
 void StateManager::handleUserInput(String s)
 {
-  if (s.indexOf("o") == 0)
+  if (s == "o1")
+  {
+  }
+  else if (s.indexOf("o") == 0)
   {
     getInstance().setRequestedState(STATE_OTA);
     Serial.println("Requesting OTA state");
@@ -104,4 +107,21 @@ void StateManager::deinitWebSerial()
 {
   Serial.println("Deinitializing WebSerial");
   getInstance().webServer->end();
+}
+
+void StateManager::setSlaveStates(std::map<int, JSState> s)
+{
+  getInstance().slaveStates = s;
+}
+
+void StateManager::setSlaveState(int id, JSState s)
+{
+  std::map<int, JSState> tmp = getInstance().slaveStates;
+  tmp[id] = s;
+  getInstance().slaveStates = tmp;
+}
+
+std::map<int, JSState> StateManager::getSlaveStates()
+{
+  return getInstance().slaveStates;
 }
