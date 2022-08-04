@@ -37,7 +37,7 @@ void Master::loop()
   {
     // No slave found to process
   }
-  delay(5000);
+  delay(MASTER_LOOP_DELAY);
 }
 
 void Master::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
@@ -204,7 +204,7 @@ void Master::connectToSlaves()
         {
           Serial.println("Not sure what happened");
         }
-        delay(100);
+        delay(MASTER_SLAVE_CONNECT_DELAY);
       }
     }
   }
@@ -256,7 +256,7 @@ void Master::sendData(js_message data)
     {
       Serial.println("Not sure what happened");
     }
-    delay(100);
+    delay(MASTER_SLAVE_SEND_DELAY);
   }
 }
 
