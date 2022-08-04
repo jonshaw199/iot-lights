@@ -43,6 +43,7 @@ void Slave::loop()
 
     if (StateManager::getCurState() == msg.state)
     {
+      // When will this not be STATE_RUN here??
       switch (msg.state)
       {
       case STATE_RUN:
@@ -100,8 +101,11 @@ void Slave::initESPNow()
 void Slave::configDeviceAP()
 {
   String Prefix = "Slave:";
-  String Mac = WiFi.macAddress();
-  String SSID = Prefix + Mac;
+  // String Mac = WiFi.macAddress();
+  // String SSID = Prefix + Mac;
+  String id = String(JS_ID);
+  String SSID = Prefix + id;
+
   String Password = "123456789";
   bool result = WiFi.softAP(SSID.c_str(), Password.c_str(), ESPNOW_CHANNEL, 0);
   if (!result)
