@@ -80,6 +80,11 @@ void StateManager::handleUserInput(String s)
     getInstance().setRequestedState(STATE_IDLE);
     Serial.println("Requesting idle state");
   }
+  else if (s.indexOf("k") == 0)
+  {
+    getInstance().setRequestedState(STATE_RESTART);
+    Serial.println("Requesting restart");
+  }
 }
 
 void StateManager::recvWebSerialMsg(uint8_t *data, size_t len)
