@@ -1,22 +1,17 @@
-#include <Arduino.h>
-#include <esp_now.h>
-#include <WiFi.h>
-
 #include "slave.h"
-#include "state/stateManager.h"
-#include "util/wifi/wifiUtil.h"
 
 void Slave::setup()
 {
 
+  /*
   initESPNow();
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
   esp_now_register_recv_cb(Slave::onDataRecv);
+  */
 
   led = LED();
   led.setup();
-  Serial.println("Slave setup complete");
 }
 
 void Slave::loop()
