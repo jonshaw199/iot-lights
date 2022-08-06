@@ -1,5 +1,5 @@
-#ifndef OTA_OTA_H_
-#define OTA_OTA_H_
+#ifndef STATEENT_OTA_OTA_H_
+#define STATEENT_OTA_OTA_H_
 
 #include "stateent/base/base.h"
 
@@ -11,4 +11,4 @@ public:
   bool preStateChange(JSState s);
 };
 
-#endif // OTA_OTA_H_
+#endif // STATEENT_OTA_OTA_H_

@@ -1,5 +1,5 @@
-#ifndef RESTART_RESTART_H_
-#define RESTART_RESTART_H_
+#ifndef STATEENT_RESTART_RESTART_H_
+#define STATEENT_RESTART_RESTART_H_
 
 #include "stateent/base/base.h"
 
@@ -9,4 +9,4 @@ public:
   void loop();
 };
 
-#endif // RESTART_RESTART_H
+#endif // STATEENT_RESTART_RESTART_H

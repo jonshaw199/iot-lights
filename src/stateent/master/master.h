@@ -1,5 +1,5 @@
-#ifndef MASTER_MASTER_H_
-#define MASTER_MASTER_H_
+#ifndef STATEENT_MASTER_MASTER_H_
+#define STATEENT_MASTER_MASTER_H_
 
 #include "stateent/base/base.h"
 
@@ -11,4 +11,4 @@ public:
   bool preStateChange(JSState s);
 };
 
-#endif // MASTER_MASTER_H_
+#endif // STATEENT_MASTER_MASTER_H_

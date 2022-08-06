@@ -1,5 +1,5 @@
-#ifndef SLAVE_SLAVE_H_
-#define SLAVE_SLAVE_H_
+#ifndef STATEENT_SLAVE_SLAVE_H_
+#define STATEENT_SLAVE_SLAVE_H_
 
 #include "message/message.h"
 #include "stateent/led/led.h"
@@ -18,4 +18,4 @@ public:
   bool preStateChange(JSState s);
 };
 
-#endif // SLAVE_SLAVE_H_
+#endif // STATEENT_SLAVE_SLAVE_H_

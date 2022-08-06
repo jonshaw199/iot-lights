@@ -1,5 +1,5 @@
-#ifndef BASE_BASE_H_
-#define BASE_BASE_H_
+#ifndef STATEENT_BASE_BASE_H_
+#define STATEENT_BASE_BASE_H_
 
 #include <Arduino.h>
 
@@ -14,4 +14,4 @@ public:
   virtual bool preStateChange(JSState s);
 };
 
-#endif // BASE_BASE_H_
+#endif // STATEENT_BASE_BASE_H_

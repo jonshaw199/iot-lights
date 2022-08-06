@@ -1,5 +1,5 @@
-#ifndef SLAVE_LED_LED_H_
-#define SLAVE_LED_LED_H_
+#ifndef STATEENT_LED_LED_H_
+#define STATEENT_LED_LED_H_
 
 #include <FastLED.h>
 
@@ -26,4 +26,4 @@ public:
   static CRGB getRandColor();
 };
 
-#endif // SLAVE_LED_LED_H_
+#endif // STATEENT_LED_LED_H_
