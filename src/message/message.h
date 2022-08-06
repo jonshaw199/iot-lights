@@ -9,10 +9,24 @@
 
 typedef struct js_message
 {
-  String s;
   JSState state;
   CRGB color;
-  std::set<int> recipients;
 } js_message;
+
+class JSMessage
+{
+  js_message msg;
+  std::set<int> recipients;
+
+public:
+  JSMessage();
+  JSMessage(JSState s, CRGB c);
+  JSMessage(js_message m);
+  void setState(JSState s);
+  void setColor(CRGB c);
+  void setRecipients(std::set<int> r);
+  const std::set<int> getRecipients();
+  js_message asStruct();
+};
 
 #endif // MESSAGE_MESSAGE_H_

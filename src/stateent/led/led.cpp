@@ -43,11 +43,6 @@ void LED::setup()
   FastLED.setBrightness(200);
 }
 
-void LED::loop()
-{
-  // Nothing for now
-}
-
 void LED::fillColor(CRGB color)
 {
   Serial.println("Filling color");

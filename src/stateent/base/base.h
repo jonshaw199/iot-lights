@@ -9,9 +9,9 @@ class Base
 {
 public:
   Base();
-  virtual void setup() = 0;
-  virtual void loop() = 0;
-  virtual bool preStateChange(JSState s) = 0;
+  virtual void setup();
+  virtual void loop();
+  virtual bool preStateChange(JSState s);
 };
 
 #endif // BASE_BASE_H_

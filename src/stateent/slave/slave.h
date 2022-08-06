@@ -1,9 +1,9 @@
 #ifndef SLAVE_SLAVE_H_
 #define SLAVE_SLAVE_H_
 
-#include "led/led.h"
 #include "message/message.h"
-#include "base/base.h"
+#include "stateent/led/led.h"
+#include "stateent/base/base.h"
 
 class Slave : public Base
 {
@@ -13,7 +13,6 @@ class Slave : public Base
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
 
 public:
-  Slave();
   void setup();
   void loop();
   bool preStateChange(JSState s);

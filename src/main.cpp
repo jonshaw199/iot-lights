@@ -1,19 +1,22 @@
 
 #include <Arduino.h>
 
-#include "master/master.h"
-#include "ota/ota.h"
-#include "slave/slave.h"
 #include "state/state.h"
 #include "state/stateManager.h"
-#include "base/base.h"
-#include "restart/restart.h"
-#include "idle/idle.h"
+#include "stateent/master/master.h"
+#include "stateent/ota/ota.h"
+#include "stateent/slave/slave.h"
+#include "stateent/base/base.h"
+#include "stateent/restart/restart.h"
+#include "stateent/idle/idle.h"
+#include "stateent/handshake/masterHandshake.h"
+#include "stateent/handshake/slaveHandshake.h"
 
 Base *espEnt;
 OTA ota;
 Restart restart;
 Idle idle;
+Handshake *handshake;
 
 Base *stateEnt;
 
@@ -21,8 +24,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  // initialize the built-in-LED pin as an output:
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT); // initialize the built-in-LED pin as an output
 
   // setupDisplay();
 
@@ -32,11 +34,13 @@ void setup()
 
 #if MASTER
   espEnt = new Master();
+  handshake = new MasterHandshake();
 #else
   espEnt = new Slave();
+  handshake = new SlaveHandshake();
 #endif
 
-  stateEnt = &idle;
+  stateEnt = &idle; // Avoid null pointer and just start at idle?
 
   StateManager::setRequestedState(STATE_RUN);
 }
@@ -71,6 +75,9 @@ void loop()
         break;
       case STATE_IDLE:
         stateEnt = &idle;
+        break;
+      case STATE_HANDSHAKE:
+        stateEnt = handshake;
         break;
       }
 

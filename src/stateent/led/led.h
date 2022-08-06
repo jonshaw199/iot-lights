@@ -3,8 +3,8 @@
 
 #include <FastLED.h>
 
-#include "base/base.h"
 #include "state/state.h"
+#include "stateent/base/base.h"
 
 class LED : public Base
 {
@@ -21,7 +21,6 @@ class LED : public Base
 
 public:
   void setup();
-  void loop();
   bool preStateChange(JSState s);
   void fillColor(CRGB color);
   static CRGB getRandColor();

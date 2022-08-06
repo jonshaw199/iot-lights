@@ -1,41 +1,21 @@
-#include <Arduino.h>
-#include <WiFi.h>
 
-#include "master.h"
-#include "state/stateManager.h"
-#include "led/led.h"
+#include "messageHandler.h"
+#include "util/wifi/wifiUtil.h"
 
-void Master::setup()
+MessageHandler::MessageHandler()
 {
-  Serial.println("Master setting up");
-
-  initESPNow();
+  WifiUtil::assignAPMac(macAP);
+  WifiUtil::assignSTAMac(macSTA);
 }
 
-void Master::loop()
+MessageHandler &MessageHandler::getInstance()
 {
-  Serial.println("Master looping");
-
-  if (curSlaveCnt < SLAVE_CNT)
-  {
-    scanForSlaves();
-    connectToSlaves();
-  }
-
-  if (curSlaveCnt)
-  {
-    js_message msg;
-    msg.s = "Testing...";
-    msg.state = StateManager::getCurState();
-    msg.color = LED::getRandColor();
-    msg.recipients = {};
-    sendData(msg);
-  }
-
-  delay(MASTER_LOOP_DELAY);
+  static MessageHandler instance; // Guaranteed to be destroyed.
+                                  // Instantiated on first use.
+  return instance;
 }
 
-void Master::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
+void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
 {
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
@@ -46,47 +26,51 @@ void Master::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
-void Master::initESPNow()
+void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
-  WiFi.disconnect(true);
-  delay(1000);
-  // Set device as a Wi-Fi Station
-  WiFi.mode(WIFI_STA);
-  Serial.println("MAC: " + WiFi.macAddress());
+  char macStr[18];
+  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+           mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  Serial.print("Last Packet Recv from: ");
+  Serial.println(macStr);
+  js_message msg;
+  memcpy(&msg, incomingData, sizeof(msg));
+  getInstance().inbox.push(msg);
+}
 
+void MessageHandler::init()
+{
+  WifiUtil::prepareWifi();
   if (esp_now_init() == ESP_OK)
   {
-    Serial.println("ESPNow Init Success");
+    Serial.println("ESP-NOW Init Success");
+    esp_now_register_recv_cb(onDataRecv);
+    esp_now_register_send_cb(onDataSent);
   }
   else
   {
-    Serial.println("ESPNow Init Failed");
-    // Retry InitESPNow, add a counte and then restart?
-    // InitESPNow();
-    // or Simply Restart
-    ESP.restart();
+    Serial.println("ESP-NOW Init Failed");
+    // delay(3000);
+    // ESP.restart();
   }
-
-  esp_now_register_send_cb(Master::onDataSent);
 }
 
-void Master::scanForSlaves()
+void MessageHandler::deinit()
+{
+  esp_now_deinit();
+}
+
+void MessageHandler::scanForPeers()
 {
   int8_t networkCnt = WiFi.scanNetworks();
-  // Reset slaves
-  memset(slaves, 0, sizeof(slaves));
-  curSlaveCnt = 0;
   if (networkCnt)
   {
-    Serial.print("Found ");
-    Serial.print(networkCnt);
-    Serial.println(" networks");
     for (int i = 0; i < networkCnt; ++i)
     {
       String SSID = WiFi.SSID(i);
       int32_t RSSI = WiFi.RSSI(i);
       String BSSIDStr = WiFi.BSSIDstr(i);
-      if (PRINT_SLAVE_SCAN_RESULTS)
+      if (PRINT_WIFI_SCAN_RESULTS)
       {
         // Print SSID and RSSI for each netowrk
         Serial.print(i + 1);
@@ -100,9 +84,10 @@ void Master::scanForSlaves()
         Serial.print(")");
         Serial.println("");
       }
-      delay(10);
+      // delay(10);
       // Check if the current network is one of our slaves
-      if (SSID.indexOf("Slave") == 0)
+      int deviceID;
+      if (sscanf(SSID.c_str(), "JS%x", &deviceID))
       {
         Serial.print(i + 1);
         Serial.print(": ");
@@ -114,67 +99,50 @@ void Master::scanForSlaves()
         Serial.print(RSSI);
         Serial.print(")");
         Serial.println("");
-        // Get BSSID => Mac Address of the Slave
+        // Get BSSID (MAC Address) of the Slave
         int mac[6];
         if (6 == sscanf(BSSIDStr.c_str(), "%x:%x:%x:%x:%x:%x", &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]))
         {
+          esp_now_peer_info_t info;
           for (int j = 0; j < 6; ++j)
           {
-            slaves[curSlaveCnt].peer_addr[j] = (uint8_t)mac[j];
+            info.peer_addr[j] = (uint8_t)mac[j];
           }
+          info.channel = ESPNOW_CHANNEL;
+          info.encrypt = 0; // no encryption
+          getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
         }
-        slaves[curSlaveCnt].channel = ESPNOW_CHANNEL;
-        slaves[curSlaveCnt].encrypt = 0; // no encryption
-        curSlaveCnt++;
       }
-    }
-
-    if (curSlaveCnt)
-    {
-      Serial.print(curSlaveCnt);
-      Serial.println(" Slave(s) found, processing..");
-    }
-    else
-    {
-      Serial.println("No Slave Found, trying again.");
     }
   }
   else
   {
-    Serial.println("No networks found");
+    Serial.println("No peers found");
   }
 
   // clean up ram
   WiFi.scanDelete();
 }
 
-void Master::connectToSlaves()
+void MessageHandler::connectToPeers()
 {
   // Check if each slave is already connected to master
   // If not, then try to connect
-  if (curSlaveCnt)
+  if (getInstance().peerInfoMap.size())
   {
-    for (int i = 0; i < curSlaveCnt; i++)
+    for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end(); it++)
     {
-      Serial.print("Processing: ");
-      for (int j = 0; j < 6; ++j)
-      {
-        Serial.print((uint8_t)slaves[i].peer_addr[j], HEX);
-        if (j != 5)
-        {
-          Serial.print(":");
-        }
-      }
-      Serial.print(" Status: ");
       // Check if the peer exists
-      if (esp_now_is_peer_exist(slaves[i].peer_addr))
+      if (!esp_now_is_peer_exist(it->second.espnowPeerInfo.peer_addr))
       {
-        Serial.println("Already Paired");
+        Serial.print("Peer ID ");
+        Serial.print(it->first);
+        Serial.println(" already paired");
       }
       else
       {
         // Slave not connected; attempt to connect
-        esp_err_t connectStatus = esp_now_add_peer(&slaves[i]);
+        esp_err_t connectStatus = esp_now_add_peer(&it->second.espnowPeerInfo);
         if (connectStatus == ESP_OK)
         {
           Serial.println("Pair success");
@@ -197,10 +165,10 @@ void Master::connectToSlaves()
         }
         else
         {
-          Serial.println("Not sure what happened");
+          Serial.println("Unknown connection error");
         }
 
-        delay(MASTER_SLAVE_CONNECT_DELAY);
+        delay(DELAY_MASTER_SLAVE_CONNECT);
       }
     }
   }
@@ -211,17 +179,12 @@ void Master::connectToSlaves()
   }
 }
 
-void Master::sendData(js_message data)
+void MessageHandler::sendMsg(JSMessage msg)
 {
-  for (int i = 0; i < curSlaveCnt; i++)
+  // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
+  for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
   {
-    const uint8_t *peerAddr = slaves[i].peer_addr;
-    // Print only for the first slave
-    if (!i)
-    {
-      Serial.print("Sending data...");
-    }
-    esp_err_t result = esp_now_send(peerAddr, (uint8_t *)&data, sizeof(data));
+    esp_err_t result = esp_now_send(it->second.espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
     Serial.print("Send Status: ");
     if (result == ESP_OK)
     {
@@ -253,21 +216,6 @@ void Master::sendData(js_message data)
       Serial.println("Not sure what happened");
     }
 
-    delay(MASTER_SLAVE_SEND_DELAY);
+    delay(DELAY_MASTER_SLAVE_SEND);
   }
-}
-
-bool Master::preStateChange(JSState s)
-{
-  if (StateManager::getCurState() == STATE_RUN && s == STATE_OTA)
-  {
-    // Inform the slaves so they also switch state
-    Serial.println("Informing the slaves of OTA");
-    js_message msg;
-    msg.state = STATE_OTA;
-    msg.recipients = {};
-    sendData(msg);
-    delay(3000);
-  }
-  return true;
 }
