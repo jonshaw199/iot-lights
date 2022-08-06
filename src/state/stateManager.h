@@ -30,6 +30,7 @@ protected:
 public:
   static StateManager &getInstance();
   static JSState getCurState();
+  static void init(JSState s);
   // Removed to encourage "requesting" state change
   // void setCurState(JSState s);
   static JSState getPrevState();
