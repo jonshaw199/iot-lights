@@ -42,7 +42,7 @@ void setup()
 
   stateEnt = &idle; // Avoid null pointer and just start at idle?
 
-  StateManager::setRequestedState(STATE_RUN);
+  StateManager::setRequestedState(STATE_HANDSHAKE);
 }
 
 void loop()
