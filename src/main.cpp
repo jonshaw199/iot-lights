@@ -11,12 +11,14 @@
 #include "stateent/idle/idle.h"
 #include "stateent/handshake/masterHandshake.h"
 #include "stateent/handshake/slaveHandshake.h"
+#include "stateent/init/init.h"
 
 Base *espEnt;
 OTA ota;
 Restart restart;
 Idle idle;
 Handshake *handshake;
+Init init;
 
 Base *stateEnt;
 
@@ -24,14 +26,17 @@ void setup()
 {
   Serial.begin(115200);
 
-  pinMode(LED_BUILTIN, OUTPUT); // initialize the built-in-LED pin as an output
-
-  // setupDisplay();
-
+  // Initializing StateManager as early as possible
+  StateManager::init(STATE_INIT);
+  // Constructing init since it's actually used right now (we are technically in STATE_INIT now so we should call setup below)
+  init = Init();
+  // Point stateEnt to init since it's the active state entity
+  stateEnt = &init;
+  stateEnt->setup();
+  // Then construct the rest so they can be used later (setup should happen on these later in loop() when we switch to/away these states)
   ota = OTA();
   restart = Restart();
   idle = Idle();
-
 #if MASTER
   espEnt = new Master();
   handshake = new MasterHandshake();
@@ -40,18 +45,16 @@ void setup()
   handshake = new SlaveHandshake();
 #endif
 
-  stateEnt = &idle; // Avoid null pointer and just start at idle?
+  pinMode(LED_BUILTIN, OUTPUT);
+  // setupDisplay();
 
   StateManager::setRequestedState(STATE_HANDSHAKE);
 }
 
 void loop()
 {
-  if (Serial.available() > 0)
-  {
-    String s = Serial.readString();
-    StateManager::handleUserInput(s);
-  }
+  // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state
+  stateEnt->loop();
 
   JSState curState = StateManager::getCurState();
   JSState requestedState = StateManager::getRequestedState();
@@ -89,5 +92,10 @@ void loop()
     }
   }
 
-  stateEnt->loop();
+  // Handling user input last instead of first to take care of critical things first after setup (i.e. handshake?)
+  if (Serial.available() > 0)
+  {
+    String s = Serial.readString();
+    StateManager::handleUserInput(s);
+  }
 }
