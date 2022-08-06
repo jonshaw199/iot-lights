@@ -20,9 +20,13 @@ JSState StateManager::getPrevState()
 
 StateManager::StateManager()
 {
-  curState = STATE_INIT;
-  requestedState = curState;
-  webServer = new AsyncWebServer(80);
+}
+
+void StateManager::init(JSState s)
+{
+  getInstance().curState = s;
+  getInstance().requestedState = s;
+  getInstance().webServer = new AsyncWebServer(80);
 }
 
 void StateManager::queueMsg(js_message msg)
