@@ -26,6 +26,8 @@ void WifiUtil::setAPMode()
 // Setup access point (aka open wifi network); this is used by slaves so master can find them
 bool WifiUtil::broadcastAP()
 {
+  prepareWifi();
+  Serial.println("Broadcasting soft AP");
   String Prefix = DEVICE_PREFIX;
   String id = String(JS_ID);
   String SSID = Prefix + id;
