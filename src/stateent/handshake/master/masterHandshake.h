@@ -5,6 +5,7 @@
 
 class MasterHandshake : public Handshake
 {
+  void setup();
   void loop();
 };
 
