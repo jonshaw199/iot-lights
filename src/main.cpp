@@ -52,6 +52,7 @@ void loop()
   // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state (or maybe we don't want to request a new state during init at all?)
   stateEnt->loop();
 
+  // Check if state change requested and proceed if stateEnt->preStateChange() says its ok
   JSState curState = StateManager::getCurState();
   JSState requestedState = StateManager::getRequestedState();
   if (curState != requestedState)
@@ -88,7 +89,7 @@ void loop()
     }
   }
 
-  // Handling user input last instead of first to take care of critical things first after setup (i.e. handshake?)
+  // Handling user input
   if (Serial.available() > 0)
   {
     String s = Serial.readString();
