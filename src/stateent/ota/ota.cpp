@@ -6,6 +6,7 @@
 
 #include "ota.h"
 #include "state/stateManager.h"
+#include "util/wifi/wifiUtil.h"
 
 void OTA::setup()
 {
@@ -25,8 +26,7 @@ void OTA::setup()
   // Serial.println(WiFi.getMode());
   // End silly stuff !!!
 
-  WiFi.disconnect(true);
-  delay(1000);
+  WifiUtil::prepareWifi();
   WiFi.mode(WIFI_STA);
   Serial.println("MAC: " + WiFi.macAddress());
   delay(1000);
