@@ -18,7 +18,7 @@ OTA ota;
 Restart restart;
 Idle idle;
 Handshake *handshake;
-Init init;
+Init initEnt;
 
 Base *stateEnt;
 
@@ -29,9 +29,9 @@ void setup()
   // Initializing StateManager as early as possible
   StateManager::init(STATE_INIT);
   // Constructing init since it's actually used right now (we are technically in STATE_INIT now so we should call setup below)
-  init = Init();
+  initEnt = Init();
   // Point stateEnt to init since it's the active state entity
-  stateEnt = &init;
+  stateEnt = &initEnt;
   // Handle any general setup in Init (unless it MUST be handled here like constructor calls below for global vars)
   stateEnt->setup();
   // Construct the rest of the global variables so they will be ready for use later (setup should happen on these later in loop() when we switch to these states)
