@@ -5,6 +5,7 @@
 
 class MasterHandshake : public Handshake
 {
+  void loop();
 };
 
 #endif // STATEENT_HANDSHAKE_MASTERHANDSHAKE_H_
