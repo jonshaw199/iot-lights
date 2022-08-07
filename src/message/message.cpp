@@ -92,3 +92,8 @@ int JSMessage::getSenderID()
 {
   return msg.senderID;
 }
+
+uint8_t *JSMessage::getSenderAPMac()
+{
+  return msg.senderAPMac;
+}

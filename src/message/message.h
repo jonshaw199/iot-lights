@@ -28,6 +28,20 @@ typedef struct js_message
   CRGB color;             // Run
 } js_message;
 
+/*
+  Example msg creation:
+
+  JSMessage msg = JSMessage();
+  msg.setType(HANDSHAKE_REQUEST);
+  msg.setSenderID(JS_ID);
+  msg.setState(STATE_HANDSHAKE);
+  msg.setSenderAPMac(MessageHandler::getInstance().macAP);
+
+  msg.setRecipients({some_id1, some_id2});
+
+  MsgHandler::sendMsg(msg);
+*/
+
 // This class is a wrapper around the js_message struct that actually gets sent using ESPNOW
 class JSMessage
 {
@@ -52,6 +66,7 @@ public:
   void setColor(CRGB c);
   CRGB getColor();
   void setSenderAPMac(uint8_t *m);
+  uint8_t *getSenderAPMac();
   int getMsgID();
   void setSenderID(int id);
   int getSenderID();
