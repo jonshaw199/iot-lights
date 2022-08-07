@@ -199,6 +199,9 @@ void MessageHandler::sendMsg(JSMessage msg)
     if (result == ESP_OK)
     {
       Serial.println("Success");
+
+      // Update last msg sent for this peer
+      memcpy(&getInstance().peerInfoMap[it->first].lastMsg, &msg, sizeof(msg));
     }
     else if (result == ESP_ERR_ESPNOW_NOT_INIT)
     {
@@ -238,23 +241,48 @@ std::queue<JSMessage> &MessageHandler::getInbox()
 void MessageHandler::sendHandshakeRequest(int id)
 {
   Serial.println("Sending handshake request to ID " + id);
+
   JSMessage msg = JSMessage();
-  msg.setRecipients({id});
+
+  // Set struct
   msg.setType(HANDSHAKE_REQUEST);
-  msg.setSenderAPMac(getInstance().macAP);
   msg.setSenderID(JS_ID);
-  memcpy(&getInstance().peerInfoMap[id].lastMsg, &msg, sizeof(msg));
+  msg.setState(STATE_HANDSHAKE);
+  msg.setSenderAPMac(getInstance().macAP);
+  // Set wrapper
+  msg.setRecipients({id});
+
   sendMsg(msg);
 }
 
 void MessageHandler::receiveHandshakeRequest(JSMessage m)
 {
+  Serial.println("Receiving handshake request from ID " + m.getSenderID());
+  js_peer_info i;
+  memcpy(&i.espnowPeerInfo.peer_addr, m.getSenderAPMac(), 6);
+  i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
+  i.espnowPeerInfo.encrypt = 0; // No encryption
+  getInstance().peerInfoMap[m.getSenderID()] = i;
 }
 
 void MessageHandler::sendHandshakeResponse(int id)
 {
+  Serial.println("Sending handshake response to ID " + id);
+
+  JSMessage msg = JSMessage();
+
+  // Set struct
+  msg.setType(HANDSHAKE_RESPONSE);
+  msg.setSenderID(JS_ID);
+  msg.setState(STATE_HANDSHAKE);
+  // Set wrapper
+  msg.setRecipients({id});
+
+  sendMsg(msg);
 }
 
 void MessageHandler::receiveHandshakeResponse(JSMessage m)
 {
+  Serial.println("Receiving handshake response from ID " + m.getSenderID());
+  getInstance().peerInfoMap[m.getSenderID()].handshakeResponse = true;
 }
