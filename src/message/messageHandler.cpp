@@ -55,8 +55,6 @@ void MessageHandler::init()
   WiFi.macAddress(getInstance().macSTA);
   Serial.print("MAC STA: ");
   WifiUtil::printMac(getInstance().macSTA);
-
-  initEspNow();
 }
 
 void MessageHandler::initEspNow()
