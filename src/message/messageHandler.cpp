@@ -242,6 +242,7 @@ void MessageHandler::sendHandshakeRequest(int id)
   msg.setRecipients({id});
   msg.setType(HANDSHAKE_REQUEST);
   msg.setSenderAPMac(getInstance().macAP);
+  msg.setSenderID(JS_ID);
   memcpy(&getInstance().peerInfoMap[id].lastMsg, &msg, sizeof(msg));
   sendMsg(msg);
 }

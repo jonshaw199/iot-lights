@@ -17,11 +17,15 @@ enum MessageType
 
 typedef struct js_message
 {
+  // Calculated
   int msgID;
+  // Required
   MessageType type;
+  int senderID;
   JSState state;
-  CRGB color;
-  uint8_t senderAPMac[6];
+  // State dependent
+  uint8_t senderAPMac[6]; // Handshake
+  CRGB color;             // Run
 } js_message;
 
 class JSMessage
@@ -47,7 +51,9 @@ public:
   void setColor(CRGB c);
   CRGB getColor();
   void setSenderAPMac(uint8_t *m);
-  int getID();
+  int getMsgID();
+  void setSenderID(int id);
+  int getSenderID();
 };
 
 #endif // MESSAGE_MESSAGE_H_

@@ -32,9 +32,9 @@ void setup()
   init = Init();
   // Point stateEnt to init since it's the active state entity
   stateEnt = &init;
-  // Handle any general setup in Init (unless it MUST be handled here like constructor calls below)
+  // Handle any general setup in Init (unless it MUST be handled here like constructor calls below for global vars)
   stateEnt->setup();
-  // Then construct the rest of the global variables so will be ready for use later (setup should happen on these later in loop() when we switch to/away these states)
+  // Construct the rest of the global variables so they will be ready for use later (setup should happen on these later in loop() when we switch to these states)
   ota = OTA();
   restart = Restart();
   idle = Idle();

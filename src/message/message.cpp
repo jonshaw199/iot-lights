@@ -12,12 +12,14 @@ JSMessage::JSMessage()
 JSMessage::JSMessage(js_message m)
 {
   msg = m;
+  msg.msgID = msgID++;
   recipients = {};
 }
 
 JSMessage::JSMessage(js_message m, std::set<int> r)
 {
   msg = m;
+  msg.msgID = msgID++;
   recipients = r;
 }
 
@@ -46,25 +48,47 @@ void JSMessage::setType(MessageType t)
   msg.type = t;
 }
 
-MessageType JSMessage::getType() { return msg.type; }
+MessageType JSMessage::getType()
+{
+  return msg.type;
+}
 
 void JSMessage::setState(JSState s)
 {
   msg.state = s;
 }
 
-JSState JSMessage::getState() { return msg.state; }
+JSState JSMessage::getState()
+{
+  return msg.state;
+}
 
 void JSMessage::setColor(CRGB c)
 {
   msg.color = c;
 }
 
-CRGB JSMessage::getColor() { return msg.color; }
+CRGB JSMessage::getColor()
+{
+  return msg.color;
+}
 
 void JSMessage::setSenderAPMac(uint8_t *m)
 {
   memcpy(&msg.senderAPMac, m, 6);
 }
 
-int JSMessage::getID() { return msg.msgID; }
+int JSMessage::getMsgID()
+{
+  return msg.msgID;
+}
+
+void JSMessage::setSenderID(int id)
+{
+  msg.senderID = id;
+}
+
+int JSMessage::getSenderID()
+{
+  return msg.senderID;
+}
