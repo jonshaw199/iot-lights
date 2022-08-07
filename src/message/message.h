@@ -11,8 +11,8 @@ enum MessageType
 {
   HANDSHAKE_REQUEST,
   HANDSHAKE_RESPONSE,
-  STATE_CHANGE,
-  DATA
+  CHANGE_STATE,
+  RUN_DATA
 };
 
 typedef struct js_message
