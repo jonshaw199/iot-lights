@@ -3,9 +3,9 @@
 
 #include "state/state.h"
 #include "state/stateManager.h"
-#include "stateent/master/master.h"
+#include "stateent/espent/master.h"
 #include "stateent/ota/ota.h"
-#include "stateent/slave/slave.h"
+#include "stateent/espent/slave.h"
 #include "stateent/base/base.h"
 #include "stateent/restart/restart.h"
 #include "stateent/idle/idle.h"
@@ -32,7 +32,7 @@ void setup()
   initEnt = Init();
   // Point stateEnt to init since it's the active state entity
   stateEnt = &initEnt;
-  // Handle any general setup in Init (unless it MUST be handled here like constructor calls below for global vars)
+  // General setup can be handled in Init setup/loop methods
   stateEnt->setup();
   // Construct the rest of the global variables so they will be ready for use later (setup should happen on these later in loop() when we switch to these states)
   ota = OTA();
@@ -45,6 +45,8 @@ void setup()
   espEnt = new Slave();
   handshake = new SlaveHandshake();
 #endif
+
+  StateManager::setRequestedState(STATE_HANDSHAKE);
 }
 
 void loop()

@@ -1,11 +1,11 @@
-#ifndef STATEENT_SLAVE_SLAVE_H_
-#define STATEENT_SLAVE_SLAVE_H_
+#ifndef STATEENT_ESPENT_SLAVE_H_
+#define STATEENT_ESPENT_SLAVE_H_
 
+#include "espEnt.h"
 #include "message/message.h"
 #include "stateent/led/led.h"
-#include "stateent/base/base.h"
 
-class Slave : public Base
+class Slave : public EspEnt
 {
   LED led;
   void configDeviceAP();
@@ -18,4 +18,4 @@ public:
   bool preStateChange(JSState s);
 };
 
-#endif // STATEENT_SLAVE_SLAVE_H_
+#endif // STATEENT_ESPENT_SLAVE_H_

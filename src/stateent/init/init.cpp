@@ -8,6 +8,4 @@ void Init::setup()
   // setupDisplay();
 
   MessageHandler::init();
-
-  StateManager::setRequestedState(STATE_HANDSHAKE);
 }
