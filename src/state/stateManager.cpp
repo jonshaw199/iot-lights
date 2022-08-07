@@ -53,22 +53,26 @@ void StateManager::handleUserInput(String s)
   else if (s.indexOf("o") == 0)
   {
     getInstance().setRequestedState(STATE_OTA);
-    Serial.println("Requesting OTA state");
   }
   else if (s.indexOf("r") == 0)
   {
     getInstance().setRequestedState(STATE_RUN);
-    Serial.println("Requesting run state");
   }
   else if (s.indexOf("i") == 0)
   {
     getInstance().setRequestedState(STATE_IDLE);
-    Serial.println("Requesting idle state");
   }
   else if (s.indexOf("k") == 0)
   {
     getInstance().setRequestedState(STATE_RESTART);
-    Serial.println("Requesting restart");
+  }
+  else if (s.indexOf("h") == 0)
+  {
+    getInstance().setRequestedState(STATE_HANDSHAKE);
+  }
+  else if (s.indexOf("s") == 0)
+  {
+    getInstance().setRequestedState(STATE_INIT);
   }
 }
 
