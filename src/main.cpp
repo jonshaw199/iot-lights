@@ -49,7 +49,7 @@ void setup()
 
 void loop()
 {
-  // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state
+  // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state (or maybe we don't want to request a new state during init at all?)
   stateEnt->loop();
 
   JSState curState = StateManager::getCurState();
