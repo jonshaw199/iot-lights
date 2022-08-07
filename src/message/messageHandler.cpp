@@ -130,6 +130,7 @@ void MessageHandler::scanForPeers()
           info.channel = ESPNOW_CHANNEL;
           info.encrypt = 0; // no encryption
           getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
+          Serial.println("Saved peer info for device ID " + deviceID);
         }
       }
     }
@@ -249,9 +250,9 @@ std::queue<JSMessage> &MessageHandler::getInbox()
   return getInstance().inbox;
 }
 
-void MessageHandler::sendHandshakeRequest(int id)
+void MessageHandler::sendHandshakeRequests(std::set<int> ids)
 {
-  Serial.println("Sending handshake request to ID " + id);
+  Serial.println("Sending handshake requests");
 
   JSMessage msg = JSMessage();
 
@@ -261,7 +262,7 @@ void MessageHandler::sendHandshakeRequest(int id)
   msg.setState(STATE_HANDSHAKE);
   msg.setSenderAPMac(getInstance().macAP);
   // Set wrapper
-  msg.setRecipients({id});
+  msg.setRecipients(ids);
 
   sendMsg(msg);
 }
@@ -276,9 +277,9 @@ void MessageHandler::receiveHandshakeRequest(JSMessage m)
   getInstance().peerInfoMap[m.getSenderID()] = i;
 }
 
-void MessageHandler::sendHandshakeResponse(int id)
+void MessageHandler::sendHandshakeResponses(std::set<int> ids)
 {
-  Serial.println("Sending handshake response to ID " + id);
+  Serial.println("Sending handshake responses");
 
   JSMessage msg = JSMessage();
 
@@ -287,7 +288,7 @@ void MessageHandler::sendHandshakeResponse(int id)
   msg.setSenderID(JS_ID);
   msg.setState(STATE_HANDSHAKE);
   // Set wrapper
-  msg.setRecipients({id});
+  msg.setRecipients(ids);
 
   sendMsg(msg);
 }
@@ -296,4 +297,9 @@ void MessageHandler::receiveHandshakeResponse(JSMessage m)
 {
   Serial.println("Receiving handshake response from ID " + m.getSenderID());
   getInstance().peerInfoMap[m.getSenderID()].handshakeResponse = true;
+}
+
+const std::map<int, js_peer_info> &MessageHandler::getPeerInfoMap()
+{
+  return getInstance().peerInfoMap;
 }

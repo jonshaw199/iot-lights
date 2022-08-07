@@ -25,21 +25,22 @@ class MessageHandler
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
   static bool validateMsg(JSMessage m);
-  static void scanForPeers();
-  static void connectToPeers();
 
 public:
   static MessageHandler &getInstance();
+  static void scanForPeers();
+  static void connectToPeers();
   static void sendMsg(JSMessage msg);
   static void init();
   static void deinit();
   static void initEspNow();
   static void deinitEspNow();
   static std::queue<JSMessage> &getInbox();
-  static void sendHandshakeRequest(int id);
+  static void sendHandshakeRequests(std::set<int> ids);
   static void receiveHandshakeRequest(JSMessage m);
-  static void sendHandshakeResponse(int id);
+  static void sendHandshakeResponses(std::set<int> ids);
   static void receiveHandshakeResponse(JSMessage m);
+  static const std::map<int, js_peer_info> &getPeerInfoMap(); // Read only
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_
