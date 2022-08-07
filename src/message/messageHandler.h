@@ -19,8 +19,8 @@ class MessageHandler
 {
   MessageHandler(); // constructor
   std::map<int, js_peer_info> peerInfoMap;
-  uint8_t *macAP;
-  uint8_t *macSTA;
+  uint8_t macAP[6];
+  uint8_t macSTA[6];
   std::queue<JSMessage> inbox;
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
