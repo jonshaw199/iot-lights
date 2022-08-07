@@ -4,8 +4,6 @@
 
 MessageHandler::MessageHandler()
 {
-  WifiUtil::assignAPMac(macAP);
-  WifiUtil::assignSTAMac(macSTA);
 }
 
 MessageHandler &MessageHandler::getInstance()
@@ -49,17 +47,13 @@ void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData,
 
 void MessageHandler::init()
 {
-  initEspNow();
-}
+  WifiUtil::setAPMode();
+  WiFi.softAPmacAddress(getInstance().macAP);
+  WifiUtil::setSTAMode();
+  WiFi.macAddress(getInstance().macSTA);
 
-void MessageHandler::deinit()
-{
-  deinitEspNow();
-}
-
-void MessageHandler::initEspNow()
-{
-  WifiUtil::prepareWifi();
+  // WifiUtil::prepareWifi();
+  Serial.println("init esp now");
   if (esp_now_init() == ESP_OK)
   {
     Serial.println("ESP-NOW Init Success");
@@ -74,7 +68,7 @@ void MessageHandler::initEspNow()
   }
 }
 
-void MessageHandler::deinitEspNow()
+void MessageHandler::deinit()
 {
   esp_now_deinit();
 }
