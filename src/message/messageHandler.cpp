@@ -315,5 +315,5 @@ JSMessage MessageHandler::getAndPop()
     m = MessageHandler::getInbox().front();
     MessageHandler::getInbox().pop();
   }
-  return m
+  return m;
 }

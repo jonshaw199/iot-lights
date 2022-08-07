@@ -32,6 +32,11 @@ js_message JSMessage::asStruct()
   return msg;
 }
 
+std::set<int> JSMessage::getRecipients()
+{
+  return recipients;
+}
+
 void JSMessage::setRecipients(std::set<int> r)
 {
   recipients = r;

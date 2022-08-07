@@ -41,7 +41,7 @@ public:
   JSMessage(js_message m);
   JSMessage(js_message m, std::set<int> r);
   void setRecipients(std::set<int> r);
-  const std::set<int> getRecipients();
+  std::set<int> getRecipients();
   js_message asStruct();
   int incrementSendCnt();
   int getSendCnt();
