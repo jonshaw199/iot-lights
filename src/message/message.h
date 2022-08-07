@@ -7,8 +7,16 @@
 
 #include "state/state.h"
 
+enum MessageType
+{
+  HANDSHAKE,
+  STATE_CHANGE,
+  UPDATE
+};
+
 typedef struct js_message
 {
+  MessageType type;
   int msgID;
   JSState state;
   CRGB color;
@@ -22,7 +30,6 @@ class JSMessage
   static int msgID;
 
 public:
-  JSMessage();
   JSMessage(js_message m);
   void setState(JSState s);
   void setColor(CRGB c);

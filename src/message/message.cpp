@@ -2,13 +2,6 @@
 
 int JSMessage::msgID = -1;
 
-JSMessage::JSMessage()
-{
-  msg = {};
-  msg.msgID = msgID++;
-  recipients = {};
-}
-
 JSMessage::JSMessage(js_message m)
 {
   msg = m;
