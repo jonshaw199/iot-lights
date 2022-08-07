@@ -231,12 +231,18 @@ void MessageHandler::sendMsg(JSMessage msg)
 }
 
 // Read only reference
-const std::queue<JSMessage> &MessageHandler::getInbox()
+std::queue<JSMessage> &MessageHandler::getInbox()
 {
   return getInstance().inbox;
 }
 
-bool MessageHandler::sendHandshakeRequest(int id)
+void MessageHandler::sendHandshakeRequest(int id)
 {
-  return true;
+  Serial.println("Sending handshake request to ID " + id);
+  JSMessage msg = JSMessage();
+  msg.setRecipients({id});
+  msg.setType(HANDSHAKE_REQUEST);
+  msg.setSenderAPMac(getInstance().macAP);
+  memcpy(&getInstance().peerInfoMap[id].lastMsg, &msg, sizeof(msg));
+  sendMsg(msg);
 }

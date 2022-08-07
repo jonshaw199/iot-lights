@@ -13,7 +13,6 @@ typedef struct js_peer_info
   esp_now_peer_info_t espnowPeerInfo;
   bool handshakeResponse;
   JSMessage lastMsg;
-  JSMessage lastHandshakeRequest;
 } js_peer_info;
 
 class MessageHandler
@@ -35,8 +34,8 @@ public:
   static void deinit();
   static void initEspNow();
   static void deinitEspNow();
-  static const std::queue<JSMessage> &getInbox(); // Read only reference
-  static bool sendHandshakeRequest(int id);
+  static std::queue<JSMessage> &getInbox();
+  static void sendHandshakeRequest(int id);
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_
