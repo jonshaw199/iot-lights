@@ -82,6 +82,7 @@ void MessageHandler::deinit()
 
 void MessageHandler::scanForPeers()
 {
+  Serial.println("Scanning for peers");
   int8_t networkCnt = WiFi.scanNetworks();
   if (networkCnt)
   {
