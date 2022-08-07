@@ -1,20 +1,18 @@
 #include "message.h"
 
+int JSMessage::msgID = -1;
+
 JSMessage::JSMessage()
 {
   msg = {};
-  recipients = {};
-}
-
-JSMessage::JSMessage(JSState s, CRGB c)
-{
-  msg = {s, c};
+  msg.msgID = msgID++;
   recipients = {};
 }
 
 JSMessage::JSMessage(js_message m)
 {
   msg = m;
+  msg.msgID = msgID++;
   recipients = {};
 }
 
@@ -36,4 +34,14 @@ js_message JSMessage::asStruct()
 void JSMessage::setRecipients(std::set<int> r)
 {
   recipients = r;
+}
+
+int JSMessage::incrementSendCnt()
+{
+  return sendCnt++;
+}
+
+int JSMessage::getSendCnt()
+{
+  return sendCnt;
 }
