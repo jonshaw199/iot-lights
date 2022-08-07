@@ -259,7 +259,7 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
   JSMessage msg = JSMessage();
 
   // Set struct
-  msg.setType(HANDSHAKE_REQUEST);
+  msg.setType(TYPE_HANDSHAKE_REQUEST);
   msg.setSenderID(JS_ID);
   msg.setState(STATE_HANDSHAKE);
   msg.setSenderAPMac(getInstance().macAP);
@@ -286,7 +286,7 @@ void MessageHandler::sendHandshakeResponses(std::set<int> ids)
   JSMessage msg = JSMessage();
 
   // Set struct
-  msg.setType(HANDSHAKE_RESPONSE);
+  msg.setType(TYPE_HANDSHAKE_RESPONSE);
   msg.setSenderID(JS_ID);
   msg.setState(STATE_HANDSHAKE);
   // Set wrapper
@@ -304,4 +304,16 @@ void MessageHandler::receiveHandshakeResponse(JSMessage m)
 const std::map<int, js_peer_info> &MessageHandler::getPeerInfoMap()
 {
   return getInstance().peerInfoMap;
+}
+
+// Shortcut for getting the most recent msg in the queue and popping along the way
+JSMessage MessageHandler::getAndPop()
+{
+  JSMessage m;
+  while (MessageHandler::getInbox().size())
+  {
+    m = MessageHandler::getInbox().front();
+    MessageHandler::getInbox().pop();
+  }
+  return m
 }
