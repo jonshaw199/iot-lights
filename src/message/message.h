@@ -28,6 +28,7 @@ typedef struct js_message
   CRGB color;             // Run
 } js_message;
 
+// This class is a wrapper around the js_message struct that actually gets sent using ESPNOW
 class JSMessage
 {
   js_message msg;
