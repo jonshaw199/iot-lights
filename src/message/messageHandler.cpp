@@ -202,6 +202,7 @@ void MessageHandler::sendMsg(JSMessage msg)
 
       // Update last msg sent for this peer
       memcpy(&getInstance().peerInfoMap[it->first].lastMsg, &msg, sizeof(msg));
+      getInstance().peerInfoMap[it->first].lastMsg.incrementSendCnt();
     }
     else if (result == ESP_ERR_ESPNOW_NOT_INIT)
     {
