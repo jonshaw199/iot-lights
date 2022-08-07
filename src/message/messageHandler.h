@@ -36,6 +36,9 @@ public:
   static void deinitEspNow();
   static std::queue<JSMessage> &getInbox();
   static void sendHandshakeRequest(int id);
+  static void receiveHandshakeRequest(JSMessage m);
+  static void sendHandshakeResponse(int id);
+  static void receiveHandshakeResponse(JSMessage m);
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_

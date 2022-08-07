@@ -230,7 +230,6 @@ void MessageHandler::sendMsg(JSMessage msg)
   }
 }
 
-// Read only reference
 std::queue<JSMessage> &MessageHandler::getInbox()
 {
   return getInstance().inbox;
@@ -245,4 +244,16 @@ void MessageHandler::sendHandshakeRequest(int id)
   msg.setSenderAPMac(getInstance().macAP);
   memcpy(&getInstance().peerInfoMap[id].lastMsg, &msg, sizeof(msg));
   sendMsg(msg);
+}
+
+void MessageHandler::receiveHandshakeRequest(JSMessage m)
+{
+}
+
+void MessageHandler::sendHandshakeResponse(int id)
+{
+}
+
+void MessageHandler::receiveHandshakeResponse(JSMessage m)
+{
 }
