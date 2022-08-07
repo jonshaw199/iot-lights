@@ -57,7 +57,7 @@ void loop()
   JSState requestedState = StateManager::getRequestedState();
   if (curState != requestedState)
   {
-    Serial.println("Requested state change");
+    Serial.println("Requested state change: " + StateManager::stateToString(requestedState));
     if (stateEnt->preStateChange(requestedState))
     {
       StateManager::changeToRequestedState();

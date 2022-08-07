@@ -115,3 +115,22 @@ std::map<int, JSState> StateManager::getSlaveStates()
 {
   return getInstance().slaveStates;
 }
+
+String StateManager::stateToString(JSState s)
+{
+  switch (s)
+  {
+  case STATE_INIT:
+    return "STATE_INIT";
+  case STATE_RUN:
+    return "STATE_RUN";
+  case STATE_OTA:
+    return "STATE_OTA";
+  case STATE_IDLE:
+    return "STATE_IDLE";
+  case STATE_RESTART:
+    return "STATE_RESTART";
+  case STATE_HANDSHAKE:
+    return "STATE_HANDSHAKE";
+  }
+}

@@ -36,6 +36,7 @@ public:
   static void handleUserInput(String s);
   static void initWebSerial();
   static void deinitWebSerial();
+  static String stateToString(JSState s);
   // Master only
   static void setSlaveStates(std::map<int, JSState> s);
   static void setSlaveState(int id, JSState s);

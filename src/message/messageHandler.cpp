@@ -52,8 +52,6 @@ void MessageHandler::init()
   WifiUtil::setSTAMode();
   WiFi.macAddress(getInstance().macSTA);
 
-  // WifiUtil::prepareWifi();
-  Serial.println("init esp now");
   if (esp_now_init() == ESP_OK)
   {
     Serial.println("ESP-NOW Init Success");
