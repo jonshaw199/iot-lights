@@ -6,7 +6,7 @@ void MasterHandshake::setup()
 {
   WifiUtil::prepareWifi();
   WiFi.mode(WIFI_STA);
-  delay(1000);
+  delay(DELAY_PREPARE_WIFI);
   MessageHandler::initEspNow();
 }
 
