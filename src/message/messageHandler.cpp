@@ -123,16 +123,16 @@ void MessageHandler::scanForPeers()
         if (6 == sscanf(BSSIDStr.c_str(), "%x:%x:%x:%x:%x:%x", &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]))
         {
           esp_now_peer_info_t info;
+          memset(&info, 0, sizeof(info));
           for (int j = 0; j < 6; ++j)
           {
             info.peer_addr[j] = (uint8_t)mac[j];
           }
-          WifiUtil::printMac(info.peer_addr);
           info.channel = ESPNOW_CHANNEL;
           info.encrypt = 0; // no encryption
           getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
           getInstance().peerInfoMap[deviceID].handshakeResponse = false;
-          getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
+          // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
           Serial.println("Saved peer info for device ID " + String(deviceID));
         }
       }
