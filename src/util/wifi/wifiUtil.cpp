@@ -35,12 +35,15 @@ bool WifiUtil::broadcastAP()
   return WiFi.softAP(SSID.c_str(), Password.c_str(), ESPNOW_CHANNEL, 0);
 }
 
-String WifiUtil::macPtrToStr(const uint8_t *m)
+void WifiUtil::printMac(const uint8_t *m)
 {
-  String mac = "";
+  Serial.print("{");
   for (int i = 0; i < 6; i++)
   {
-    mac += m[i];
+    Serial.print("0x");
+    Serial.print(m[i], HEX);
+    if (i < 5)
+      Serial.print(',');
   }
-  return mac;
+  Serial.println("}");
 }

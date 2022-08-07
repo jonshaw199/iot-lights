@@ -11,7 +11,7 @@ public:
   static void setSTAMode();
   static void setAPMode();
   static bool broadcastAP();
-  static String macPtrToStr(const uint8_t *m);
+  static void printMac(const uint8_t *m);
 };
 
 #endif // UTIL_WIFI_WIFIUTIL_H_

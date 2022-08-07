@@ -50,11 +50,11 @@ void MessageHandler::init()
   WifiUtil::setAPMode();
   WiFi.softAPmacAddress(getInstance().macAP);
   Serial.print("MAC AP: ");
-  Serial.println(WifiUtil::macPtrToStr(getInstance().macAP));
+  WifiUtil::printMac(getInstance().macAP);
   WifiUtil::setSTAMode();
   WiFi.macAddress(getInstance().macSTA);
   Serial.print("MAC STA: ");
-  Serial.println(WifiUtil::macPtrToStr(getInstance().macSTA));
+  WifiUtil::printMac(getInstance().macSTA);
 
   if (esp_now_init() == ESP_OK)
   {
@@ -123,12 +123,13 @@ void MessageHandler::scanForPeers()
           {
             info.peer_addr[j] = (uint8_t)mac[j];
           }
+          WifiUtil::printMac(info.peer_addr);
           info.channel = ESPNOW_CHANNEL;
           info.encrypt = 0; // no encryption
           getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
           getInstance().peerInfoMap[deviceID].handshakeResponse = false;
           getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
-          Serial.print("Saved peer info for device ID " + String(deviceID));
+          Serial.println("Saved peer info for device ID " + String(deviceID));
         }
       }
     }
@@ -203,6 +204,8 @@ void MessageHandler::sendMsg(JSMessage msg)
   // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
   for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
   {
+    Serial.print("Sending message to MAC address ");
+    WifiUtil::printMac(it->second.espnowPeerInfo.peer_addr);
     esp_err_t result = esp_now_send(it->second.espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
     Serial.print("Send Status: ");
     if (result == ESP_OK)
