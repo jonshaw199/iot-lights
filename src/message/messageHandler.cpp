@@ -40,6 +40,16 @@ void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData,
 
 void MessageHandler::init()
 {
+  initEspNow();
+}
+
+void MessageHandler::deinit()
+{
+  deinitEspNow();
+}
+
+void MessageHandler::initEspNow()
+{
   WifiUtil::prepareWifi();
   if (esp_now_init() == ESP_OK)
   {
@@ -55,7 +65,7 @@ void MessageHandler::init()
   }
 }
 
-void MessageHandler::deinit()
+void MessageHandler::deinitEspNow()
 {
   esp_now_deinit();
 }
@@ -224,4 +234,9 @@ void MessageHandler::sendMsg(JSMessage msg)
 const std::queue<JSMessage> &MessageHandler::getInbox()
 {
   return getInstance().inbox;
+}
+
+bool MessageHandler::sendHandshakeRequest(int id)
+{
+  return true;
 }
