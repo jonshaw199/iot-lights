@@ -66,6 +66,9 @@ void loop()
 
       switch (requestedState)
       {
+      case STATE_INIT:
+        stateEnt = &initEnt;
+        break;
       case STATE_OTA:
         stateEnt = &ota;
         break;
