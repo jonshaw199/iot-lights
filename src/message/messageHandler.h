@@ -31,6 +31,7 @@ public:
   static void sendMsg(const JSMessage msg);
   static void init();
   static void deinit();
+  static const std::queue<JSMessage> &getInbox(); // Read only reference
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_

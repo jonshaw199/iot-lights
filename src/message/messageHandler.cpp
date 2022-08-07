@@ -219,3 +219,9 @@ void MessageHandler::sendMsg(JSMessage msg)
     delay(DELAY_MASTER_SLAVE_SEND);
   }
 }
+
+// Read only reference
+const std::queue<JSMessage> &MessageHandler::getInbox()
+{
+  return getInstance().inbox;
+}
