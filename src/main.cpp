@@ -3,14 +3,14 @@
 
 #include "state/state.h"
 #include "state/stateManager.h"
-#include "stateent/espent/master.h"
+#include "stateent/espent/master/master.h"
 #include "stateent/ota/ota.h"
-#include "stateent/espent/slave.h"
+#include "stateent/espent/slave/slave.h"
 #include "stateent/base/base.h"
 #include "stateent/restart/restart.h"
 #include "stateent/idle/idle.h"
-#include "stateent/handshake/masterHandshake.h"
-#include "stateent/handshake/slaveHandshake.h"
+#include "stateent/handshake/master/masterHandshake.h"
+#include "stateent/handshake/slave/slaveHandshake.h"
 #include "stateent/init/init.h"
 
 Base *espEnt, *ota, *restart, *idle, *handshake, *initEnt, *stateEnt;
