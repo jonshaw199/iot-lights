@@ -9,17 +9,19 @@
 
 enum MessageType
 {
-  HANDSHAKE,
+  HANDSHAKE_REQUEST,
+  HANDSHAKE_RESPONSE,
   STATE_CHANGE,
-  UPDATE
+  DATA
 };
 
 typedef struct js_message
 {
-  MessageType type;
   int msgID;
+  MessageType type;
   JSState state;
   CRGB color;
+  uint8_t senderAPMac[6];
 } js_message;
 
 class JSMessage
@@ -30,14 +32,22 @@ class JSMessage
   static int msgID;
 
 public:
+  JSMessage();
   JSMessage(js_message m);
-  void setState(JSState s);
-  void setColor(CRGB c);
+  JSMessage(js_message m, std::set<int> r);
   void setRecipients(std::set<int> r);
   const std::set<int> getRecipients();
   js_message asStruct();
   int incrementSendCnt();
   int getSendCnt();
+  void setType(MessageType t);
+  MessageType getType();
+  void setState(JSState s);
+  JSState getState();
+  void setColor(CRGB c);
+  CRGB getColor();
+  void setSenderAPMac(uint8_t *m);
+  int getID();
 };
 
 #endif // MESSAGE_MESSAGE_H_
