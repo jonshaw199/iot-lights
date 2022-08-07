@@ -26,6 +26,11 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
+bool MessageHandler::validateMsg(JSMessage m)
+{
+  return true;
+}
+
 void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
   char macStr[18];
@@ -35,7 +40,11 @@ void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData,
   Serial.println(macStr);
   js_message msg;
   memcpy(&msg, incomingData, sizeof(msg));
-  getInstance().inbox.push(msg);
+  JSMessage msgWrapper = msg;
+  if (validateMsg(msgWrapper))
+  {
+    getInstance().inbox.push(msgWrapper);
+  }
 }
 
 void MessageHandler::init()

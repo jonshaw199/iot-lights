@@ -24,6 +24,7 @@ class MessageHandler
   std::queue<JSMessage> inbox;
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
+  static bool validateMsg(JSMessage m);
   static void scanForPeers();
   static void connectToPeers();
 
