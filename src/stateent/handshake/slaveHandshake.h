@@ -5,6 +5,8 @@
 
 class SlaveHandshake : public Handshake
 {
+public:
+  void loop();
 };
 
 #endif // STATEENT_HANDSHAKE_SLAVEHANDSHAKE_H_
