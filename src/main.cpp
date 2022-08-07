@@ -13,14 +13,7 @@
 #include "stateent/handshake/slaveHandshake.h"
 #include "stateent/init/init.h"
 
-Base *espEnt;
-OTA ota;
-Restart restart;
-Idle idle;
-Handshake *handshake;
-Init initEnt;
-
-Base *stateEnt;
+Base *espEnt, *ota, *restart, *idle, *handshake, *initEnt, *stateEnt;
 
 void setup()
 {
@@ -29,15 +22,15 @@ void setup()
   // Initializing StateManager as early as possible
   StateManager::init(STATE_INIT);
   // Constructing init since it's actually used right now (we are technically in STATE_INIT now so we should call setup below)
-  initEnt = Init();
+  initEnt = new Init();
   // Point stateEnt to init since it's the active state entity
-  stateEnt = &initEnt;
+  stateEnt = initEnt;
   // General setup can be handled in Init setup/loop methods
   stateEnt->setup();
   // Construct the rest of the global variables so they will be ready for use later (setup should happen on these later in loop() when we switch to these states)
-  ota = OTA();
-  restart = Restart();
-  idle = Idle();
+  ota = new OTA();
+  restart = new Restart();
+  idle = new Idle();
 #if MASTER
   espEnt = new Master();
   handshake = new MasterHandshake();
@@ -67,19 +60,19 @@ void loop()
       switch (requestedState)
       {
       case STATE_INIT:
-        stateEnt = &initEnt;
+        stateEnt = initEnt;
         break;
       case STATE_OTA:
-        stateEnt = &ota;
+        stateEnt = ota;
         break;
       case STATE_RUN:
         stateEnt = espEnt;
         break;
       case STATE_RESTART:
-        stateEnt = &restart;
+        stateEnt = restart;
         break;
       case STATE_IDLE:
-        stateEnt = &idle;
+        stateEnt = idle;
         break;
       case STATE_HANDSHAKE:
         stateEnt = handshake;
