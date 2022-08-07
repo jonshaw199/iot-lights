@@ -19,8 +19,6 @@ class StateManager
   JSState prevState;
   JSState requestedState;
   AsyncWebServer *webServer;
-  // Slave only
-  std::queue<js_message> msgQueue;
   // Master only
   std::map<int, JSState> slaveStates;
 
@@ -31,8 +29,6 @@ public:
   static StateManager &getInstance();
   static JSState getCurState();
   static void init(JSState s);
-  // Removed to encourage "requesting" state change
-  // void setCurState(JSState s);
   static JSState getPrevState();
   static void setRequestedState(JSState s);
   static JSState getRequestedState();
@@ -40,10 +36,6 @@ public:
   static void handleUserInput(String s);
   static void initWebSerial();
   static void deinitWebSerial();
-  // Slave only
-  static void queueMsg(js_message msg);
-  static js_message dequeMsg();
-  static const std::queue<js_message> &getMsgQueue();
   // Master only
   static void setSlaveStates(std::map<int, JSState> s);
   static void setSlaveState(int id, JSState s);

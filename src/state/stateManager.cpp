@@ -29,25 +29,6 @@ void StateManager::init(JSState s)
   getInstance().webServer = new AsyncWebServer(80);
 }
 
-void StateManager::queueMsg(js_message msg)
-{
-  getInstance().msgQueue.push(msg);
-}
-
-// Gets/returns copy of front and also pops
-js_message StateManager::dequeMsg()
-{
-  js_message msg = getInstance().msgQueue.front();
-  getInstance().msgQueue.pop();
-  return msg;
-}
-
-// Read only reference
-const std::queue<js_message> &StateManager::getMsgQueue()
-{
-  return getInstance().msgQueue;
-}
-
 void StateManager::setRequestedState(JSState s)
 {
   getInstance().requestedState = s;
