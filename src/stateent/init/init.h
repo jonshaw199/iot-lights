@@ -5,6 +5,8 @@
 
 class Init : public Base
 {
+public:
+  void setup();
 };
 
 #endif // STATEENT_INIT_INIT_H

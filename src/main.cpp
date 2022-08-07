@@ -44,11 +44,6 @@ void setup()
   espEnt = new Slave();
   handshake = new SlaveHandshake();
 #endif
-
-  pinMode(LED_BUILTIN, OUTPUT);
-  // setupDisplay();
-
-  StateManager::setRequestedState(STATE_HANDSHAKE);
 }
 
 void loop()
