@@ -11,14 +11,12 @@ void WifiUtil::prepareWifi()
 
 void WifiUtil::setSTAMode()
 {
-  prepareWifi();
   Serial.println("Setting wifi mode to STA");
   WiFi.mode(WIFI_STA);
 }
 
 void WifiUtil::setAPMode()
 {
-  prepareWifi();
   Serial.println("Setting wifi mode to AP");
   WiFi.mode(WIFI_AP);
 }
@@ -26,7 +24,6 @@ void WifiUtil::setAPMode()
 // Setup access point (aka open wifi network); this is used by slaves so master can find them
 bool WifiUtil::broadcastAP()
 {
-  prepareWifi();
   Serial.println("Broadcasting soft AP");
   String Prefix = DEVICE_PREFIX;
   String id = String(JS_ID);

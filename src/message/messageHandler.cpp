@@ -51,6 +51,9 @@ void MessageHandler::init()
   WiFi.softAPmacAddress(getInstance().macAP);
   Serial.print("MAC AP: ");
   WifiUtil::printMac(getInstance().macAP);
+
+  WifiUtil::prepareWifi();
+
   WifiUtil::setSTAMode();
   WiFi.macAddress(getInstance().macSTA);
   Serial.print("MAC STA: ");
