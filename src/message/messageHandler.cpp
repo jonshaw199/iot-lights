@@ -51,9 +51,6 @@ void MessageHandler::init()
   WiFi.softAPmacAddress(getInstance().macAP);
   Serial.print("MAC AP: ");
   WifiUtil::printMac(getInstance().macAP);
-
-  WifiUtil::prepareWifi();
-
   WifiUtil::setSTAMode();
   WiFi.macAddress(getInstance().macSTA);
   Serial.print("MAC STA: ");
@@ -161,7 +158,7 @@ void MessageHandler::connectToPeers()
     for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end(); it++)
     {
       // Check if the peer exists
-      if (!esp_now_is_peer_exist(it->second.espnowPeerInfo.peer_addr))
+      if (esp_now_is_peer_exist(it->second.espnowPeerInfo.peer_addr))
       {
         Serial.print("Peer ID ");
         Serial.print(it->first);
