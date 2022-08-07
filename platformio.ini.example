@@ -17,6 +17,7 @@ lib_deps =
   https://github.com/me-no-dev/ESPAsyncWebServer.git
   ayushsharma82/WebSerial@^1.3.0
 build_flags = 
+  ; Wifi
 	'-DJSSSID="ssid-here"'
 	'-DJSPASS="pass-here"'
 	-DGATEWAY_A=192
@@ -27,9 +28,19 @@ build_flags =
 	-DSUBNET_B=255
 	-DSUBNET_C=255
 	-DSUBNET_D=0
+  -DPRINT_WIFI_SCAN_RESULTS=false
+  '-DDEVICE_PREFIX="JS"'
+  '-DDEVICE_AP_PASS="123456789"'
+  ; ESP Now
 	-DESPNOW_CHANNEL=0
 	-DSLAVE_CNT=4
-	-DPRINT_SLAVE_SCAN_RESULTS=false
+  ; Delay
+  -DDELAY_MASTER_LOOP=1000
+  -DDELAY_MASTER_SLAVE_CONNECT=100
+  -DDELAY_MASTER_SLAVE_SEND=100
+  -DDELAY_PREPARE_WIFI=500
+  -DDELAY_MASTER_HANDSHAKE_LOOP=3000
+  ; Lights
 	-DLED_CNT_BACK=287
 	-DLED_CNT_PATIO=378
 	-DLED_CNT_KITCHEN=150
@@ -43,11 +54,12 @@ upload_protocol = espota
 [1]
 build_flags =
 	-DJS_ID=1
-	-DMASTER=true
 	-DJS_IP_A=192
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=180
+  ; Master
+  -DMASTER=true
 
 [1_ota]
 upload_port = 192.168.1.180
@@ -112,6 +124,12 @@ board = wemos_d1_mini32
 build_flags = 
 	-DLED_PIN_A=16
 	-DLED_PIN_B=17
+
+; **************************
+; *                        *
+; *          ENVs          *
+; *                        *
+; **************************
 
 [env:wemos_d1_mini32_1_usb]
 extends = base, wemos_d1_mini32, 1
