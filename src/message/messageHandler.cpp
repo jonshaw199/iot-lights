@@ -130,6 +130,8 @@ void MessageHandler::scanForPeers()
           info.channel = ESPNOW_CHANNEL;
           info.encrypt = 0; // no encryption
           getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
+          getInstance().peerInfoMap[deviceID].handshakeResponse = false;
+          getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
           Serial.println("Saved peer info for device ID " + deviceID);
         }
       }

@@ -6,6 +6,7 @@ JSMessage::JSMessage()
 {
   msg = {};
   msg.msgID = msgID++;
+  msg.senderID = JS_ID;
   recipients = {};
   sendCnt = 0;
 }
