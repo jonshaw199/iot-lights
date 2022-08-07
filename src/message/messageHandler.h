@@ -33,6 +33,7 @@ public:
   static void sendMsg(JSMessage msg);
   static void init();
   static void deinit();
+  static void initEspNow();
   static std::queue<JSMessage> &getInbox();
   static void sendHandshakeRequests(std::set<int> ids);
   static void receiveHandshakeRequest(JSMessage m);

@@ -56,6 +56,11 @@ void MessageHandler::init()
   Serial.print("MAC STA: ");
   WifiUtil::printMac(getInstance().macSTA);
 
+  initEspNow();
+}
+
+void MessageHandler::initEspNow()
+{
   if (esp_now_init() == ESP_OK)
   {
     Serial.println("ESP-NOW Init Success");
