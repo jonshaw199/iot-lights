@@ -5,7 +5,6 @@
 
 Base::Base()
 {
-  // Do nothing by default; some children will need to setup(), etc.
 }
 
 void Base::setup()
@@ -48,6 +47,7 @@ bool Base::preStateChange(JSState s)
     msg.setState(s);
     msg.setRetries(NUM_RETRIES_SEND);
     MessageHandler::sendMsg(msg);
+    delay(DELAY_OTA_SWITCH);
   }
   return true;
 }
