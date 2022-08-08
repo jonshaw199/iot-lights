@@ -17,7 +17,7 @@ void SlaveHandshake::loop()
     JSMessage m = MessageHandler::getAndPop();
     if (m.getType() == TYPE_HANDSHAKE_REQUEST)
     {
-      Serial.println("Handshake message in inbox");
+      Serial.println("Handshake request message in inbox");
       MessageHandler::receiveHandshakeRequest(m);
       MessageHandler::sendHandshakeResponses({m.getSenderID()});
     }
