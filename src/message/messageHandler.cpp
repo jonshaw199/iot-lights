@@ -30,11 +30,11 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
     Serial.println("Delivery Fail");
     int peerDeviceID = getInstance().macToIDMap[WifiUtil::macToString(mac_addr)];
     // Check if there are more retries remaining and retry if so
-    if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getRetries() < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
+    if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getSendCnt() + 1 < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
     {
       Serial.println("Retrying send to device ID " + String(peerDeviceID));
       JSMessage msg = getInstance().peerInfoMap[peerDeviceID].lastMsg;
-      msg.incrementRetries();
+      msg.incrementSendCnt();
       msg.setRecipients({peerDeviceID}); // Only resending to 1 device!
       // sendMsg(msg);
       getInstance().outbox.push(msg);
@@ -234,8 +234,7 @@ void MessageHandler::sendMsg(JSMessage msg)
   // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
   for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
   {
-    Serial.print("Sending message to MAC address ");
-    WifiUtil::printMac(it->second.espnowPeerInfo.peer_addr);
+    Serial.print("Sending message to device ID " + String() + " (MAC address " + WifiUtil::macToString(it->second.espnowPeerInfo.peer_addr) + ")");
     esp_err_t result = esp_now_send(it->second.espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
     Serial.print("Send Status: ");
     if (result == ESP_OK)

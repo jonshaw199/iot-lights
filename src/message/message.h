@@ -58,8 +58,6 @@ public:
   int getMsgID();
   void setSenderID(int id);
   int getSenderID();
-  int getRetries();
-  int incrementRetries();
   void setMaxRetries(int m);
   int getMaxRetries();
 };

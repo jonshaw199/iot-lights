@@ -105,16 +105,6 @@ uint8_t *JSMessage::getSenderAPMac()
   return msg.senderAPMac;
 }
 
-int JSMessage::getRetries()
-{
-  return retries;
-}
-
-int JSMessage::incrementRetries()
-{
-  return retries++;
-}
-
 void JSMessage::setMaxRetries(int m)
 {
   maxRetries = m;
