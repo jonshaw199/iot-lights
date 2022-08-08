@@ -40,7 +40,8 @@ void Base::loop()
 
 bool Base::preStateChange(JSState s)
 {
-  if (MASTER && StateManager::getCurState() != STATE_OTA && s == STATE_OTA || s == STATE_RESTART)
+#ifdef MASTER
+  if (StateManager::getCurState() != STATE_OTA && s == STATE_OTA || s == STATE_RESTART)
   {
     JSMessage msg;
     msg.setType(TYPE_CHANGE_STATE);
@@ -50,4 +51,5 @@ bool Base::preStateChange(JSState s)
     delay(DELAY_OTA_SWITCH);
   }
   return true;
+#endif
 }
