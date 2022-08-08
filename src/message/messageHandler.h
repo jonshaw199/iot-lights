@@ -28,7 +28,7 @@ class MessageHandler
 
 public:
   static MessageHandler &getInstance();
-  static void scanForPeers();
+  static void scanForPeers(bool overwriteExisting = false);
   static void connectToPeers();
   static void sendMsg(JSMessage msg);
   static void init();

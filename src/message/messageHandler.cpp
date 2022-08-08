@@ -78,7 +78,7 @@ void MessageHandler::deinit()
   esp_now_deinit();
 }
 
-void MessageHandler::scanForPeers()
+void MessageHandler::scanForPeers(bool overwriteExisting = false)
 {
   Serial.println("Scanning for peers");
   int8_t networkCnt = WiFi.scanNetworks();
@@ -103,39 +103,46 @@ void MessageHandler::scanForPeers()
         Serial.print(")");
         Serial.println("");
       }
-      // delay(10);
       // Check if the current network is one of our slaves
       int deviceID;
-      if (sscanf(SSID.c_str(), "JS%x", &deviceID))
+      if (sscanf(SSID.c_str(), "JS%x", &deviceID) && (!getInstance().peerInfoMap.count(deviceID) || overwriteExisting))
       {
-        Serial.print(i + 1);
-        Serial.print(": ");
-        Serial.print(SSID);
-        Serial.print(" [");
-        Serial.print(BSSIDStr);
-        Serial.print("]");
-        Serial.print(" (");
-        Serial.print(RSSI);
-        Serial.print(")");
-        Serial.println("");
-        // Get BSSID (MAC Address) of the Slave
-        int mac[6];
-        if (6 == sscanf(BSSIDStr.c_str(), "%x:%x:%x:%x:%x:%x", &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]))
+        // Check the overwrite argument and only overwrite existing entries if true
+        if (!getInstance().peerInfoMap.count(deviceID) || overwriteExisting)
         {
-          esp_now_peer_info_t info;
-          memset(&info, 0, sizeof(info));
-          for (int j = 0; j < 6; ++j)
+          Serial.print(i + 1);
+          Serial.print(": ");
+          Serial.print(SSID);
+          Serial.print(" [");
+          Serial.print(BSSIDStr);
+          Serial.print("]");
+          Serial.print(" (");
+          Serial.print(RSSI);
+          Serial.print(")");
+          Serial.println("");
+          // Get BSSID (MAC Address) of the Slave
+          int mac[6];
+          if (6 == sscanf(BSSIDStr.c_str(), "%x:%x:%x:%x:%x:%x", &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]))
           {
-            info.peer_addr[j] = (uint8_t)mac[j];
+            esp_now_peer_info_t info;
+            memset(&info, 0, sizeof(info));
+            for (int j = 0; j < 6; ++j)
+            {
+              info.peer_addr[j] = (uint8_t)mac[j];
+            }
+            info.channel = ESPNOW_CHANNEL;
+            info.encrypt = 0; // no encryption
+            info.ifidx = WIFI_IF_AP;
+            getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
+            getInstance().peerInfoMap[deviceID].handshakeResponse = false;
+            // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
+            Serial.println("Saved peer info for device ID " + String(deviceID));
           }
-          info.channel = ESPNOW_CHANNEL;
-          info.encrypt = 0; // no encryption
-          info.ifidx = WIFI_IF_AP;
-          getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
-          getInstance().peerInfoMap[deviceID].handshakeResponse = false;
-          // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
-          Serial.println("Saved peer info for device ID " + String(deviceID));
         }
+      }
+      else
+      {
+        Serial.println("No new peers found");
       }
     }
   }
