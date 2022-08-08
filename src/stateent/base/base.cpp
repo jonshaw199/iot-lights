@@ -42,7 +42,7 @@ void Base::loop()
 
 bool Base::preStateChange(JSState s)
 {
-  if (StateManager::getCurState() != STATE_OTA && s == STATE_OTA || s == STATE_RESTART)
+  if (MASTER && StateManager::getCurState() != STATE_OTA && s == STATE_OTA || s == STATE_RESTART)
   {
     JSMessage msg;
     msg.setType(TYPE_CHANGE_STATE);
