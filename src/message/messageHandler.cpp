@@ -357,3 +357,17 @@ JSMessage MessageHandler::getAndPop()
   }
   return m;
 }
+
+JSMessage MessageHandler::popAndFront()
+{
+  JSMessage m;
+  if (MessageHandler::getInbox().size())
+  {
+    while (MessageHandler::getInbox().size() > 1)
+    {
+      MessageHandler::getInbox().pop();
+    }
+    m = MessageHandler::getInbox().front();
+  }
+  return m;
+}

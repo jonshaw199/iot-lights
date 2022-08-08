@@ -43,6 +43,7 @@ public:
   static void receiveHandshakeResponse(JSMessage m);
   static const std::map<int, js_peer_info> &getPeerInfoMap(); // Read only
   static JSMessage getAndPop();
+  static JSMessage popAndFront();
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_
