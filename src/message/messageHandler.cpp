@@ -307,6 +307,11 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
 
   // sendMsg(msg);
   getInstance().outbox.push(msg);
+
+  for (std::set<int>::const_iterator it = ids.begin(); it != ids.end(); it++)
+  {
+    getInstance().peerInfoMap[*it].handshakeRequest = true;
+  }
 }
 
 void MessageHandler::receiveHandshakeRequest(JSMessage m)

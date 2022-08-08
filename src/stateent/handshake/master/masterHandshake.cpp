@@ -32,8 +32,7 @@ void MasterHandshake::loop()
   MessageHandler::scanForPeers();
   MessageHandler::connectToPeers();
 
-  // Entering loop (sending handshake request) when handshakeResponse is false doubles as a retry mechanism in case the slave didn't receive the handshake request the first time(s)
-  for (std::map<int, js_peer_info>::const_iterator it = MessageHandler::getInstance().getPeerInfoMap().begin(); it != MessageHandler::getInstance().getPeerInfoMap().end() && !it->second.handshakeResponse; it++)
+  for (std::map<int, js_peer_info>::const_iterator it = MessageHandler::getInstance().getPeerInfoMap().begin(); it != MessageHandler::getInstance().getPeerInfoMap().end() && !it->second.handshakeRequest; it++)
   {
     MessageHandler::sendHandshakeRequests({it->first});
   }

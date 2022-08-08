@@ -12,6 +12,7 @@
 typedef struct js_peer_info
 {
   esp_now_peer_info_t espnowPeerInfo;
+  bool handshakeRequest;
   bool handshakeResponse;
   JSMessage lastMsg;
 } js_peer_info;
