@@ -139,10 +139,10 @@ void MessageHandler::scanForPeers(bool overwriteExisting)
             Serial.println("Saved peer info for device ID " + String(deviceID));
           }
         }
-      }
-      else
-      {
-        Serial.println("No new peers found");
+        else
+        {
+          Serial.println("Peer info already collected for device ID " + String(deviceID));
+        }
       }
     }
   }
