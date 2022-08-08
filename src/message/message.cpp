@@ -5,29 +5,12 @@ int JSMessage::msgID = -1;
 JSMessage::JSMessage()
 {
   msg = {};
+  msg.state = STATE_NONE;
   msg.msgID = msgID++;
   msg.senderID = JS_ID;
+  msg.color = CRGB::Black;
+  msg.type = TYPE_NONE;
   recipients = {};
-  sendCnt = 0;
-  retries = 0;
-  maxRetries = 0;
-}
-
-JSMessage::JSMessage(js_message m)
-{
-  msg = m;
-  msg.msgID = msgID++;
-  recipients = {};
-  sendCnt = 0;
-  retries = 0;
-  maxRetries = 0;
-}
-
-JSMessage::JSMessage(js_message m, std::set<int> r)
-{
-  msg = m;
-  msg.msgID = msgID++;
-  recipients = r;
   sendCnt = 0;
   retries = 0;
   maxRetries = 0;

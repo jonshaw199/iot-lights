@@ -9,6 +9,7 @@
 
 enum MessageType
 {
+  TYPE_NONE,
   TYPE_HANDSHAKE_REQUEST,
   TYPE_HANDSHAKE_RESPONSE,
   TYPE_CHANGE_STATE,
@@ -40,8 +41,6 @@ class JSMessage
 
 public:
   JSMessage();
-  JSMessage(js_message m);
-  JSMessage(js_message m, std::set<int> r);
   void setRecipients(std::set<int> r);
   std::set<int> getRecipients();
   js_message asStruct();
