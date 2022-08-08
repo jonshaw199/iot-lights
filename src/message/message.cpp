@@ -119,3 +119,8 @@ int JSMessage::getRetries()
 {
   return retries;
 }
+
+int JSMessage::incrementRetries()
+{
+  return retries++;
+}

@@ -59,6 +59,7 @@ public:
   int getSenderID();
   void setRetries(int r);
   int getRetries();
+  int incrementRetries();
 };
 
 #endif // MESSAGE_MESSAGE_H_
