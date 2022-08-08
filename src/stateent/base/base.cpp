@@ -35,11 +35,13 @@ void Base::loop()
       break;
     }
 
+#ifndef MASTER
     if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
     {
       Serial.println("Implicit state change to " + StateManager::stateToString(m.getState()));
       StateManager::setRequestedState(m.getState());
     }
+#endif
   }
 }
 
