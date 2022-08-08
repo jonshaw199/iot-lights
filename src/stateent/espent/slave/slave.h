@@ -11,6 +11,7 @@ class Slave : public EspEnt
   void configDeviceAP();
   void initESPNow();
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
+  void handleRunData(JSMessage m);
 
 public:
   void setup();

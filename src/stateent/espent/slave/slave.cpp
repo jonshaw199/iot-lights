@@ -1,4 +1,5 @@
 #include "slave.h"
+#include "message/messageHandler.h"
 
 void Slave::setup()
 {
@@ -7,38 +8,20 @@ void Slave::setup()
 
 void Slave::loop()
 {
-  Base::loop();
-  /*
-  // Check msg queue for new messages
-  if (StateManager::getMsgQueue().size())
-  {
-    js_message msg;
-    // Just taking the most recent msg for now
-    while (StateManager::getMsgQueue().size())
-    {
-      msg = StateManager::dequeMsg();
-    }
 
-    if (StateManager::getCurState() == msg.state)
+  if (MessageHandler::getInbox().size())
+  {
+    JSMessage m = MessageHandler::popAndFront();
+    switch (m.getType())
     {
-      // When will this not be STATE_RUN here??
-      switch (msg.state)
-      {
-      case STATE_RUN:
-        led.fillColor(msg.color);
-        break;
-      default:
-        Serial.print("State not found: ");
-        Serial.println(msg.state);
-      }
-    }
-    else
-    {
-      // State change requested by master
-      StateManager::setRequestedState(msg.state);
+    case TYPE_RUN_DATA:
+      handleRunData(m);
+      break;
     }
   }
-  */
+
+  // Do this LAST because it will clear the inbox currently!!
+  Base::loop();
 }
 
 bool Slave::preStateChange(JSState s)
@@ -49,4 +32,9 @@ bool Slave::preStateChange(JSState s)
     led.fillColor(CRGB::Black);
   }
   return baseResult;
+}
+
+void Slave::handleRunData(JSMessage m)
+{
+  led.fillColor(m.getColor());
 }
