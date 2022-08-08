@@ -5,6 +5,7 @@
 #include <queue>
 #include <esp_now.h>
 #include <WiFi.h>
+#include <Arduino.h>
 
 #include "message.h"
 
@@ -19,6 +20,7 @@ class MessageHandler
 {
   MessageHandler(); // constructor
   std::map<int, js_peer_info> peerInfoMap;
+  std::map<String, int> macToIDMap;
   uint8_t macAP[6];
   uint8_t macSTA[6];
   std::queue<JSMessage> inbox;

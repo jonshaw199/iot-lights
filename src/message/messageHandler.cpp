@@ -22,6 +22,7 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
   Serial.println(macStr);
   Serial.print("Last Packet Send Status: ");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  // Retry if fail?
 }
 
 bool MessageHandler::validateMsg(JSMessage m)
@@ -136,6 +137,7 @@ void MessageHandler::scanForPeers(bool overwriteExisting)
             getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
             getInstance().peerInfoMap[deviceID].handshakeResponse = false;
             // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
+            getInstance().macToIDMap[WifiUtil::macToString(info.peer_addr)] = deviceID;
             Serial.println("Saved peer info for device ID " + String(deviceID));
           }
         }
