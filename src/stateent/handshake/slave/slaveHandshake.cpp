@@ -13,7 +13,6 @@ void SlaveHandshake::loop()
 {
   if (MessageHandler::getInbox().size())
   {
-    Serial.println("Messages in inbox");
     JSMessage m = MessageHandler::getAndPop();
     switch (m.getType())
     {

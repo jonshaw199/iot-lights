@@ -108,6 +108,8 @@ void OTA::setup()
 
 void OTA::loop()
 {
+  Base::loop();
+
   ArduinoOTA.handle();
 }
 

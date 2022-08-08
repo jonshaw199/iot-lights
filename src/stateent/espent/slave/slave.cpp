@@ -7,6 +7,7 @@ void Slave::setup()
 
 void Slave::loop()
 {
+  Base::loop();
   /*
   // Check msg queue for new messages
   if (StateManager::getMsgQueue().size())
