@@ -13,14 +13,6 @@ void Base::setup()
 
 void Base::loop()
 {
-  // Handling outbox before inbox?
-  for (int i = 0; i < MessageHandler::getOutbox().size(); i++)
-  {
-    JSMessage m = MessageHandler::getOutbox().front();
-    MessageHandler::sendMsg(m);
-    MessageHandler::getOutbox().pop();
-  }
-
   for (int i = 0; i < MessageHandler::getInbox().size(); i++)
   {
     JSMessage m = MessageHandler::getInbox().front();
@@ -50,6 +42,13 @@ void Base::loop()
       StateManager::setRequestedState(m.getState());
     }
 #endif
+  }
+
+  for (int i = 0; i < MessageHandler::getOutbox().size(); i++)
+  {
+    JSMessage m = MessageHandler::getOutbox().front();
+    MessageHandler::sendMsg(m);
+    MessageHandler::getOutbox().pop();
   }
 }
 
