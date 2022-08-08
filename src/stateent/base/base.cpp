@@ -13,7 +13,8 @@ void Base::setup()
 
 void Base::loop()
 {
-  for (int i = 0; i < MessageHandler::getInbox().size(); i++)
+  int max = MessageHandler::getInbox().size();
+  for (int i = 0; i < max; i++)
   {
     JSMessage m = MessageHandler::getInbox().front();
     MessageHandler::getInbox().pop();
@@ -44,7 +45,8 @@ void Base::loop()
 #endif
   }
 
-  for (int i = 0; i < MessageHandler::getOutbox().size(); i++)
+  max = MessageHandler::getOutbox().size();
+  for (int i = 0; i < max; i++)
   {
     JSMessage m = MessageHandler::getOutbox().front();
     MessageHandler::sendMsg(m);
