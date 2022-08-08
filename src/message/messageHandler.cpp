@@ -78,7 +78,7 @@ void MessageHandler::deinit()
   esp_now_deinit();
 }
 
-void MessageHandler::scanForPeers(bool overwriteExisting = false)
+void MessageHandler::scanForPeers(bool overwriteExisting)
 {
   Serial.println("Scanning for peers");
   int8_t networkCnt = WiFi.scanNetworks();
@@ -105,7 +105,7 @@ void MessageHandler::scanForPeers(bool overwriteExisting = false)
       }
       // Check if the current network is one of our slaves
       int deviceID;
-      if (sscanf(SSID.c_str(), "JS%x", &deviceID) && (!getInstance().peerInfoMap.count(deviceID) || overwriteExisting))
+      if (sscanf(SSID.c_str(), "JS%x", &deviceID))
       {
         // Check the overwrite argument and only overwrite existing entries if true
         if (!getInstance().peerInfoMap.count(deviceID) || overwriteExisting)
