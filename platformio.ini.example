@@ -36,7 +36,7 @@ build_flags =
   ; ESP Now
 	-DESPNOW_CHANNEL=0
 	-DSLAVE_CNT=4
-  -DDEFAULT_RETRIES=5
+  -DDEFAULT_RETRIES=2
   ; Delay
   -DDELAY_MASTER_LOOP=1000
   -DDELAY_MASTER_SLAVE_CONNECT=100
@@ -123,6 +123,39 @@ build_flags =
 [6_ota]
 upload_port = 192.168.1.185
 
+[7]
+build_flags = 
+	-DJS_ID=7
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=186
+
+[7_ota]
+upload_port = 192.168.1.186
+
+[8]
+build_flags = 
+	-DJS_ID=8
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=187
+
+[8_ota]
+upload_port = 192.168.1.187
+
+[9]
+build_flags = 
+	-DJS_ID=9
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=188
+
+[9_ota]
+upload_port = 192.168.1.188
+
 [wemos_d1_mini32]
 board = wemos_d1_mini32
 build_flags = 
@@ -182,3 +215,27 @@ build_flags = ${base.build_flags} ${6.build_flags} ${wemos_d1_mini32.build_flags
 [env:wemos_d1_mini32_6_ota]
 extends = base, wemos_d1_mini32, 6, ota, 6_ota
 build_flags = ${base.build_flags} ${6.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_7_usb]
+extends = base, wemos_d1_mini32, 7
+build_flags = ${base.build_flags} ${7.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_7_ota]
+extends = base, wemos_d1_mini32, 7, ota, 7_ota
+build_flags = ${base.build_flags} ${7.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_8_usb]
+extends = base, wemos_d1_mini32, 8
+build_flags = ${base.build_flags} ${8.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_8_ota]
+extends = base, wemos_d1_mini32, 8, ota, 8_ota
+build_flags = ${base.build_flags} ${8.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_9_usb]
+extends = base, wemos_d1_mini32, 9
+build_flags = ${base.build_flags} ${9.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_9_ota]
+extends = base, wemos_d1_mini32, 9, ota, 9_ota
+build_flags = ${base.build_flags} ${9.build_flags} ${wemos_d1_mini32.build_flags}
