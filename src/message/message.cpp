@@ -10,6 +10,7 @@ JSMessage::JSMessage()
   recipients = {};
   sendCnt = 0;
   retries = 0;
+  maxRetries = 0;
 }
 
 JSMessage::JSMessage(js_message m)
@@ -19,6 +20,7 @@ JSMessage::JSMessage(js_message m)
   recipients = {};
   sendCnt = 0;
   retries = 0;
+  maxRetries = 0;
 }
 
 JSMessage::JSMessage(js_message m, std::set<int> r)
@@ -28,6 +30,7 @@ JSMessage::JSMessage(js_message m, std::set<int> r)
   recipients = r;
   sendCnt = 0;
   retries = 0;
+  maxRetries = 0;
 }
 
 js_message JSMessage::asStruct()
@@ -123,4 +126,14 @@ int JSMessage::getRetries()
 int JSMessage::incrementRetries()
 {
   return retries++;
+}
+
+void JSMessage::setMaxRetries(int m)
+{
+  maxRetries = m;
+}
+
+int JSMessage::getMaxRetries()
+{
+  return maxRetries;
 }

@@ -36,6 +36,7 @@ class JSMessage
   int sendCnt;
   static int msgID;
   int retries;
+  int maxRetries;
 
 public:
   JSMessage();
@@ -60,6 +61,8 @@ public:
   void setRetries(int r);
   int getRetries();
   int incrementRetries();
+  void setMaxRetries(int m);
+  int getMaxRetries();
 };
 
 #endif // MESSAGE_MESSAGE_H_
