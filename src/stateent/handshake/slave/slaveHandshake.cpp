@@ -15,14 +15,14 @@ void SlaveHandshake::loop()
   {
     Serial.println("Messages in inbox");
     JSMessage m = MessageHandler::getAndPop();
-    if (m.getType() == TYPE_HANDSHAKE_REQUEST)
+    switch (m.getType())
     {
+    case TYPE_HANDSHAKE_REQUEST:
       Serial.println("Handshake request message in inbox");
       MessageHandler::receiveHandshakeRequest(m);
       MessageHandler::sendHandshakeResponses({m.getSenderID()});
-    }
-    else
-    {
+      break;
+    default:
       Serial.println("Not a message we care about");
     }
   }
