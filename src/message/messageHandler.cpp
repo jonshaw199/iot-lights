@@ -258,20 +258,6 @@ void MessageHandler::sendMsg(JSMessage msg)
       Serial.println("Not sure what happened");
     }
 
-    /*
-    ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized
-
-    ESP_ERR_ESPNOW_ARG : invalid argument
-
-    ESP_ERR_ESPNOW_INTERNAL : internal error
-
-    ESP_ERR_ESPNOW_NO_MEM : out of memory, when this happens, you can delay a while before sending the next data
-
-    ESP_ERR_ESPNOW_NOT_FOUND : peer is not found
-
-    ESP_ERR_ESPNOW_IF : current WiFi interface doesn’t match that of peer
-    */
-
     delay(DELAY_MASTER_SLAVE_SEND);
   }
 }
