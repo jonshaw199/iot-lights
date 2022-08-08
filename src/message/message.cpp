@@ -9,6 +9,7 @@ JSMessage::JSMessage()
   msg.senderID = JS_ID;
   recipients = {};
   sendCnt = 0;
+  retries = 0;
 }
 
 JSMessage::JSMessage(js_message m)
@@ -17,6 +18,7 @@ JSMessage::JSMessage(js_message m)
   msg.msgID = msgID++;
   recipients = {};
   sendCnt = 0;
+  retries = 0;
 }
 
 JSMessage::JSMessage(js_message m, std::set<int> r)
@@ -25,6 +27,7 @@ JSMessage::JSMessage(js_message m, std::set<int> r)
   msg.msgID = msgID++;
   recipients = r;
   sendCnt = 0;
+  retries = 0;
 }
 
 js_message JSMessage::asStruct()
@@ -105,4 +108,9 @@ int JSMessage::getSenderID()
 uint8_t *JSMessage::getSenderAPMac()
 {
   return msg.senderAPMac;
+}
+
+void JSMessage::setRetries(int r)
+{
+  retries = r;
 }

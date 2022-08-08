@@ -35,6 +35,7 @@ class JSMessage
   std::set<int> recipients;
   int sendCnt;
   static int msgID;
+  int retries;
 
 public:
   JSMessage();
@@ -56,6 +57,7 @@ public:
   int getMsgID();
   void setSenderID(int id);
   int getSenderID();
+  void setRetries(int r);
 };
 
 #endif // MESSAGE_MESSAGE_H_
