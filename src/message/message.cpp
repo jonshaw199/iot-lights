@@ -114,3 +114,8 @@ void JSMessage::setRetries(int r)
 {
   retries = r;
 }
+
+int JSMessage::getRetries()
+{
+  return retries;
+}
