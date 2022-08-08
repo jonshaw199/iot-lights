@@ -18,11 +18,11 @@ void Base::loop()
 
 bool Base::preStateChange(JSState s)
 {
-  if (StateManager::getCurState() != STATE_OTA && s == STATE_OTA)
+  if (StateManager::getCurState() != STATE_OTA && s == STATE_OTA || s == STATE_RESTART)
   {
     JSMessage msg;
     msg.setType(TYPE_CHANGE_STATE);
-    msg.setState(STATE_OTA);
+    msg.setState(s);
     msg.setRetries(NUM_RETRIES_SEND);
     MessageHandler::sendMsg(msg);
   }
