@@ -13,6 +13,7 @@ void Master::loop()
   msg.setState(STATE_RUN);
   msg.setType(TYPE_RUN_DATA);
   msg.setColor(LED::getRandColor());
+  msg.setRetries(DEFAULT_RETRIES);
 
   MessageHandler::sendMsg(msg);
 
