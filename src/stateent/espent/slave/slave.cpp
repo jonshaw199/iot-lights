@@ -42,5 +42,10 @@ void Slave::loop()
 
 bool Slave::preStateChange(JSState s)
 {
-  led.fillColor(CRGB::Black);
+  bool baseResult = Base::preStateChange(s);
+  if (baseResult)
+  {
+    led.fillColor(CRGB::Black);
+  }
+  return baseResult;
 }

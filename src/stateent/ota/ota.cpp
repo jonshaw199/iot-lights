@@ -113,6 +113,10 @@ void OTA::loop()
 
 bool OTA::preStateChange(JSState s)
 {
-  StateManager::deinitWebSerial();
-  return true;
+  bool baseResult = Base::preStateChange(s);
+  if (baseResult)
+  {
+    StateManager::deinitWebSerial();
+  }
+  return baseResult;
 }
