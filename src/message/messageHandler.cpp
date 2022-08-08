@@ -234,7 +234,7 @@ void MessageHandler::sendMsg(JSMessage msg)
   // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
   for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
   {
-    Serial.print("Sending message to device ID " + String() + " (MAC address " + WifiUtil::macToString(it->second.espnowPeerInfo.peer_addr) + ")");
+    Serial.print("Sending message to device ID " + String(it->first) + " (MAC address " + WifiUtil::macToString(it->second.espnowPeerInfo.peer_addr) + ")");
     esp_err_t result = esp_now_send(it->second.espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
     Serial.print("Send Status: ");
     if (result == ESP_OK)
