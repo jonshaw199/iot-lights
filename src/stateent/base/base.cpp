@@ -17,20 +17,25 @@ void Base::loop()
   if (MessageHandler::getInbox().size())
   {
     JSMessage m = MessageHandler::getAndPop();
+
     switch (m.getType())
     {
     case TYPE_CHANGE_STATE:
       Serial.println("State change request message in inbox");
       MessageHandler::receiveHandshakeRequest(m);
       MessageHandler::sendHandshakeResponses({m.getSenderID()});
-      break;
+      return;
     case TYPE_HANDSHAKE_REQUEST:
       Serial.println("Handshake request message in inbox");
       MessageHandler::receiveHandshakeRequest(m);
       MessageHandler::sendHandshakeResponses({m.getSenderID()});
-      break;
-    default:
-      Serial.println("Not a message we care about");
+      return;
+    }
+
+    if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
+    {
+      Serial.println("Implicit state change to " + StateManager::stateToString(m.getState()));
+      StateManager::setRequestedState(m.getState());
     }
   }
 }
