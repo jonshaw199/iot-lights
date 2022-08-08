@@ -136,5 +136,9 @@ String StateManager::stateToString(JSState s)
     return "STATE_RESTART";
   case STATE_HANDSHAKE:
     return "STATE_HANDSHAKE";
+  case STATE_NONE:
+    return "STATE_NONE";
+  default:
+    return "Unknown state";
   }
 }
