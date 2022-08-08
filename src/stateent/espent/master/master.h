@@ -6,9 +6,8 @@
 class Master : public EspEnt
 {
 public:
-  void setup();
   void loop();
-  bool preStateChange(JSState s);
+  // bool preStateChange(JSState s);
 };
 
 #endif // STATEENT_ESPENT_MASTER_MASTER_H_

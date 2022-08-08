@@ -1,38 +1,26 @@
 #include <Arduino.h>
 
 #include "master.h"
-
-void Master::setup()
-{
-  Serial.println("Master setting up");
-}
+#include "message/message.h"
+#include "message/messageHandler.h"
+// #include "state/stateManager.h"
+#include "stateent/led/led.h"
 
 void Master::loop()
 {
-  Serial.println("Master looping");
+  JSMessage msg;
+  msg.setState(STATE_RUN);
+  msg.setType(TYPE_RUN_DATA);
+  msg.setColor(LED::getRandColor());
 
-  /*
-  if (curSlaveCnt < SLAVE_CNT)
-  {
-    scanForSlaves();
-    connectToSlaves();
-  }
-
-  if (curSlaveCnt)
-  {
-    js_message msg;
-    msg.state = StateManager::getCurState();
-    msg.color = LED::getRandColor();
-    sendData(msg);
-  }
-  */
+  MessageHandler::sendMsg(msg);
 
   delay(DELAY_MASTER_LOOP);
 }
 
+/*
 bool Master::preStateChange(JSState s)
 {
-  /*
   if (StateManager::getCurState() == STATE_RUN && s == STATE_OTA)
   {
     // Inform the slaves so they also switch state
@@ -42,6 +30,6 @@ bool Master::preStateChange(JSState s)
     sendData(msg);
     delay(3000);
   }
-  */
   return true;
 }
+*/
