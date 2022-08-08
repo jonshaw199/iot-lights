@@ -22,8 +22,7 @@ void Base::loop()
     {
     case TYPE_CHANGE_STATE:
       Serial.println("State change request message in inbox");
-      MessageHandler::receiveHandshakeRequest(m);
-      MessageHandler::sendHandshakeResponses({m.getSenderID()});
+      StateManager::setRequestedState(m.getState());
       return;
     case TYPE_HANDSHAKE_REQUEST:
       Serial.println("Handshake request message in inbox");
