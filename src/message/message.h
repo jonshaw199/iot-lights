@@ -41,6 +41,7 @@ class JSMessage
 
 public:
   JSMessage();
+  JSMessage(js_message m);
   void setRecipients(std::set<int> r);
   std::set<int> getRecipients();
   js_message asStruct();

@@ -16,6 +16,15 @@ JSMessage::JSMessage()
   maxRetries = 0;
 }
 
+JSMessage::JSMessage(js_message m)
+{
+  msg = m;
+  recipients = {};
+  sendCnt = 0;
+  retries = 0;
+  maxRetries = 0;
+}
+
 js_message JSMessage::asStruct()
 {
   return msg;
