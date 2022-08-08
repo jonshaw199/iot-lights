@@ -45,7 +45,7 @@ bool Base::preStateChange(JSState s)
     JSMessage msg;
     msg.setType(TYPE_CHANGE_STATE);
     msg.setState(s);
-    msg.setRetries(NUM_RETRIES_SEND);
+    msg.setMaxRetries(NUM_RETRIES_SEND);
     MessageHandler::sendMsg(msg);
     delay(DELAY_OTA_SWITCH);
   }
