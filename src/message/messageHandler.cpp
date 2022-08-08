@@ -285,6 +285,11 @@ std::queue<JSMessage> &MessageHandler::getInbox()
   return getInstance().inbox;
 }
 
+std::queue<JSMessage> &MessageHandler::getOutbox()
+{
+  return getInstance().outbox;
+}
+
 void MessageHandler::sendHandshakeRequests(std::set<int> ids)
 {
   Serial.println("Sending handshake requests");

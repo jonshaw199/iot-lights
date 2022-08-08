@@ -45,6 +45,7 @@ public:
   static const std::map<int, js_peer_info> &getPeerInfoMap(); // Read only
   static JSMessage getAndPopInbox();
   static JSMessage popAndFrontInbox();
+  static std::queue<JSMessage> &getOutbox();
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_
