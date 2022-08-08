@@ -275,12 +275,19 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
 
 void MessageHandler::receiveHandshakeRequest(JSMessage m)
 {
-  Serial.println("Receiving handshake request from ID " + m.getSenderID());
+  Serial.println("Receiving handshake request from ID " + String(m.getSenderID()));
+  Serial.print("Mac: ");
+  WifiUtil::printMac(m.getSenderAPMac());
   js_peer_info i;
+  memset(&i, 0, sizeof(i));
   memcpy(&i.espnowPeerInfo.peer_addr, m.getSenderAPMac(), 6);
+  Serial.print("Test: ");
+  WifiUtil::printMac(i.espnowPeerInfo.peer_addr);
   i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
   i.espnowPeerInfo.encrypt = 0; // No encryption
-  getInstance().peerInfoMap[m.getSenderID()] = i;
+                                // getInstance().peerInfoMap[m.getSenderID()] = i;
+  memcpy(&getInstance().peerInfoMap[m.getSenderID()], &i, sizeof(i));
+  connectToPeers();
 }
 
 void MessageHandler::sendHandshakeResponses(std::set<int> ids)
@@ -301,7 +308,7 @@ void MessageHandler::sendHandshakeResponses(std::set<int> ids)
 
 void MessageHandler::receiveHandshakeResponse(JSMessage m)
 {
-  Serial.println("Receiving handshake response from ID " + m.getSenderID());
+  Serial.println("Receiving handshake response from ID " + String(m.getSenderID()));
   getInstance().peerInfoMap[m.getSenderID()].handshakeResponse = true;
 }
 
