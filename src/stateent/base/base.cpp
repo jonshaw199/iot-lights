@@ -50,6 +50,6 @@ bool Base::preStateChange(JSState s)
     MessageHandler::sendMsg(msg);
     delay(DELAY_OTA_SWITCH);
   }
-  return true;
 #endif
+  return true;
 }
