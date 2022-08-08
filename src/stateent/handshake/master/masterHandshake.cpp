@@ -37,4 +37,6 @@ void MasterHandshake::loop()
   {
     MessageHandler::sendHandshakeRequests({it->first});
   }
+
+  delay(MASTER_HANDSHAKE_LOOP);
 }
