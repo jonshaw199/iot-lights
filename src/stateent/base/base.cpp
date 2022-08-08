@@ -43,6 +43,13 @@ void Base::loop()
     }
 #endif
   }
+
+  for (int i = 0; i < MessageHandler::getOutbox().size(); i++)
+  {
+    JSMessage m = MessageHandler::getOutbox().front();
+    MessageHandler::sendMsg(m);
+    MessageHandler::getOutbox().pop();
+  }
 }
 
 bool Base::preStateChange(JSState s)

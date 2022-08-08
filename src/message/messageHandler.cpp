@@ -36,7 +36,8 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
       JSMessage msg = getInstance().peerInfoMap[peerDeviceID].lastMsg;
       msg.incrementRetries();
       msg.setRecipients({peerDeviceID}); // Only resending to 1 device!
-      sendMsg(msg);
+      // sendMsg(msg);
+      getInstance().outbox.push(msg);
     }
   }
 }
@@ -304,7 +305,8 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  sendMsg(msg);
+  // sendMsg(msg);
+  getInstance().outbox.push(msg);
 }
 
 void MessageHandler::receiveHandshakeRequest(JSMessage m)
@@ -337,7 +339,8 @@ void MessageHandler::sendHandshakeResponses(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  sendMsg(msg);
+  // sendMsg(msg);
+  getInstance().outbox.push(msg);
 }
 
 void MessageHandler::receiveHandshakeResponse(JSMessage m)
