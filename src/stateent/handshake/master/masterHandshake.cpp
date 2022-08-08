@@ -26,7 +26,7 @@ void MasterHandshake::loop()
   }
   if (numHandshakeComplete >= SLAVE_CNT)
   {
-    StateManager::setRequestedState(STATE_RUN);
+    StateManager::setRequestedState(INITIAL_STATE);
   }
 
   MessageHandler::scanForPeers();
