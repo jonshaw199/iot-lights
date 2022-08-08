@@ -212,7 +212,6 @@ void MessageHandler::connectToPeers()
 
 void MessageHandler::sendMsg(JSMessage msg)
 {
-  Serial.println("sendMsg");
   // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
   for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
   {

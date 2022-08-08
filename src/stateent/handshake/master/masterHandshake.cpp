@@ -14,7 +14,6 @@ void MasterHandshake::loop()
 {
   if (MessageHandler::getInbox().size())
   {
-    Serial.println("Messages in inbox");
     JSMessage m = MessageHandler::getAndPop();
     if (m.getType() == TYPE_HANDSHAKE_RESPONSE)
     {
