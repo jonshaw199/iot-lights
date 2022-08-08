@@ -13,9 +13,10 @@ void Base::setup()
 
 void Base::loop()
 {
-  if (MessageHandler::getInbox().size())
+  for (int i = 0; i < MessageHandler::getInbox().size(); i++)
   {
-    JSMessage m = MessageHandler::getAndPop();
+    JSMessage m = MessageHandler::getInbox().front();
+    MessageHandler::getInbox().pop();
 
     switch (m.getType())
     {
