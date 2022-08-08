@@ -13,19 +13,7 @@ void MasterHandshake::setup()
 
 void MasterHandshake::loop()
 {
-  if (MessageHandler::getInbox().size())
-  {
-    JSMessage m = MessageHandler::getAndPop();
-    if (m.getType() == TYPE_HANDSHAKE_RESPONSE)
-    {
-      Serial.println("Handshake response message in inbox");
-      MessageHandler::receiveHandshakeResponse(m);
-    }
-    else
-    {
-      Serial.println("Not a message we care about");
-    }
-  }
+  Base::loop();
 
   // Check if handshake has been completed for all slaves
   int numHandshakeComplete = 0;

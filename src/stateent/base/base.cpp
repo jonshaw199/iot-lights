@@ -28,6 +28,10 @@ void Base::loop()
       MessageHandler::receiveHandshakeRequest(m);
       MessageHandler::sendHandshakeResponses({m.getSenderID()});
       return;
+    case TYPE_HANDSHAKE_RESPONSE:
+      Serial.println("Handshake response message in inbox");
+      MessageHandler::receiveHandshakeResponse(m);
+      break;
     }
 
     if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
