@@ -1,10 +1,8 @@
 
 #include "led.h"
 
-void LED::setup()
+LED::LED()
 {
-  Serial.println("LED setting up");
-
   switch (JS_ID)
   {
   case 2:
@@ -62,14 +60,4 @@ CRGB LED::getRandColor()
   CRGB options[] = {CRGB::Red, CRGB::Blue, CRGB::Green, CRGB::White};
   int i = rand() % 4;
   return options[i];
-}
-
-bool LED::preStateChange(JSState s)
-{
-  if (s != STATE_RUN)
-  {
-    // Turn off lights
-    fillColor(CRGB::Black);
-  }
-  return true;
 }

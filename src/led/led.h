@@ -1,12 +1,11 @@
-#ifndef STATEENT_LED_LED_H_
-#define STATEENT_LED_LED_H_
+#ifndef LED_LED_H_
+#define LED_LED_H_
 
 #include <FastLED.h>
 
 #include "state/state.h"
-#include "stateent/base/base.h"
 
-class LED : public Base
+class LED
 {
   CRGB ledsPatio[LED_CNT_PATIO];
   CRGB ledsBack[LED_CNT_BACK];
@@ -20,10 +19,10 @@ class LED : public Base
   int ledsCntB;
 
 public:
+  LED();
   void setup();
-  bool preStateChange(JSState s);
   void fillColor(CRGB color);
   static CRGB getRandColor();
 };
 
-#endif // STATEENT_LED_LED_H_
+#endif // LED_LED_H_

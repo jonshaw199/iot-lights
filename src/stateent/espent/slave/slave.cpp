@@ -2,16 +2,7 @@
 
 void Slave::setup()
 {
-
-  /*
-  initESPNow();
-  // Once ESPNow is successfully Init, we will register for recv CB to
-  // get recv packer info.
-  esp_now_register_recv_cb(Slave::onDataRecv);
-  */
-
   led = LED();
-  led.setup();
 }
 
 void Slave::loop()
@@ -51,5 +42,5 @@ void Slave::loop()
 
 bool Slave::preStateChange(JSState s)
 {
-  return led.preStateChange(s);
+  led.fillColor(CRGB::Black);
 }

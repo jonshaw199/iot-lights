@@ -3,7 +3,7 @@
 
 #include "stateent/espent/espent.h"
 #include "message/message.h"
-#include "stateent/led/led.h"
+#include "led/led.h"
 
 class Slave : public EspEnt
 {
