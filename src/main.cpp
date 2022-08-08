@@ -17,7 +17,7 @@ Base *espEnt, *ota, *restart, *idle, *handshake, *initEnt, *stateEnt;
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(JS_BAUD);
 
   // Initializing StateManager as early as possible
   StateManager::init(STATE_INIT);
