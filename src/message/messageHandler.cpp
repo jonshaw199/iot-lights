@@ -281,7 +281,6 @@ void MessageHandler::receiveHandshakeRequest(JSMessage m)
   js_peer_info i;
   memset(&i, 0, sizeof(i));
   memcpy(&i.espnowPeerInfo.peer_addr, m.getSenderAPMac(), 6);
-  Serial.print("Test: ");
   WifiUtil::printMac(i.espnowPeerInfo.peer_addr);
   i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
   i.espnowPeerInfo.encrypt = 0; // No encryption
