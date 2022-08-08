@@ -29,6 +29,7 @@ bool Slave::preStateChange(JSState s)
   bool baseResult = Base::preStateChange(s);
   if (baseResult)
   {
+    Serial.println("Leaving STATE_RUN so turning off lights");
     led.fillColor(CRGB::Black);
   }
   return baseResult;
