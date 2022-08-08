@@ -17,19 +17,3 @@ void Master::loop()
 
   delay(DELAY_MASTER_LOOP);
 }
-
-/*
-bool Master::preStateChange(JSState s)
-{
-  if (StateManager::getCurState() == STATE_RUN && s == STATE_OTA)
-  {
-    // Inform the slaves so they also switch state
-    Serial.println("Informing the slaves of OTA");
-    js_message msg;
-    msg.state = STATE_OTA;
-    sendData(msg);
-    delay(3000);
-  }
-  return true;
-}
-*/
