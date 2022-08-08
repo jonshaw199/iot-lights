@@ -24,6 +24,7 @@ class MessageHandler
   uint8_t macAP[6];
   uint8_t macSTA[6];
   std::queue<JSMessage> inbox;
+  std::queue<JSMessage> outbox;
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
   static bool validateMsg(JSMessage m);
@@ -42,8 +43,8 @@ public:
   static void sendHandshakeResponses(std::set<int> ids);
   static void receiveHandshakeResponse(JSMessage m);
   static const std::map<int, js_peer_info> &getPeerInfoMap(); // Read only
-  static JSMessage getAndPop();
-  static JSMessage popAndFront();
+  static JSMessage getAndPopInbox();
+  static JSMessage popAndFrontInbox();
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_

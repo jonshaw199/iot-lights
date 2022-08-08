@@ -347,7 +347,7 @@ const std::map<int, js_peer_info> &MessageHandler::getPeerInfoMap()
 }
 
 // Shortcut for getting the most recent msg in the queue and popping along the way
-JSMessage MessageHandler::getAndPop()
+JSMessage MessageHandler::getAndPopInbox()
 {
   JSMessage m;
   while (MessageHandler::getInbox().size())
@@ -358,7 +358,7 @@ JSMessage MessageHandler::getAndPop()
   return m;
 }
 
-JSMessage MessageHandler::popAndFront()
+JSMessage MessageHandler::popAndFrontInbox()
 {
   JSMessage m;
   if (MessageHandler::getInbox().size())

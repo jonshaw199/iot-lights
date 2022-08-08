@@ -11,7 +11,7 @@ void Slave::loop()
 
   if (MessageHandler::getInbox().size())
   {
-    JSMessage m = MessageHandler::popAndFront();
+    JSMessage m = MessageHandler::popAndFrontInbox();
     switch (m.getType())
     {
     case TYPE_RUN_DATA:
