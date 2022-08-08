@@ -130,6 +130,7 @@ void MessageHandler::scanForPeers()
           }
           info.channel = ESPNOW_CHANNEL;
           info.encrypt = 0; // no encryption
+          info.ifidx = WIFI_IF_AP;
           getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
           getInstance().peerInfoMap[deviceID].handshakeResponse = false;
           // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
@@ -242,10 +243,28 @@ void MessageHandler::sendMsg(JSMessage msg)
     {
       Serial.println("Peer not found.");
     }
+    else if (result == ESP_ERR_ESPNOW_IF)
+    {
+      Serial.println("Current wifi interface doesnt match that of peer");
+    }
     else
     {
       Serial.println("Not sure what happened");
     }
+
+    /*
+    ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized
+
+    ESP_ERR_ESPNOW_ARG : invalid argument
+
+    ESP_ERR_ESPNOW_INTERNAL : internal error
+
+    ESP_ERR_ESPNOW_NO_MEM : out of memory, when this happens, you can delay a while before sending the next data
+
+    ESP_ERR_ESPNOW_NOT_FOUND : peer is not found
+
+    ESP_ERR_ESPNOW_IF : current WiFi interface doesn’t match that of peer
+    */
 
     delay(DELAY_MASTER_SLAVE_SEND);
   }
@@ -284,7 +303,8 @@ void MessageHandler::receiveHandshakeRequest(JSMessage m)
   WifiUtil::printMac(i.espnowPeerInfo.peer_addr);
   i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
   i.espnowPeerInfo.encrypt = 0; // No encryption
-                                // getInstance().peerInfoMap[m.getSenderID()] = i;
+  // getInstance().peerInfoMap[m.getSenderID()] = i;
+  i.espnowPeerInfo.ifidx = WIFI_IF_AP;
   memcpy(&getInstance().peerInfoMap[m.getSenderID()], &i, sizeof(i));
   connectToPeers();
 }
