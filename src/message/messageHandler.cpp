@@ -39,6 +39,10 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
       // sendMsg(msg);
       getInstance().outbox.push(msg);
     }
+    else
+    {
+      Serial.println("Not retrying send");
+    }
   }
 }
 
