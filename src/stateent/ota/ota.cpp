@@ -12,6 +12,10 @@ void OTA::setup()
 {
   Serial.println("OTA setting up");
 
+#ifdef LED_BUILTIN
+  digitalWrite(LED_BUILTIN, HIGH);
+#endif
+
   // JS - Issues with Heltec Wifi Kit 32; wouldnt connect
   // https://github.com/espressif/arduino-esp32/issues/1212
   // DO NOT TOUCH
@@ -119,6 +123,9 @@ bool OTA::preStateChange(JSState s)
   if (baseResult)
   {
     StateManager::deinitWebSerial();
+#ifdef LED_BUILTIN
+    digitalWrite(LED_BUILTIN, LOW);
+#endif
   }
   return baseResult;
 }
