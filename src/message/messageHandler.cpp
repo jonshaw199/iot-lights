@@ -30,7 +30,7 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
     Serial.println("Delivery Fail");
     int peerDeviceID = getInstance().macToIDMap[WifiUtil::macToString(mac_addr)];
     // Check if there are more retries remaining and retry if so
-    if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getSendCnt() + 1 < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
+    if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getSendCnt() - 1 < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
     {
       Serial.println("Retrying send to device ID " + String(peerDeviceID));
       JSMessage msg = getInstance().peerInfoMap[peerDeviceID].lastMsg;
