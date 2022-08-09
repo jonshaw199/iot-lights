@@ -3,40 +3,13 @@
 
 LED::LED()
 {
-  switch (JS_ID)
+  if (CNT_A)
   {
-  case 2:
-    ledsA = ledsBack;
-    ledsB = ledsPatio;
-    ledsCntA = LED_CNT_BACK;
-    ledsCntB = LED_CNT_PATIO;
-    break;
-  case 3:
-    ledsA = ledsKitchen;
-    ledsCntA = LED_CNT_KITCHEN;
-    break;
-  case 4:
-    ledsA = ledsGarageA;
-    ledsB = ledsGarageB;
-    ledsCntA = LED_CNT_GARAGE_A;
-    ledsCntB = LED_CNT_GARAGE_B;
-    break;
-  case 5:
-    ledsA = ledsFront;
-    ledsCntA = LED_CNT_FRONT;
-    break;
-  default:
-    Serial.println("No assigned LEDs");
-    break;
+    FastLED.addLeds<WS2812, LED_PIN_A, GRB>(ledsA, CNT_A);
   }
-
-  if (ledsA != NULL)
+  if (CNT_B)
   {
-    FastLED.addLeds<WS2812, LED_PIN_A, GRB>(ledsA, ledsCntA);
-  }
-  if (ledsB != NULL)
-  {
-    FastLED.addLeds<WS2812, LED_PIN_B, GRB>(ledsB, ledsCntB);
+    FastLED.addLeds<WS2812, LED_PIN_B, GRB>(ledsB, CNT_B);
   }
   FastLED.setBrightness(200);
 }
@@ -44,13 +17,13 @@ LED::LED()
 void LED::fillColor(CRGB color)
 {
   Serial.println("Filling color");
-  if (ledsA != NULL)
+  if (CNT_A)
   {
-    fill_solid(ledsA, ledsCntA, color);
+    fill_solid(ledsA, CNT_A, color);
   }
-  if (ledsB != NULL)
+  if (CNT_B)
   {
-    fill_solid(ledsB, ledsCntB, color);
+    fill_solid(ledsB, CNT_B, color);
   }
   FastLED.show();
 }
