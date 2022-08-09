@@ -18,8 +18,8 @@ lib_deps =
   ayushsharma82/WebSerial@^1.3.0
 build_flags = 
   ; Wifi
-	'-DJSSSID="ssid-here"'
-	'-DJSPASS="pass-here"'
+	'-DJSSSID="ssid-here"' ; Your SSID here
+	'-DJSPASS="pass-here"' ; Your password here
 	-DGATEWAY_A=192
 	-DGATEWAY_B=168
 	-DGATEWAY_C=1
@@ -43,7 +43,7 @@ build_flags =
   -DDELAY_MASTER_SLAVE_SEND=100
   -DDELAY_PREPARE_WIFI=500
   -DDELAY_OTA_SWITCH=3000
-  -DDELAY_MASTER_HANDSHAKE_LOOP=1000
+  -DDELAY_MASTER_HANDSHAKE_LOOP=100
   ; Lights
 	-DLED_CNT_BACK=287
 	-DLED_CNT_PATIO=378
