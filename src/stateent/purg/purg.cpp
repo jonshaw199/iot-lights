@@ -9,8 +9,6 @@
 Purg::Purg()
 {
   purgMs = PURG_MS_DEFAULT;
-  Serial.print("purgMs(c)");
-  Serial.println(purgMs);
   next = STATE_OTA;
 }
 
