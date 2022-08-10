@@ -36,7 +36,7 @@ void Purg::loop()
 
   if (msElapsed > purgMs)
   {
-    Serial.print("Purgatory over");
+    Serial.println("Purgatory over");
     StateManager::setRequestedState(next);
   }
 }
