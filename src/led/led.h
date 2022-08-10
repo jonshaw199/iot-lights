@@ -24,13 +24,15 @@
 
 class LED
 {
+  LED();
   CRGB ledsA[CNT_A];
   CRGB ledsB[CNT_B];
 
 public:
-  LED();
-  void setup();
-  void fillColor(CRGB color);
+  // LED(); // Now singleton
+  static LED &getInstance();
+  static void init();
+  static void fillColor(CRGB color);
   static CRGB getRandColor();
 };
 

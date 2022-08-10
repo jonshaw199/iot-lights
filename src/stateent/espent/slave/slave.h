@@ -3,11 +3,9 @@
 
 #include "stateent/espent/espent.h"
 #include "message/message.h"
-#include "led/led.h"
 
 class Slave : public EspEnt
 {
-  LED led;
   void configDeviceAP();
   void initESPNow();
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);

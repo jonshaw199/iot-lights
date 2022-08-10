@@ -1,9 +1,11 @@
 #include "slave.h"
 #include "message/messageHandler.h"
+#include "led/led.h"
 
 void Slave::setup()
 {
-  led = LED();
+  // led = LED();
+  LED::init();
 }
 
 void Slave::loop()
@@ -30,12 +32,12 @@ bool Slave::preStateChange(JSState s)
   if (baseResult)
   {
     Serial.println("Leaving STATE_RUN so turning off lights");
-    led.fillColor(CRGB::Black);
+    LED::fillColor(CRGB::Black);
   }
   return baseResult;
 }
 
 void Slave::handleRunData(JSMessage m)
 {
-  led.fillColor(m.getColor());
+  LED::fillColor(m.getColor());
 }
