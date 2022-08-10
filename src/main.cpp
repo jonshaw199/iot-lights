@@ -83,7 +83,6 @@ void loop()
       case STATE_PURG_OTA:
         stateEnt = purg;
         purg->setNext(STATE_OTA);
-        purg->setPurgMs(10000);
         break;
       }
 

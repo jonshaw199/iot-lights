@@ -32,24 +32,11 @@ void Purg::loop()
   Base::loop();
 
   unsigned long nowMs = millis();
-  Serial.print("nowMs");
-  Serial.println(nowMs);
-  Serial.print("startMs");
-  Serial.println(startMs);
   unsigned long msElapsed = nowMs - startMs;
-  Serial.print("msElapsed");
-  Serial.println(msElapsed);
-
-  Serial.print("Seconds elapsed: ");
-  Serial.println(msElapsed / 1000);
-
-  Serial.print("purgMs");
-  Serial.println(purgMs);
 
   if (msElapsed > purgMs)
   {
-    Serial.print("Purgatory over; moving on to next state: ");
-    Serial.println(StateManager::stateToString(next));
+    Serial.print("Purgatory over");
     StateManager::setRequestedState(next);
   }
 }
