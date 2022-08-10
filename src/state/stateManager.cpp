@@ -52,7 +52,7 @@ void StateManager::handleUserInput(String s)
   }
   else if (s.indexOf("o") == 0)
   {
-    getInstance().setRequestedState(STATE_OTA);
+    getInstance().setRequestedState(STATE_PURG_OTA);
   }
   else if (s.indexOf("r") == 0)
   {
@@ -128,6 +128,8 @@ String StateManager::stateToString(JSState s)
     return "STATE_INIT";
   case STATE_RUN:
     return "STATE_RUN";
+  case STATE_PURG_OTA:
+    return "STATE_PURG_OTA";
   case STATE_OTA:
     return "STATE_OTA";
   case STATE_IDLE:

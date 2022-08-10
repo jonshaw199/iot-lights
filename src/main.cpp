@@ -12,8 +12,10 @@
 #include "stateent/handshake/master/masterHandshake.h"
 #include "stateent/handshake/slave/slaveHandshake.h"
 #include "stateent/init/init.h"
+#include "stateent/purg/purg.h"
 
 Base *espEnt, *ota, *restart, *idle, *handshake, *initEnt, *stateEnt;
+Purg *purg;
 
 void setup()
 {
@@ -31,6 +33,7 @@ void setup()
   ota = new OTA();
   restart = new Restart();
   idle = new Idle();
+  purg = new Purg();
 #if MASTER
   espEnt = new Master();
   handshake = new MasterHandshake();
@@ -76,6 +79,11 @@ void loop()
         break;
       case STATE_HANDSHAKE:
         stateEnt = handshake;
+        break;
+      case STATE_PURG_OTA:
+        stateEnt = purg;
+        purg->setNext(STATE_OTA);
+        purg->setPurgMs(10000);
         break;
       }
 
