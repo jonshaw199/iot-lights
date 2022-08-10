@@ -46,13 +46,12 @@ void Purg::loop()
   Serial.print("purgMs");
   Serial.println(purgMs);
 
-  if (msElapsed >= purgMs)
+  if (msElapsed > purgMs)
   {
     Serial.print("Purgatory over; moving on to next state: ");
     Serial.println(StateManager::stateToString(next));
+    StateManager::setRequestedState(next);
   }
-
-  StateManager::setRequestedState(next);
 }
 
 void Purg::setPurgMs(unsigned long ms)
