@@ -57,7 +57,7 @@ bool IntervalEvent::isTime(unsigned long elapsedMs)
 
 bool IntervalEvent::cbIfTime(unsigned long elapsedMs)
 {
-  if (isTime(elapsedMs) && intervalMs && cb())
+  if (isTime(elapsedMs) && intervalMs && cb()) // Checking intervalMs here since default constructor doesnt even define cb; might need stub there to be safe
   {
     cbCnt++;
     return true;
