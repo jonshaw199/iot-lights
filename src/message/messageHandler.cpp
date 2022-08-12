@@ -156,7 +156,7 @@ void MessageHandler::scanForPeers(bool overwriteExisting)
             info.ifidx = WIFI_IF_AP;
             getInstance().peerInfoMap[deviceID].espnowPeerInfo = info;
             getInstance().peerInfoMap[deviceID].handshakeResponse = false;
-            // getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
+            getInstance().peerInfoMap[deviceID].lastMsg = JSMessage();
             getInstance().macToIDMap[WifiUtil::macToString(info.peer_addr)] = deviceID;
             Serial.println("Saved peer info for device ID " + String(deviceID));
           }
