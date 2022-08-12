@@ -146,3 +146,10 @@ String StateManager::stateToString(JSState s)
     return "Unknown state";
   }
 }
+
+void StateManager::setBuiltinLED(bool on)
+{
+#ifdef LED_BUILTIN
+  digitalWrite(LED_BUILTIN, on);
+#endif
+}

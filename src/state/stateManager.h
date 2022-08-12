@@ -41,6 +41,7 @@ public:
   static void setSlaveStates(std::map<int, JSState> s);
   static void setSlaveState(int id, JSState s);
   static std::map<int, JSState> getSlaveStates();
+  static void setBuiltinLED(bool on);
 };
 
 #endif // STATE_STATEMANAGER_H_
