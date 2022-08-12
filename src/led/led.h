@@ -17,11 +17,8 @@
 #elif JS_ID == 5
 #define CNT_A LED_CNT_FRONT
 #define CNT_B 0
-#elif JS_ID == 10
-#define CNT_A LED_CNT_TEST
-#define CNT_B 0
 #else
-#define CNT_A 0
+#define CNT_A LED_CNT_TEST
 #define CNT_B 0
 #endif
 
