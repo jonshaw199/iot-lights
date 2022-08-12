@@ -36,7 +36,6 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
       JSMessage msg = getInstance().peerInfoMap[peerDeviceID].lastMsg;
       msg.incrementSendCnt();
       msg.setRecipients({peerDeviceID}); // Only resending to 1 device!
-      // sendMsg(msg);
       getInstance().outbox.push(msg);
     }
     else
@@ -221,8 +220,6 @@ void MessageHandler::connectToPeers()
         {
           Serial.println("Unknown connection error");
         }
-
-        delay(DELAY_MASTER_SLAVE_CONNECT);
       }
     }
   }
@@ -235,20 +232,21 @@ void MessageHandler::connectToPeers()
 
 void MessageHandler::sendMsg(JSMessage msg)
 {
-  // Also checking JSMessage recipients here; if empty then send to all, otherwise just send to the IDs in the set
-  for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && (!msg.getRecipients().size() || msg.getRecipients().find(it->first) != msg.getRecipients().end()); it++)
+  // If recipients set is empty then send to all
+  std::set<int> recipientIDs = msg.getRecipients().size() ? msg.getRecipients() : getPeerIDs();
+  for (std::set<int>::iterator it = recipientIDs.begin(); it != recipientIDs.end(); it++)
   {
-    Serial.println("Sending message to device ID " + String(it->first) + " (MAC address " + WifiUtil::macToString(it->second.espnowPeerInfo.peer_addr) + ")");
-    esp_err_t result = esp_now_send(it->second.espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
+    Serial.println("Sending message to device ID " + String(*it) + " (MAC address " + WifiUtil::macToString(getInstance().peerInfoMap[*it].espnowPeerInfo.peer_addr) + ")");
+    esp_err_t result = esp_now_send(getInstance().peerInfoMap[*it].espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
     Serial.print("Send Status: ");
     if (result == ESP_OK)
     {
       Serial.println("Success");
 
       // Update last msg sent for this peer
-      memcpy(&getInstance().peerInfoMap[it->first].lastMsg, &msg, sizeof(msg));
+      memcpy(&getInstance().peerInfoMap[*it].lastMsg, &msg, sizeof(msg));
       // Update the send count of that last msg
-      getInstance().peerInfoMap[it->first].lastMsg.incrementSendCnt();
+      getInstance().peerInfoMap[*it].lastMsg.incrementSendCnt();
     }
     else if (result == ESP_ERR_ESPNOW_NOT_INIT)
     {
@@ -279,8 +277,6 @@ void MessageHandler::sendMsg(JSMessage msg)
     {
       Serial.println("Not sure what happened");
     }
-
-    delay(DELAY_MASTER_SLAVE_SEND);
   }
 }
 
@@ -308,7 +304,6 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  // sendMsg(msg);
   getInstance().outbox.push(msg);
 
   for (std::set<int>::const_iterator it = ids.begin(); it != ids.end(); it++)
@@ -328,7 +323,6 @@ void MessageHandler::receiveHandshakeRequest(JSMessage m)
   WifiUtil::printMac(i.espnowPeerInfo.peer_addr);
   i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
   i.espnowPeerInfo.encrypt = 0; // No encryption
-  // getInstance().peerInfoMap[m.getSenderID()] = i;
   i.espnowPeerInfo.ifidx = WIFI_IF_AP;
   memcpy(&getInstance().peerInfoMap[m.getSenderID()], &i, sizeof(i));
   connectToPeers();
@@ -347,7 +341,6 @@ void MessageHandler::sendHandshakeResponses(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  // sendMsg(msg);
   getInstance().outbox.push(msg);
 }
 
@@ -386,4 +379,22 @@ JSMessage MessageHandler::popAndFrontInbox()
     m = MessageHandler::getInbox().front();
   }
   return m;
+}
+
+void MessageHandler::sendAllHandshakes()
+{
+  for (std::map<int, js_peer_info>::const_iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end() && !it->second.handshakeRequest; it++)
+  {
+    sendHandshakeRequests({it->first});
+  }
+}
+
+std::set<int> MessageHandler::getPeerIDs()
+{
+  std::set<int> result;
+  for (std::map<int, js_peer_info>::iterator it = getInstance().peerInfoMap.begin(); it != getInstance().peerInfoMap.end(); it++)
+  {
+    result.insert(it->first);
+  }
+  return result;
 }

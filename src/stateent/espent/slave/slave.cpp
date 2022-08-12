@@ -4,7 +4,7 @@
 
 void Slave::setup()
 {
-  // led = LED();
+  Base::setup();
   LED::init();
 }
 

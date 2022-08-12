@@ -6,7 +6,6 @@
 
 class Purg : public Base
 {
-  unsigned long startMs;
   unsigned long purgMs;
   JSState next;
 

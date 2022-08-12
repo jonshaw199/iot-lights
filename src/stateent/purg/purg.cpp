@@ -8,13 +8,13 @@
 
 Purg::Purg()
 {
-  purgMs = PURG_MS_DEFAULT;
+  purgMs = MS_PURG_DEFAULT;
   next = STATE_OTA;
 }
 
 void Purg::setup()
 {
-  startMs = millis();
+  Base::setup();
 
 #ifdef MASTER
   JSMessage msg;
@@ -29,10 +29,7 @@ void Purg::loop()
 {
   Base::loop();
 
-  unsigned long nowMs = millis();
-  unsigned long msElapsed = nowMs - startMs;
-
-  if (msElapsed > purgMs)
+  if (getElapsedMs() > purgMs)
   {
     Serial.println("Purgatory over");
     StateManager::setRequestedState(next);

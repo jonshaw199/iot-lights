@@ -10,7 +10,7 @@
 
 void OTA::setup()
 {
-  Serial.println("OTA setting up");
+  Base::setup();
 
 #ifdef LED_BUILTIN
   digitalWrite(LED_BUILTIN, HIGH);
@@ -33,7 +33,7 @@ void OTA::setup()
   WifiUtil::prepareWifi();
   WiFi.mode(WIFI_STA);
   Serial.println("MAC: " + WiFi.macAddress());
-  delay(1000);
+  // delay(1000);
 
 #if JS_IP_A
   // Set your Static IP address

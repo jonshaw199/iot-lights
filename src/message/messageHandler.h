@@ -3,6 +3,7 @@
 
 #include <map>
 #include <queue>
+#include <set>
 #include <esp_now.h>
 #include <WiFi.h>
 #include <Arduino.h>
@@ -47,6 +48,8 @@ public:
   static JSMessage getAndPopInbox();
   static JSMessage popAndFrontInbox();
   static std::queue<JSMessage> &getOutbox();
+  static void sendAllHandshakes();
+  static std::set<int> getPeerIDs();
 };
 
 #endif // MESSAGE_MESSAGEHANDLER_H_

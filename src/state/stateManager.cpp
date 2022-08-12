@@ -64,7 +64,7 @@ void StateManager::handleUserInput(String s)
   }
   else if (s.indexOf("k") == 0)
   {
-    getInstance().setRequestedState(STATE_RESTART);
+    getInstance().setRequestedState(STATE_PURG_RESTART);
   }
   else if (s.indexOf("h") == 0)
   {
@@ -134,6 +134,8 @@ String StateManager::stateToString(JSState s)
     return "STATE_OTA";
   case STATE_IDLE:
     return "STATE_IDLE";
+  case STATE_PURG_RESTART:
+    return "STATE_PURG_RESTART";
   case STATE_RESTART:
     return "STATE_RESTART";
   case STATE_HANDSHAKE:

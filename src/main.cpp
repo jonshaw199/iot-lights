@@ -84,6 +84,10 @@ void loop()
         stateEnt = purg;
         purg->setNext(STATE_OTA);
         break;
+      case STATE_PURG_RESTART:
+        stateEnt = purg;
+        purg->setNext(STATE_RESTART);
+        break;
       }
 
       stateEnt->setup();

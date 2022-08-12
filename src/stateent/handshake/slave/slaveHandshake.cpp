@@ -4,6 +4,7 @@
 
 void SlaveHandshake::setup()
 {
+  Base::setup();
   WifiUtil::setAPMode();
   WifiUtil::broadcastAP();
   MessageHandler::initEspNow();

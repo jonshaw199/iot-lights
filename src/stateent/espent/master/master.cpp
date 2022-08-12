@@ -5,7 +5,7 @@
 #include "message/messageHandler.h"
 #include "led/led.h"
 
-void Master::loop()
+bool lightCb1()
 {
   JSMessage msg;
   msg.setState(STATE_RUN);
@@ -13,10 +13,17 @@ void Master::loop()
   msg.setColor(LED::getRandColor());
   msg.setMaxRetries(DEFAULT_RETRIES);
 
-  // MessageHandler::sendMsg(msg);
   MessageHandler::getOutbox().push(msg);
 
-  Base::loop();
+  return true;
+}
 
-  delay(DELAY_MASTER_LOOP);
+Master::Master()
+{
+  intervalEvents.push_back(IntervalEvent(MS_MASTER_LOOP, lightCb1));
+}
+
+void Master::loop()
+{
+  Base::loop();
 }

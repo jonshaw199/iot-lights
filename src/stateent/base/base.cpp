@@ -9,12 +9,21 @@ Base::Base()
 
 void Base::setup()
 {
+  startMs = millis();
 }
 
 void Base::loop()
 {
-  int max = MessageHandler::getInbox().size();
-  for (int i = 0; i < max; i++)
+  // Outbox
+  for (int i = 0; i < MessageHandler::getOutbox().size(); i++)
+  {
+    JSMessage m = MessageHandler::getOutbox().front();
+    MessageHandler::getOutbox().pop();
+    MessageHandler::sendMsg(m);
+  }
+
+  // Inbox
+  for (int i = 0; i < MessageHandler::getInbox().size(); i++)
   {
     JSMessage m = MessageHandler::getInbox().front();
     MessageHandler::getInbox().pop();
@@ -45,27 +54,20 @@ void Base::loop()
 #endif
   }
 
-  max = MessageHandler::getOutbox().size();
-  for (int i = 0; i < max; i++)
+  // Interval events
+  for (std::vector<IntervalEvent>::iterator it = intervalEvents.begin(); it != intervalEvents.end(); it++)
   {
-    JSMessage m = MessageHandler::getOutbox().front();
-    MessageHandler::sendMsg(m);
-    MessageHandler::getOutbox().pop();
+    it->cbIfTime(getElapsedMs());
   }
 }
 
 bool Base::preStateChange(JSState s)
 {
-#ifdef MASTER
-  if (s == STATE_RESTART)
-  {
-    JSMessage msg;
-    msg.setType(TYPE_CHANGE_STATE);
-    msg.setState(s);
-    msg.setMaxRetries(DEFAULT_RETRIES);
-    MessageHandler::sendMsg(msg);
-    delay(DELAY_OTA_SWITCH);
-  }
-#endif
   return true;
+}
+
+unsigned long Base::getElapsedMs()
+{
+  unsigned long nowMs = millis();
+  return nowMs - startMs;
 }
