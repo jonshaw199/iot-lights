@@ -51,6 +51,7 @@ build_flags =
 	-DLED_CNT_GARAGE_A=409
 	-DLED_CNT_GARAGE_B=350
 	-DLED_CNT_FRONT=333
+  -DLED_CNT_TEST=3 ; 3-led test strip
 
 [ota]
 upload_protocol = espota
@@ -156,6 +157,28 @@ build_flags =
 [9_ota]
 upload_port = 192.168.1.188
 
+[10]
+build_flags = 
+	-DJS_ID=10
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=189
+
+[10_ota]
+upload_port = 192.168.1.189
+
+[11]
+build_flags = 
+	-DJS_ID=11
+	-DJS_IP_A=192
+	-DJS_IP_B=168
+	-DJS_IP_C=1
+	-DJS_IP_D=190
+
+[11_ota]
+upload_port = 192.168.1.190
+
 [wemos_d1_mini32]
 board = wemos_d1_mini32
 build_flags = 
@@ -239,3 +262,21 @@ build_flags = ${base.build_flags} ${9.build_flags} ${wemos_d1_mini32.build_flags
 [env:wemos_d1_mini32_9_ota]
 extends = base, wemos_d1_mini32, 9, ota, 9_ota
 build_flags = ${base.build_flags} ${9.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_10_usb]
+extends = base, wemos_d1_mini32, 10
+build_flags = ${base.build_flags} ${10.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_10_ota]
+extends = base, wemos_d1_mini32, 10, ota, 10_ota
+build_flags = ${base.build_flags} ${10.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_11_usb]
+extends = base, wemos_d1_mini32, 11
+build_flags = ${base.build_flags} ${11.build_flags} ${wemos_d1_mini32.build_flags}
+
+[env:wemos_d1_mini32_11_ota]
+extends = base, wemos_d1_mini32, 11, ota, 11_ota
+build_flags = ${base.build_flags} ${11.build_flags} ${wemos_d1_mini32.build_flags}
+
+
