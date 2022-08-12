@@ -125,9 +125,9 @@ void MessageHandler::scanForPeers(bool overwriteExisting)
         Serial.println("");
       }
       // Check if the current network is one of our slaves
-      int deviceID;
-      if (sscanf(SSID.c_str(), "JS%x", &deviceID))
+      if (SSID.indexOf(DEVICE_PREFIX) == 0) // Technically must start with a prefix
       {
+        int deviceID = SSID.substring(String(DEVICE_PREFIX).length()).toInt();
         // Check the overwrite argument and only overwrite existing entries if true
         if (!getInstance().peerInfoMap.count(deviceID) || overwriteExisting)
         {
