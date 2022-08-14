@@ -6,7 +6,9 @@ void Init::setup()
 {
   Base::setup();
   Serial.println("Setting up");
+#ifdef LED_BUILTIN
   pinMode(LED_BUILTIN, OUTPUT);
+#endif
   // setupDisplay();
   MessageHandler::init();
 }
