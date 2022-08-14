@@ -28,8 +28,6 @@ class MessageHandler
   std::map<String, int> macToIDMap;
   uint8_t macAP[6];
   uint8_t macSTA[6];
-  // TSQueue<JSMessage> inbox;
-  // TSQueue<JSMessage> outbox;
   Box inbox;
   Box outbox;
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);

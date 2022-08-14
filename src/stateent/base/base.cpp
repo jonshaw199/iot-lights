@@ -49,9 +49,16 @@ bool Base::handleInboxMsg(JSMessage m)
     Serial.println("Handshake response message in inbox");
     MessageHandler::receiveHandshakeResponse(m);
     break;
-  default:
-    return false;
   }
+
+#ifndef MASTER
+  if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
+  {
+    Serial.println("Implicit state change to " + StateManager::stateToString(m.getState()));
+    StateManager::setRequestedState(m.getState());
+  }
+#endif
+
   return true;
 }
 

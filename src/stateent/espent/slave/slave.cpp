@@ -27,27 +27,17 @@ void Slave::handleRunData(JSMessage m)
 
 bool Slave::handleInboxMsg(JSMessage m)
 {
-  Serial.println(1);
-  if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
-  {
-    Serial.println("Implicit state change to " + StateManager::stateToString(m.getState()));
-    StateManager::setRequestedState(m.getState());
-    return true;
-  }
-  Serial.println(2);
-
   switch (m.getType())
   {
   case TYPE_RUN_DATA:
     handleRunData(m);
     return true;
   }
-  Serial.println(3);
 
   return Base::handleInboxMsg(m);
 }
 
 void Slave::setInboxMessageHandler()
 {
-  MessageHandler::setInboxMsgHandler(Slave::handleInboxMsg);
+  MessageHandler::setInboxMsgHandler(handleInboxMsg);
 }
