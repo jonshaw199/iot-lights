@@ -46,7 +46,7 @@ public:
     return val;
   }
 
-private:
+protected:
   std::queue<T> q;
   mutable std::mutex m;
   std::condition_variable c;

@@ -8,7 +8,6 @@ class Master : public EspEnt
 {
 public:
   Master();
-  void loop();
 };
 
 #endif // STATEENT_ESPENT_MASTER_MASTER_H_

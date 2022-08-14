@@ -1,31 +1,12 @@
 #include "slave.h"
-#include "message/messageHandler.h"
+#include "messageHandler/messageHandler.h"
 #include "led/led.h"
+#include "stateManager/stateManager.h"
 
 void Slave::setup()
 {
   Base::setup();
   LED::init();
-}
-
-void Slave::loop()
-{
-
-  if (MessageHandler::getInbox().size())
-  {
-    JSMessage m = MessageHandler::popAndFrontInbox();
-    switch (m.getType())
-    {
-    case TYPE_RUN_DATA:
-      handleRunData(m);
-      break;
-    default:
-      Serial.println("Message type unknown!!");
-    }
-  }
-
-  // Do this LAST because it will clear the inbox currently!!
-  Base::loop();
 }
 
 bool Slave::preStateChange(JSState s)
@@ -42,4 +23,31 @@ bool Slave::preStateChange(JSState s)
 void Slave::handleRunData(JSMessage m)
 {
   LED::fillColor(m.getColor());
+}
+
+bool Slave::handleInboxMsg(JSMessage m)
+{
+  Serial.println(1);
+  if (m.getState() != StateManager::getCurState() && m.getState() != StateManager::getRequestedState())
+  {
+    Serial.println("Implicit state change to " + StateManager::stateToString(m.getState()));
+    StateManager::setRequestedState(m.getState());
+    return true;
+  }
+  Serial.println(2);
+
+  switch (m.getType())
+  {
+  case TYPE_RUN_DATA:
+    handleRunData(m);
+    return true;
+  }
+  Serial.println(3);
+
+  return Base::handleInboxMsg(m);
+}
+
+void Slave::setInboxMessageHandler()
+{
+  MessageHandler::setInboxMsgHandler(Slave::handleInboxMsg);
 }

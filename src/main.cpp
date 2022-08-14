@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 #include "state/state.h"
-#include "state/stateManager.h"
+#include "stateManager/stateManager.h"
 #include "stateent/espent/master/master.h"
 #include "stateent/ota/ota.h"
 #include "stateent/espent/slave/slave.h"
@@ -13,6 +13,7 @@
 #include "stateent/handshake/slave/slaveHandshake.h"
 #include "stateent/init/init.h"
 #include "stateent/purg/purg.h"
+#include "messageHandler/messageHandler.h"
 
 Base *espEnt, *ota, *restart, *idle, *handshake, *initEnt, *stateEnt;
 Purg *purg;
@@ -47,6 +48,9 @@ void setup()
 
 void loop()
 {
+  MessageHandler::handleOutboxMessages();
+  MessageHandler::handleInboxMessages();
+
   // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state (or maybe we don't want to request a new state during init at all?)
   stateEnt->loop();
 
@@ -91,6 +95,8 @@ void loop()
       }
 
       stateEnt->setup();
+      stateEnt->setInboxMessageHandler();
+      stateEnt->setOutboxMessageHandler();
     }
     else
     {

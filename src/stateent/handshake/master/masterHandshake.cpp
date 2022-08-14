@@ -1,7 +1,7 @@
 #include "masterHandshake.h"
-#include "message/messageHandler.h"
+#include "messageHandler/messageHandler.h"
 #include "util/wifi/wifiUtil.h"
-#include "state/stateManager.h"
+#include "stateManager/stateManager.h"
 #include "stateent/base/intervalEvent/intervalEvent.h"
 
 bool handleHandshakes()

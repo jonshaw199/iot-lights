@@ -5,7 +5,7 @@
 #include <ArduinoOTA.h>
 
 #include "ota.h"
-#include "state/stateManager.h"
+#include "stateManager/stateManager.h"
 #include "util/wifi/wifiUtil.h"
 
 void OTA::setup()

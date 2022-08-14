@@ -9,12 +9,13 @@ class Slave : public EspEnt
   void configDeviceAP();
   void initESPNow();
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
-  void handleRunData(JSMessage m);
+  static void handleRunData(JSMessage m);
 
 public:
   void setup();
-  void loop();
   bool preStateChange(JSState s);
+  static bool handleInboxMsg(JSMessage m);
+  void setInboxMessageHandler();
 };
 
 #endif // STATEENT_ESPENT_SLAVE_SLAVE_H_

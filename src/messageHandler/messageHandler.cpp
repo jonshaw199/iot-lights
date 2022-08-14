@@ -1,6 +1,7 @@
 
 #include "messageHandler.h"
 #include "util/wifi/wifiUtil.h"
+#include "stateManager/stateManager.h"
 
 MessageHandler::MessageHandler()
 {
@@ -27,9 +28,9 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
   }
   else
   {
-    Serial.println("Delivery Fail");
+    // Serial.println("Delivery Fail");
     int peerDeviceID = getInstance().macToIDMap[WifiUtil::macToString(mac_addr)];
-    Serial.println("Peer ID " + String(peerDeviceID));
+    Serial.println("Delivery failed to peer ID " + String(peerDeviceID));
     getInstance().peerInfoMap[peerDeviceID].mutex.lock();
     // Check if there are more retries remaining and retry if so
     if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getSendCnt() - 1 < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
@@ -38,7 +39,7 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
       JSMessage msg = getInstance().peerInfoMap[peerDeviceID].lastMsg;
       msg.incrementSendCnt();
       msg.setRecipients({peerDeviceID}); // Only resending to 1 device!
-      getInstance().outbox.push(msg);
+      getInstance().outbox.enqueue(msg);
     }
     else
     {
@@ -46,11 +47,6 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
     }
     getInstance().peerInfoMap[peerDeviceID].mutex.unlock();
   }
-}
-
-bool MessageHandler::validateMsg(JSMessage m)
-{
-  return true;
 }
 
 void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
@@ -63,10 +59,7 @@ void MessageHandler::onDataRecv(const uint8_t *mac, const uint8_t *incomingData,
   js_message msg;
   memcpy(&msg, incomingData, sizeof(msg));
   JSMessage msgWrapper = msg;
-  if (validateMsg(msgWrapper))
-  {
-    getInstance().inbox.push(msgWrapper);
-  }
+  getInstance().inbox.enqueue(msgWrapper);
 }
 
 void MessageHandler::init()
@@ -176,7 +169,6 @@ void MessageHandler::scanForPeers(bool overwriteExisting)
     Serial.println("No peers found");
   }
 
-  // clean up ram
   WiFi.scanDelete();
 }
 
@@ -290,16 +282,6 @@ void MessageHandler::sendMsg(JSMessage msg)
   }
 }
 
-std::queue<JSMessage> &MessageHandler::getInbox()
-{
-  return getInstance().inbox;
-}
-
-std::queue<JSMessage> &MessageHandler::getOutbox()
-{
-  return getInstance().outbox;
-}
-
 void MessageHandler::sendHandshakeRequests(std::set<int> ids)
 {
   Serial.println("Sending handshake requests");
@@ -314,7 +296,7 @@ void MessageHandler::sendHandshakeRequests(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  getInstance().outbox.push(msg);
+  getInstance().outbox.enqueue(msg);
 
   for (std::set<int>::const_iterator it = ids.begin(); it != ids.end(); it++)
   {
@@ -354,7 +336,7 @@ void MessageHandler::sendHandshakeResponses(std::set<int> ids)
   // Set wrapper
   msg.setRecipients(ids);
 
-  getInstance().outbox.push(msg);
+  getInstance().outbox.enqueue(msg);
 }
 
 void MessageHandler::receiveHandshakeResponse(JSMessage m)
@@ -366,32 +348,6 @@ void MessageHandler::receiveHandshakeResponse(JSMessage m)
 const std::map<int, js_peer_info> &MessageHandler::getPeerInfoMap()
 {
   return getInstance().peerInfoMap;
-}
-
-// Shortcut for getting the most recent msg in the queue and popping along the way
-JSMessage MessageHandler::getAndPopInbox()
-{
-  JSMessage m;
-  while (MessageHandler::getInbox().size())
-  {
-    m = MessageHandler::getInbox().front();
-    MessageHandler::getInbox().pop();
-  }
-  return m;
-}
-
-JSMessage MessageHandler::popAndFrontInbox()
-{
-  JSMessage m;
-  if (MessageHandler::getInbox().size())
-  {
-    while (MessageHandler::getInbox().size() > 1)
-    {
-      MessageHandler::getInbox().pop();
-    }
-    m = MessageHandler::getInbox().front();
-  }
-  return m;
 }
 
 void MessageHandler::sendAllHandshakes()
@@ -410,4 +366,39 @@ std::set<int> MessageHandler::getPeerIDs()
     result.insert(it->first);
   }
   return result;
+}
+
+const TSQueue<JSMessage> &MessageHandler::getOutbox()
+{
+  return getInstance().outbox;
+}
+
+const TSQueue<JSMessage> &MessageHandler::getInbox()
+{
+  return getInstance().inbox;
+}
+
+void MessageHandler::handleInboxMessages()
+{
+  getInstance().inbox.handleMessages();
+}
+
+void MessageHandler::handleOutboxMessages()
+{
+  getInstance().outbox.handleMessages();
+}
+
+void MessageHandler::setInboxMsgHandler(msg_handler h)
+{
+  getInstance().inbox.setMsgHandler(h);
+}
+
+void MessageHandler::setOutboxMsgHandler(msg_handler h)
+{
+  getInstance().outbox.setMsgHandler(h);
+}
+
+void MessageHandler::pushOutbox(JSMessage m)
+{
+  getInstance().outbox.enqueue(m);
 }

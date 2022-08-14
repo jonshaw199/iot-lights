@@ -1,5 +1,5 @@
 #include "slaveHandshake.h"
-#include "message/messageHandler.h"
+#include "messageHandler/messageHandler.h"
 #include "util/wifi/wifiUtil.h"
 
 void SlaveHandshake::setup()

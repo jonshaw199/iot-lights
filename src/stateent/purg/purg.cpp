@@ -2,9 +2,9 @@
 #include <Arduino.h>
 
 #include "purg.h"
-#include "state/stateManager.h"
+#include "stateManager/stateManager.h"
 #include "message/message.h"
-#include "message/messageHandler.h"
+#include "messageHandler/messageHandler.h"
 
 Purg::Purg()
 {
@@ -21,7 +21,7 @@ void Purg::setup()
   msg.setType(TYPE_CHANGE_STATE);
   msg.setState(next);
   msg.setMaxRetries(RETRIES_PURG);
-  MessageHandler::getOutbox().push(msg);
+  MessageHandler::pushOutbox(msg);
 #endif
 }
 

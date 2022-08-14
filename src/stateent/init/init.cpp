@@ -1,6 +1,6 @@
 #include "init.h"
-#include "message/messageHandler.h"
-#include "state/stateManager.h"
+#include "messageHandler/messageHandler.h"
+#include "stateManager/stateManager.h"
 
 void Init::setup()
 {

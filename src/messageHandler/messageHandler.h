@@ -1,5 +1,5 @@
-#ifndef MESSAGE_MESSAGEHANDLER_H_
-#define MESSAGE_MESSAGEHANDLER_H_
+#ifndef MESSAGEHANDLER_MESSAGEHANDLER_H_
+#define MESSAGEHANDLER_MESSAGEHANDLER_H_
 
 #include <map>
 #include <queue>
@@ -9,7 +9,8 @@
 #include <Arduino.h>
 #include <mutex>
 
-#include "message.h"
+#include "message/message.h"
+#include "box/box.h"
 
 typedef struct js_peer_info
 {
@@ -27,11 +28,12 @@ class MessageHandler
   std::map<String, int> macToIDMap;
   uint8_t macAP[6];
   uint8_t macSTA[6];
-  std::queue<JSMessage> inbox;
-  std::queue<JSMessage> outbox;
+  // TSQueue<JSMessage> inbox;
+  // TSQueue<JSMessage> outbox;
+  Box inbox;
+  Box outbox;
   static void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
   static void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
-  static bool validateMsg(JSMessage m);
 
 public:
   static MessageHandler &getInstance();
@@ -41,17 +43,20 @@ public:
   static void init();
   static void deinit();
   static void initEspNow();
-  static std::queue<JSMessage> &getInbox();
   static void sendHandshakeRequests(std::set<int> ids);
   static void receiveHandshakeRequest(JSMessage m);
   static void sendHandshakeResponses(std::set<int> ids);
   static void receiveHandshakeResponse(JSMessage m);
   static const std::map<int, js_peer_info> &getPeerInfoMap(); // Read only
-  static JSMessage getAndPopInbox();
-  static JSMessage popAndFrontInbox();
-  static std::queue<JSMessage> &getOutbox();
   static void sendAllHandshakes();
   static std::set<int> getPeerIDs();
+  static const TSQueue<JSMessage> &getOutbox(); // Read only
+  static const TSQueue<JSMessage> &getInbox();  // Read only
+  static void handleInboxMessages();
+  static void handleOutboxMessages();
+  static void setInboxMsgHandler(msg_handler h);
+  static void setOutboxMsgHandler(msg_handler h);
+  static void pushOutbox(JSMessage m);
 };
 
-#endif // MESSAGE_MESSAGEHANDLER_H_
+#endif // MESSAGEHANDLER_MESSAGEHANDLER_H_

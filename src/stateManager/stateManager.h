@@ -1,6 +1,6 @@
 
-#ifndef STATE_STATEMANAGER_H_
-#define STATE_STATEMANAGER_H_
+#ifndef STATEMANAGER_STATEMANAGER_H_
+#define STATEMANAGER_STATEMANAGER_H_
 
 #include <queue>
 #include <map>
@@ -9,7 +9,7 @@
 #include <ESPAsyncWebServer.h>
 #include <WebSerial.h>
 
-#include "state.h"
+#include "state/state.h"
 #include "message/message.h"
 
 class StateManager
@@ -44,4 +44,4 @@ public:
   static void setBuiltinLED(bool on);
 };
 
-#endif // STATE_STATEMANAGER_H_
+#endif // STATEMANAGER_STATEMANAGER_H_
