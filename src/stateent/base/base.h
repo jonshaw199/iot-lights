@@ -13,17 +13,17 @@ class Base
 protected:
   unsigned long startMs;
   std::vector<IntervalEvent> intervalEvents;
+  static bool handleInboxMsg(JSMessage m);
+  static bool handleOutboxMsg(JSMessage m);
 
 public:
   Base();
   virtual void setup();
   virtual void loop();
   virtual bool preStateChange(JSState s);
-  static bool handleInboxMsg(JSMessage m);
-  static bool handleOutboxMsg(JSMessage m);
-  unsigned long getElapsedMs();
   virtual void setInboxMessageHandler();
   virtual void setOutboxMessageHandler();
+  unsigned long getElapsedMs();
 };
 
 #endif // STATEENT_BASE_BASE_H_
