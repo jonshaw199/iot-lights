@@ -42,7 +42,7 @@ build_flags =
   ; Delay
   -DDELAY_PREPARE_WIFI=500
   -DMS_PURG_DEFAULT=5000
-  -DMS_MASTER_LOOP=10000
+  -DMS_MASTER_LOOP=100
   -DMS_MASTER_HANDSHAKE_LOOP=333
   ; Lights
 	-DLED_CNT_BACK=287
@@ -52,6 +52,7 @@ build_flags =
 	-DLED_CNT_GARAGE_B=350
 	-DLED_CNT_FRONT=333
   -DLED_CNT_TEST=3 ; 3-led test strip
+  -DLED_BRIGHTNESS_LOW=33
 
 [ota]
 upload_protocol = espota

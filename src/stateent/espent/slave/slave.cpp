@@ -19,6 +19,8 @@ void Slave::loop()
     case TYPE_RUN_DATA:
       handleRunData(m);
       break;
+    default:
+      Serial.println("Message type unknown!!");
     }
   }
 

@@ -18,17 +18,19 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  Serial.print("Last Packet Sent to: ");
-  Serial.println(macStr);
-  Serial.print("Last Packet Send Status: ");
+  // Serial.print("Last Packet Sent to ");
+  // Serial.println(macStr);
+  // Serial.print("Last Packet Send Status: ");
   if (status == ESP_NOW_SEND_SUCCESS)
   {
-    Serial.println("Delivery Success");
+    // Serial.println("Delivery Success");
   }
   else
   {
     Serial.println("Delivery Fail");
     int peerDeviceID = getInstance().macToIDMap[WifiUtil::macToString(mac_addr)];
+    Serial.println("Peer ID " + String(peerDeviceID));
+    getInstance().peerInfoMap[peerDeviceID].mutex.lock();
     // Check if there are more retries remaining and retry if so
     if (getInstance().peerInfoMap[peerDeviceID].lastMsg.getSendCnt() - 1 < getInstance().peerInfoMap[peerDeviceID].lastMsg.getMaxRetries())
     {
@@ -42,6 +44,7 @@ void MessageHandler::onDataSent(const uint8_t *mac_addr, esp_now_send_status_t s
     {
       Serial.println("Max retries reached; not sending");
     }
+    getInstance().peerInfoMap[peerDeviceID].mutex.unlock();
   }
 }
 
@@ -236,15 +239,20 @@ void MessageHandler::sendMsg(JSMessage msg)
   std::set<int> recipientIDs = msg.getRecipients().size() ? msg.getRecipients() : getPeerIDs();
   for (std::set<int>::iterator it = recipientIDs.begin(); it != recipientIDs.end(); it++)
   {
-    Serial.println("Sending message to device ID " + String(*it) + " (MAC address " + WifiUtil::macToString(getInstance().peerInfoMap[*it].espnowPeerInfo.peer_addr) + ")");
+    getInstance().peerInfoMap[*it].mutex.lock();
+    // Update last msg sent for this peer (now doing this even if sending fails)
+    getInstance().peerInfoMap[*it].lastMsg = msg;
+    // Serial.println("Sending message to device ID " + String(*it) + " (MAC address " + WifiUtil::macToString(getInstance().peerInfoMap[*it].espnowPeerInfo.peer_addr) + ")");
     esp_err_t result = esp_now_send(getInstance().peerInfoMap[*it].espnowPeerInfo.peer_addr, (uint8_t *)&msg, sizeof(msg));
-    Serial.print("Send Status: ");
+    // Serial.print("Send Status: ");
+    if (result != ESP_OK)
+    {
+      Serial.println("Send failed to device ID " + String(*it) + "; reason: ");
+    }
     if (result == ESP_OK)
     {
-      Serial.println("Success");
+      // Serial.println("Success");
 
-      // Update last msg sent for this peer
-      memcpy(&getInstance().peerInfoMap[*it].lastMsg, &msg, sizeof(msg));
       // Update the send count of that last msg
       getInstance().peerInfoMap[*it].lastMsg.incrementSendCnt();
     }
@@ -277,6 +285,8 @@ void MessageHandler::sendMsg(JSMessage msg)
     {
       Serial.println("Not sure what happened");
     }
+    getInstance().peerInfoMap[*it].mutex.unlock();
+    delay(DELAY_SEND);
   }
 }
 
@@ -317,14 +327,17 @@ void MessageHandler::receiveHandshakeRequest(JSMessage m)
   Serial.println("Receiving handshake request from ID " + String(m.getSenderID()));
   Serial.print("Mac: ");
   WifiUtil::printMac(m.getSenderAPMac());
-  js_peer_info i;
-  memset(&i, 0, sizeof(i));
-  memcpy(&i.espnowPeerInfo.peer_addr, m.getSenderAPMac(), 6);
-  WifiUtil::printMac(i.espnowPeerInfo.peer_addr);
-  i.espnowPeerInfo.channel = ESPNOW_CHANNEL;
-  i.espnowPeerInfo.encrypt = 0; // No encryption
-  i.espnowPeerInfo.ifidx = WIFI_IF_AP;
-  memcpy(&getInstance().peerInfoMap[m.getSenderID()], &i, sizeof(i));
+
+  esp_now_peer_info_t ei;
+  memset(&ei, 0, sizeof(ei));
+  memcpy(&ei.peer_addr, m.getSenderAPMac(), 6);
+  ei.channel = ESPNOW_CHANNEL;
+  ei.encrypt = 0; // No encryption
+  ei.ifidx = WIFI_IF_AP;
+  getInstance().peerInfoMap[m.getSenderID()].espnowPeerInfo = ei;
+  getInstance().peerInfoMap[m.getSenderID()].handshakeResponse = false;
+  getInstance().peerInfoMap[m.getSenderID()].lastMsg = JSMessage();
+
   connectToPeers();
 }
 

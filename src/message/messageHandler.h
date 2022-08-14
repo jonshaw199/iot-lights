@@ -7,6 +7,7 @@
 #include <esp_now.h>
 #include <WiFi.h>
 #include <Arduino.h>
+#include <mutex>
 
 #include "message.h"
 
@@ -16,6 +17,7 @@ typedef struct js_peer_info
   bool handshakeRequest;
   bool handshakeResponse;
   JSMessage lastMsg;
+  std::mutex mutex;
 } js_peer_info;
 
 class MessageHandler
