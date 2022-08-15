@@ -71,8 +71,6 @@ void OTA::setup()
 
   // Connect to Wi-Fi network with SSID and password
   WiFi.begin(STRINGIFY(JSSSID), STRINGIFY(JSPASS));
-  Serial.println(STRINGIFY(JSSSID));
-  Serial.println(STRINGIFY(JSPASS));
   while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
     Serial.println("Connection Failed! Rebooting...");
