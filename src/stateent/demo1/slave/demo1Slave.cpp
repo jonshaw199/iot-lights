@@ -24,7 +24,9 @@ bool Demo1Slave::handleInboxMsg(JSMessage m)
   switch (m.getType())
   {
   case TYPE_RUN_DATA:
-    LED::fillColor(m.getColor());
+    CRGB c;
+    memcpy(&c, m.getData(), sizeof(c));
+    LED::fillColor(c);
     return true;
   }
 

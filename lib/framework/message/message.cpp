@@ -114,3 +114,13 @@ int JSMessage::getMaxRetries()
 {
   return maxRetries;
 }
+
+void JSMessage::setData(uint8_t *d)
+{
+  memcpy(msg.data, d, sizeof(msg.data));
+}
+
+const uint8_t *JSMessage::getData()
+{
+  return msg.data;
+}

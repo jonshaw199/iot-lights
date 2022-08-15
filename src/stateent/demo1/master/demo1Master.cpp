@@ -16,7 +16,8 @@ bool Demo1Master::demo1()
   msg.setType(TYPE_RUN_DATA);
   msg.setColor(LED::getRandColor());
   msg.setMaxRetries(MS_MASTER_LOOP >= 1000 ? DEFAULT_RETRIES : 0);
-
+  CRGB c = LED::getRandColor();
+  msg.setData((uint8_t *)&c);
   MessageHandler::pushOutbox(msg);
 
   return true;

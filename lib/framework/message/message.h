@@ -27,6 +27,7 @@ typedef struct js_message
   // State dependent
   uint8_t senderAPMac[6]; // Handshake
   CRGB color;             // Run
+  uint8_t data[100];
 } js_message;
 
 // This class is a wrapper around the js_message struct that actually gets sent using ESPNOW
@@ -60,6 +61,8 @@ public:
   int getSenderID();
   void setMaxRetries(int m);
   int getMaxRetries();
+  void setData(uint8_t *d);
+  const uint8_t *getData();
 };
 
 #endif // MESSAGE_MESSAGE_H_
