@@ -15,7 +15,7 @@
       "maintainer": true
     }
   ],
-  "license": "GNU AGPLv3",
+  "license": "LGPL-3.0",
   "dependencies": {
     "ESPAsyncWebServer": "https://github.com/me-no-dev/ESPAsyncWebServer.git",
     "fastled/FastLED": "^3.5.0",
