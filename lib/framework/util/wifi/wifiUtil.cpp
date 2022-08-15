@@ -20,6 +20,7 @@
 #include <WiFi.h>
 
 #include "wifiUtil.h"
+#include "util/stringify/stringify.h"
 
 void WifiUtil::prepareWifi()
 {
@@ -43,10 +44,10 @@ void WifiUtil::setAPMode()
 bool WifiUtil::broadcastAP()
 {
   Serial.println("Broadcasting soft AP");
-  String Prefix = DEVICE_PREFIX;
+  String Prefix = STRINGIFY(DEVICE_PREFIX);
   String id = String(JS_ID);
   String SSID = Prefix + id;
-  String Password = DEVICE_AP_PASS;
+  String Password = STRINGIFY(DEVICE_AP_PASS);
   return WiFi.softAP(SSID.c_str(), Password.c_str(), ESPNOW_CHANNEL, 0);
 }
 

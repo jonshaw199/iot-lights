@@ -25,6 +25,7 @@
 #include "ota.h"
 #include "stateManager/stateManager.h"
 #include "util/wifi/wifiUtil.h"
+#include "util/stringify/stringify.h"
 
 void OTA::setup()
 {
@@ -69,14 +70,14 @@ void OTA::setup()
 #endif
 
   // Connect to Wi-Fi network with SSID and password
-  WiFi.begin(JSSSID, JSPASS);
+  WiFi.begin(STRINGIFY(JSSSID), STRINGIFY(JSPASS));
+  Serial.println(STRINGIFY(JSSSID));
+  Serial.println(STRINGIFY(JSPASS));
   while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
-    // Serial.println("Connection Failed! Rebooting...");
-    // delay(5000);
-    // ESP.restart();
-    Serial.println("Connection failed! Retrying...");
-    WiFi.begin(JSSSID, JSPASS);
+    Serial.println("Connection Failed! Rebooting...");
+    delay(3000);
+    ESP.restart();
   }
 
   StateManager::initWebSerial();
