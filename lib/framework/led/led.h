@@ -2,20 +2,11 @@
 #ifndef LED_LED_H_
 #define LED_LED_H_
 
-#if JS_ID == 2
-#define CNT_A 287
-#define CNT_B 378
-#elif JS_ID == 3
-#define CNT_A 150
-#define CNT_B 0
-#elif JS_ID == 4
-#define CNT_A 409
-#define CNT_B 350
-#elif JS_ID == 5
-#define CNT_A 333
-#define CNT_B 0
-#else
-#define CNT_A 3
+#ifndef CNT_A
+#define CNT_A 0
+#endif
+
+#ifndef CNT_B
 #define CNT_B 0
 #endif
 
