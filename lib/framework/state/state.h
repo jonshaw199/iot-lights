@@ -1,7 +1,7 @@
 #ifndef STATE_STATE_H_
 #define STATE_STATE_H_
 
-enum JSState
+enum js_state
 {
   STATE_NONE,
   STATE_INIT,
