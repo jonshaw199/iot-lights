@@ -41,6 +41,8 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=181
+  -DCNT_A=287
+  -DCNT_B=378
 
 [2_ota]
 upload_port = 192.168.1.181
@@ -52,6 +54,7 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=182
+  -DCNT_A=150
 
 [3_ota]
 upload_port = 192.168.1.182
@@ -63,6 +66,8 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=183
+  -DCNT_A=409
+  -DCNT_B=350
 
 [4_ota]
 upload_port = 192.168.1.183
@@ -74,6 +79,7 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=184
+  -DCNT_A=333
 
 [5_ota]
 upload_port = 192.168.1.184
