@@ -1,0 +1,220 @@
+
+#include "stateManager.h"
+#include "stateent/ota/ota.h"
+#include "stateent/base/base.h"
+#include "stateent/restart/restart.h"
+#include "stateent/idle/idle.h"
+#include "stateent/handshake/master/masterHandshake.h"
+#include "stateent/handshake/slave/slaveHandshake.h"
+#include "stateent/init/init.h"
+#include "stateent/purg/purg.h"
+
+StateManager &StateManager::getInstance()
+{
+  static StateManager instance; // Guaranteed to be destroyed.
+                                // Instantiated on first use.
+  return instance;
+}
+
+int StateManager::getCurState()
+{
+  return getInstance().curState;
+}
+
+int StateManager::getPrevState()
+{
+  return getInstance().prevState;
+}
+
+void setStatePurgOTA()
+{
+  StateManager::getInstance().setRequestedState(STATE_PURG_OTA);
+}
+
+void setStateIdle()
+{
+  StateManager::getInstance().setRequestedState(STATE_IDLE);
+}
+
+void setStatePurgRestart()
+{
+  StateManager::getInstance().setRequestedState(STATE_PURG_RESTART);
+}
+
+void setStateHandshake()
+{
+  StateManager::getInstance().setRequestedState(STATE_HANDSHAKE);
+}
+
+void setStateInit()
+{
+  StateManager::getInstance().setRequestedState(STATE_INIT);
+}
+
+StateManager::StateManager()
+{
+  stateEntMap[STATE_INIT] = new Init();
+  stateEntMap[STATE_OTA] = new OTA();
+#ifdef MASTER
+  stateEntMap[STATE_HANDSHAKE] = new MasterHandshake();
+#else
+  stateEntMap[STATE_HANDSHAKE] = new SlaveHandshake();
+#endif
+  stateEntMap[STATE_RESTART] = new Restart();
+  stateEntMap[STATE_IDLE] = new Idle();
+  stateEntMap[STATE_PURG_OTA] = new Purg(STATE_OTA);
+  stateEntMap[STATE_PURG_RESTART] = new Purg(STATE_RESTART);
+
+  stringHandlerMap["s"] = setStateInit;
+  stringHandlerMap["o"] = setStatePurgOTA;
+  stringHandlerMap["h"] = setStateHandshake;
+  stringHandlerMap["k"] = setStatePurgRestart;
+  stringHandlerMap["i"] = setStateIdle;
+}
+
+void StateManager::init()
+{
+  int s = STATE_INIT;
+  getInstance().curState = s;
+  getInstance().requestedState = s;
+  getInstance().webServer = new AsyncWebServer(80);
+
+  handleStateChange(s);
+
+  StateManager::setRequestedState(STATE_HANDSHAKE);
+}
+
+void StateManager::setRequestedState(int s)
+{
+  getInstance().requestedState = s;
+}
+
+int StateManager::getRequestedState()
+{
+  return getInstance().requestedState;
+}
+
+void StateManager::changeToRequestedState()
+{
+  getInstance().prevState = getInstance().curState;
+  getInstance().curState = getInstance().requestedState;
+}
+
+void StateManager::handleUserInput(String s)
+{
+  if (getInstance().stringHandlerMap.count(s))
+  {
+    getInstance().stringHandlerMap[s]();
+  }
+  else
+  {
+    Serial.println("String input not recognized");
+  }
+}
+
+void StateManager::recvWebSerialMsg(uint8_t *data, size_t len)
+{
+  WebSerial.println("Received Data...");
+  String d = "";
+  for (int i = 0; i < len; i++)
+  {
+    d += char(data[i]);
+  }
+  WebSerial.println(d);
+  handleUserInput(d);
+}
+
+void StateManager::initWebSerial()
+{
+  Serial.println("Initializing WebSerial");
+  // WebSerial is accessible at "<IP Address>/webserial" in browser
+  WebSerial.begin(getInstance().webServer);
+  WebSerial.msgCallback(recvWebSerialMsg);
+  getInstance().webServer->begin();
+}
+
+void StateManager::deinitWebSerial()
+{
+  Serial.println("Deinitializing WebSerial");
+  getInstance().webServer->end();
+}
+
+String StateManager::stateToString(int s)
+{
+  switch (s)
+  {
+  case STATE_INIT:
+    return "STATE_INIT";
+  case STATE_PURG_OTA:
+    return "STATE_PURG_OTA";
+  case STATE_OTA:
+    return "STATE_OTA";
+  case STATE_IDLE:
+    return "STATE_IDLE";
+  case STATE_PURG_RESTART:
+    return "STATE_PURG_RESTART";
+  case STATE_RESTART:
+    return "STATE_RESTART";
+  case STATE_HANDSHAKE:
+    return "STATE_HANDSHAKE";
+  case STATE_NONE:
+    return "STATE_NONE";
+  default:
+    return "Unknown state";
+  }
+}
+
+void StateManager::setBuiltinLED(bool on)
+{
+#ifdef LED_BUILTIN
+  digitalWrite(LED_BUILTIN, on);
+#endif
+}
+
+bool StateManager::handleStateChange(int s)
+{
+  getInstance().stateEnt = getInstance().stateEntMap[s];
+  getInstance().stateEnt->setup();
+  getInstance().stateEnt->setInboxMessageHandler();
+  getInstance().stateEnt->setOutboxMessageHandler();
+  return true;
+}
+
+void StateManager::loop()
+{
+  // Handling this first instead of last; allows us to use init.loop() if we need it before switching to the requested state (or maybe we don't want to request a new state during init at all?)
+  getInstance().stateEnt->loop();
+
+  // Check if state change requested and proceed if stateEnt->preStateChange() says its ok
+  int curState = getCurState();
+  int requestedState = getRequestedState();
+  if (curState != requestedState)
+  {
+    Serial.println("Requested state change: " + StateManager::stateToString(requestedState));
+    if (getInstance().stateEnt->preStateChange(requestedState))
+    {
+      StateManager::changeToRequestedState();
+      StateManager::handleStateChange(requestedState);
+    }
+    else
+    {
+      Serial.println("State change rejected by preStateChange");
+    }
+  }
+  // Handling user input
+  if (Serial.available() > 0)
+  {
+    String s = Serial.readString();
+    handleUserInput(s);
+  }
+}
+
+void StateManager::registerStateEnt(int i, Base *s)
+{
+  getInstance().stateEntMap[i] = s;
+}
+
+void StateManager::registerStringHandler(String s, string_input_handler h)
+{
+  getInstance().stringHandlerMap[s] = h;
+}

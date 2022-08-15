@@ -1,0 +1,22 @@
+
+#include "demo1Master.h"
+#include "led/led.h"
+#include "state.h"
+
+Demo1Master::Demo1Master()
+{
+  intervalEvents.push_back(IntervalEvent(MS_MASTER_LOOP, demo1));
+}
+
+bool Demo1Master::demo1()
+{
+  JSMessage msg;
+  msg.setState(STATE_DEMO1);
+  msg.setType(TYPE_RUN_DATA);
+  msg.setColor(LED::getRandColor());
+  msg.setMaxRetries(MS_MASTER_LOOP >= 1000 ? DEFAULT_RETRIES : 0);
+
+  MessageHandler::pushOutbox(msg);
+
+  return true;
+}
