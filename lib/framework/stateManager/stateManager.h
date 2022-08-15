@@ -25,6 +25,7 @@ class StateManager
   Base *stateEnt;
   std::map<int, Base *> stateEntMap;
   std::map<String, string_input_handler> stringHandlerMap;
+  std::map<int, String> stateNameMap;
 
 protected:
   static void recvWebSerialMsg(uint8_t *data, size_t len);
@@ -44,7 +45,7 @@ public:
   static bool handleStateChange(int s);
   static void init();
   static void loop();
-  static void registerStateEnt(int i, Base *s);
+  static void registerStateEnt(int i, Base *s, String n);
   static void registerStringHandler(String s, string_input_handler h);
 };
 

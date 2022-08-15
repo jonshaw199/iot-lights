@@ -70,6 +70,15 @@ StateManager::StateManager()
   stringHandlerMap["h"] = setStateHandshake;
   stringHandlerMap["k"] = setStatePurgRestart;
   stringHandlerMap["i"] = setStateIdle;
+
+  stateNameMap[STATE_NONE] = "STATE_NONE";
+  stateNameMap[STATE_INIT] = "STATE_INIT";
+  stateNameMap[STATE_PURG_OTA] = "STATE_PURG_OTA";
+  stateNameMap[STATE_OTA] = "STATE_OTA";
+  stateNameMap[STATE_IDLE] = "STATE_IDLE";
+  stateNameMap[STATE_PURG_RESTART] = "STATE_PURG_RESTART";
+  stateNameMap[STATE_RESTART] = "STATE_RESTART";
+  stateNameMap[STATE_HANDSHAKE] = "STATE_HANDSHAKE";
 }
 
 void StateManager::init()
@@ -141,27 +150,7 @@ void StateManager::deinitWebSerial()
 
 String StateManager::stateToString(int s)
 {
-  switch (s)
-  {
-  case STATE_INIT:
-    return "STATE_INIT";
-  case STATE_PURG_OTA:
-    return "STATE_PURG_OTA";
-  case STATE_OTA:
-    return "STATE_OTA";
-  case STATE_IDLE:
-    return "STATE_IDLE";
-  case STATE_PURG_RESTART:
-    return "STATE_PURG_RESTART";
-  case STATE_RESTART:
-    return "STATE_RESTART";
-  case STATE_HANDSHAKE:
-    return "STATE_HANDSHAKE";
-  case STATE_NONE:
-    return "STATE_NONE";
-  default:
-    return "Unknown state";
-  }
+  return getInstance().stateNameMap[s];
 }
 
 void StateManager::setBuiltinLED(bool on)
@@ -209,9 +198,10 @@ void StateManager::loop()
   }
 }
 
-void StateManager::registerStateEnt(int i, Base *s)
+void StateManager::registerStateEnt(int i, Base *s, String n)
 {
   getInstance().stateEntMap[i] = s;
+  getInstance().stateNameMap[i] = n;
 }
 
 void StateManager::registerStringHandler(String s, string_input_handler h)

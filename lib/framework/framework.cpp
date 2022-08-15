@@ -14,9 +14,9 @@ void Framework::loop()
   StateManager::loop();
 }
 
-void Framework::registerStateEnt(int i, Base *s)
+void Framework::registerStateEnt(int i, Base *s, String n)
 {
-  StateManager::registerStateEnt(i, s);
+  StateManager::registerStateEnt(i, s, n);
 }
 
 void Framework::registerStringHandler(String s, string_input_handler h)

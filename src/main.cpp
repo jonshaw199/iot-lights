@@ -20,9 +20,9 @@ void setup()
   Serial.begin(JS_BAUD);
   Framework::setup();
 #ifdef MASTER
-  Framework::registerStateEnt(STATE_DEMO1, new Demo1Master());
+  Framework::registerStateEnt(STATE_DEMO1, new Demo1Master(), "STATE_DEMO1");
 #else
-  Framework::registerStateEnt(STATE_DEMO1, new Demo1Slave());
+  Framework::registerStateEnt(STATE_DEMO1, new Demo1Slave(), "STATE_DEMO1");
 #endif
   Framework::registerStringHandler("r", setStateDemo1);
 }
