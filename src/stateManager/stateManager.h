@@ -19,8 +19,6 @@ class StateManager
   JSState prevState;
   JSState requestedState;
   AsyncWebServer *webServer;
-  // Master only
-  std::map<int, JSState> slaveStates;
 
 protected:
   static void recvWebSerialMsg(uint8_t *data, size_t len);
@@ -37,10 +35,6 @@ public:
   static void initWebSerial();
   static void deinitWebSerial();
   static String stateToString(JSState s);
-  // Master only
-  static void setSlaveStates(std::map<int, JSState> s);
-  static void setSlaveState(int id, JSState s);
-  static std::map<int, JSState> getSlaveStates();
   static void setBuiltinLED(bool on);
 };
 

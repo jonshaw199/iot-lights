@@ -103,23 +103,6 @@ void StateManager::deinitWebSerial()
   getInstance().webServer->end();
 }
 
-void StateManager::setSlaveStates(std::map<int, JSState> s)
-{
-  getInstance().slaveStates = s;
-}
-
-void StateManager::setSlaveState(int id, JSState s)
-{
-  std::map<int, JSState> tmp = getInstance().slaveStates;
-  tmp[id] = s;
-  getInstance().slaveStates = tmp;
-}
-
-std::map<int, JSState> StateManager::getSlaveStates()
-{
-  return getInstance().slaveStates;
-}
-
 String StateManager::stateToString(JSState s)
 {
   switch (s)
