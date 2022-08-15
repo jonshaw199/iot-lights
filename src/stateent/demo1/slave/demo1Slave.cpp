@@ -1,8 +1,6 @@
 #include <led.h>
 
 #include "demo1Slave.h"
-#include "messageHandler/messageHandler.h"
-#include "stateManager/stateManager.h"
 
 void Demo1Slave::setup()
 {

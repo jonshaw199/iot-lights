@@ -10,8 +10,6 @@
 #endif
 #include "state.h"
 
-Framework framework;
-
 void setStateDemo1()
 {
   StateManager::getInstance().setRequestedState(STATE_DEMO1);
@@ -20,16 +18,16 @@ void setStateDemo1()
 void setup()
 {
   Serial.begin(JS_BAUD);
-  framework.setup();
+  Framework::setup();
 #ifdef MASTER
-  framework.registerStateEnt(STATE_DEMO1, new Demo1Master());
+  Framework::registerStateEnt(STATE_DEMO1, new Demo1Master());
 #else
-  framework.registerStateEnt(STATE_DEMO1, new Demo1Slave());
+  Framework::registerStateEnt(STATE_DEMO1, new Demo1Slave());
 #endif
-  framework.registerStringHandler("r", setStateDemo1);
+  Framework::registerStringHandler("r", setStateDemo1);
 }
 
 void loop()
 {
-  framework.loop();
+  Framework::loop();
 }

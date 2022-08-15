@@ -9,10 +9,10 @@
 class Framework
 {
 public:
-  void setup();
-  void loop();
-  void registerStateEnt(int i, Base *s);
-  void registerStringHandler(String s, string_input_handler h);
+  static void setup();
+  static void loop();
+  static void registerStateEnt(int i, Base *s);
+  static void registerStringHandler(String s, string_input_handler h);
 };
 
 #endif // FRAMEWORK_FRAMEWORK_H_
