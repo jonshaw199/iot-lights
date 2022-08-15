@@ -184,6 +184,7 @@ void StateManager::loop()
     {
       StateManager::changeToRequestedState();
       StateManager::handleStateChange(requestedState);
+      Serial.println("State change complete");
     }
     else
     {
