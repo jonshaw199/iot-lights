@@ -3,11 +3,10 @@
 #define LED_LED_H_
 
 #ifndef CNT_A
-#define CNT_A 0
+#define CNT_A 3 // Test strips
 #endif
-
 #ifndef CNT_B
-#define CNT_B 0
+#define CNT_B 3
 #endif
 
 #include <FastLED.h>
