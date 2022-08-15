@@ -50,12 +50,12 @@ int JSMessage::getSendCnt()
   return sendCnt;
 }
 
-void JSMessage::setType(MessageType t)
+void JSMessage::setType(int t)
 {
   msg.type = t;
 }
 
-MessageType JSMessage::getType()
+int JSMessage::getType()
 {
   return msg.type;
 }

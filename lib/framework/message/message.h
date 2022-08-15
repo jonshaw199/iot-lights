@@ -21,7 +21,7 @@ typedef struct js_message
   // Calculated
   int msgID;
   // Required
-  MessageType type;
+  int type;
   int senderID;
   int state;
   // State dependent
@@ -47,8 +47,8 @@ public:
   js_message asStruct();
   int incrementSendCnt();
   int getSendCnt();
-  void setType(MessageType t);
-  MessageType getType();
+  void setType(int t);
+  int getType();
   void setState(int s);
   int getState();
   void setColor(CRGB c);
