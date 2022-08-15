@@ -26,7 +26,7 @@ typedef struct js_message
   int state;
   // State dependent
   uint8_t senderAPMac[6]; // Handshake
-  CRGB color;             // Run
+
   uint8_t data[100];
 } js_message;
 

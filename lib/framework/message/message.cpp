@@ -8,7 +8,6 @@ JSMessage::JSMessage()
   msg.state = STATE_NONE;
   msg.msgID = msgID++;
   msg.senderID = JS_ID;
-  msg.color = CRGB::Black;
   msg.type = TYPE_NONE;
   recipients = {};
   sendCnt = 0;
