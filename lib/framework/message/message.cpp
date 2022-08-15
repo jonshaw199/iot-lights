@@ -1,12 +1,9 @@
 #include "message.h"
 
-int JSMessage::msgID = -1;
-
 JSMessage::JSMessage()
 {
   msg = {};
   msg.state = STATE_NONE;
-  msg.msgID = msgID++;
   msg.senderID = JS_ID;
   msg.type = TYPE_NONE;
   recipients = {};
@@ -72,11 +69,6 @@ int JSMessage::getState()
 void JSMessage::setSenderAPMac(uint8_t *m)
 {
   memcpy(&msg.senderAPMac, m, 6);
-}
-
-int JSMessage::getMsgID()
-{
-  return msg.msgID;
 }
 
 void JSMessage::setSenderID(int id)

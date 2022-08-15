@@ -19,7 +19,7 @@ enum MessageType
 typedef struct js_message
 {
   // Calculated
-  int msgID;
+  // int msgID;
   // Required
   int type;
   int senderID;
@@ -36,7 +36,6 @@ class JSMessage
   js_message msg;
   std::set<int> recipients;
   int sendCnt;
-  static int msgID;
   int retries;
   int maxRetries;
 
@@ -54,7 +53,6 @@ public:
   int getState();
   void setSenderAPMac(uint8_t *m);
   uint8_t *getSenderAPMac();
-  int getMsgID();
   void setSenderID(int id);
   int getSenderID();
   void setMaxRetries(int m);
