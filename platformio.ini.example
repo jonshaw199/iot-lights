@@ -14,17 +14,8 @@ framework = arduino
 monitor_speed = 115200
 build_flags = 
   -DJS_BAUD=115200
-  -DDEFAULT_RETRIES=3
-  '-DJSSSID="js-guest"',
-  '-DJSPASS="B1g5lams!"',
-  -DGATEWAY_A=192
-	-DGATEWAY_B=168
-	-DGATEWAY_C=1
-	-DGATEWAY_D=254
-	-DSUBNET_A=255
-	-DSUBNET_B=255
-	-DSUBNET_C=255
-	-DSUBNET_D=0
+  -DJSSSID=ssid-here
+  -DJSPASS=pass-here
   -DMS_DEMO1_LOOP=100
 
 [ota]
