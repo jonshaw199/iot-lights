@@ -20,8 +20,7 @@
 #ifndef BOX_BOX_H_
 #define BOX_BOX_H_
 
-#include <tsQueue.h>
-
+#include "tsQueue/tsQueue.h"
 #include "message/message.h"
 
 typedef bool (*msg_handler)(JSMessage m);

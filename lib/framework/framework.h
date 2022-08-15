@@ -24,6 +24,7 @@
 
 #include "messageHandler/messageHandler.h"
 #include "stateManager/stateManager.h"
+#include "led/led.h"
 
 class Framework
 {
