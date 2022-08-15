@@ -69,16 +69,6 @@ int JSMessage::getState()
   return msg.state;
 }
 
-void JSMessage::setColor(CRGB c)
-{
-  msg.color = c;
-}
-
-CRGB JSMessage::getColor()
-{
-  return msg.color;
-}
-
 void JSMessage::setSenderAPMac(uint8_t *m)
 {
   memcpy(&msg.senderAPMac, m, 6);

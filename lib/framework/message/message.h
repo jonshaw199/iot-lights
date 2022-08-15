@@ -52,8 +52,6 @@ public:
   int getType();
   void setState(int s);
   int getState();
-  void setColor(CRGB c);
-  CRGB getColor();
   void setSenderAPMac(uint8_t *m);
   uint8_t *getSenderAPMac();
   int getMsgID();
