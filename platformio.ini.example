@@ -12,24 +12,24 @@
 platform = espressif32
 framework = arduino
 monitor_speed = 115200
+lib_deps = jonshaw199/AF1@^1.0.1
 build_flags = 
-  -DJS_BAUD=115200
-  -DJSSSID=ssid-here
-  -DJSPASS=pass-here
-  -DMS_DEMO1_LOOP=100
+	-DJS_BAUD=115200
+	-DJSSSID=js-guest
+	-DJSPASS=B1g5lams!
+	-DMS_DEMO1_LOOP=1000
 
 [ota]
 upload_protocol = espota
 
 [1]
-build_flags =
+build_flags = 
 	-DJS_ID=1
 	-DJS_IP_A=192
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=180
-  ; Master
-  -DMASTER=true
+	-DMASTER=true
 
 [1_ota]
 upload_port = 192.168.1.180
@@ -41,8 +41,8 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=181
-  -DCNT_A=287
-  -DCNT_B=378
+	-DCNT_A=287
+	-DCNT_B=378
 
 [2_ota]
 upload_port = 192.168.1.181
@@ -54,7 +54,7 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=182
-  -DCNT_A=150
+	-DCNT_A=150
 
 [3_ota]
 upload_port = 192.168.1.182
@@ -66,8 +66,8 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=183
-  -DCNT_A=409
-  -DCNT_B=350
+	-DCNT_A=409
+	-DCNT_B=350
 
 [4_ota]
 upload_port = 192.168.1.183
@@ -79,7 +79,7 @@ build_flags =
 	-DJS_IP_B=168
 	-DJS_IP_C=1
 	-DJS_IP_D=184
-  -DCNT_A=333
+	-DCNT_A=333
 
 [5_ota]
 upload_port = 192.168.1.184
@@ -274,5 +274,3 @@ build_flags = ${base.build_flags} ${12.build_flags} ${esp32_s3_devkitc_1.build_f
 [env:esp32_s3_devkitc_1_12_ota]
 extends = base, esp32_s3_devkitc_1, 12, ota, 12_ota
 build_flags = ${base.build_flags} ${12.build_flags} ${esp32_s3_devkitc_1.build_flags}
-
-
