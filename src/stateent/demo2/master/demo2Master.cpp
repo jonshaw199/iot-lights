@@ -1,6 +1,7 @@
 
 #include "demo2Master.h"
 #include "state.h"
+#include "led/led.h"
 
 Demo2Master::Demo2Master()
 {

@@ -1,5 +1,6 @@
 
 #include "demo1Slave.h"
+#include "led/led.h"
 
 void Demo1Slave::setup()
 {
