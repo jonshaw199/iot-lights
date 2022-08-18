@@ -6,6 +6,7 @@
 class Demo2Master : public Base
 {
   static bool demo2();
+  static void sendMsg(uint8_t b);
 
 public:
   Demo2Master();

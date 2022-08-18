@@ -45,3 +45,13 @@ CRGB LED::getRandColor()
   int i = rand() % 4;
   return options[i];
 }
+
+const uint8_t LED::getBrightness()
+{
+  return getInstance().brightness;
+}
+
+void LED::setBrightness(uint8_t b)
+{
+  getInstance().brightness = b;
+}
