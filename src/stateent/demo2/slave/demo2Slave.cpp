@@ -1,6 +1,7 @@
 
 #include "demo2Slave.h"
 #include "led/led.h"
+#include "stateent/demo2/demo2.h"
 
 void Demo2Slave::setup()
 {
@@ -24,9 +25,10 @@ bool Demo2Slave::handleInboxMsg(JSMessage m)
   switch (m.getType())
   {
   case TYPE_RUN_DATA:
-    CRGB c;
-    memcpy(&c, m.getData(), sizeof(c));
-    LED::fillColor(c);
+    demo2_data d;
+    memcpy(&d, m.getData(), sizeof(d));
+    LED::setBrightness(d.brightness);
+    LED::fillColor(d.color);
     return true;
   }
 
