@@ -5,7 +5,7 @@
 
 class Demo1Master : public Base
 {
-  static bool demo1();
+  static bool demo1(IECBArg a);
 
 public:
   Demo1Master();

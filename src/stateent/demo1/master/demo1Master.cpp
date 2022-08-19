@@ -8,7 +8,7 @@ Demo1Master::Demo1Master()
   intervalEvents.push_back(IntervalEvent(MS_DEMO1_LOOP, demo1));
 }
 
-bool Demo1Master::demo1()
+bool Demo1Master::demo1(IECBArg a)
 {
   JSMessage msg;
   msg.setState(STATE_DEMO1);

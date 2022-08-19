@@ -5,7 +5,7 @@
 
 class Demo2Master : public Base
 {
-  static bool demo2();
+  static bool demo2(IECBArg a);
   static void sendMsg(uint8_t b);
 
 public:

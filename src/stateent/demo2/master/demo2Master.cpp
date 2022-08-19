@@ -9,9 +9,10 @@ Demo2Master::Demo2Master()
   intervalEvents.push_back(IntervalEvent(MS_DEMO2_LOOP, demo2));
 }
 
-bool Demo2Master::demo2()
+bool Demo2Master::demo2(IECBArg a)
 {
-
+  Serial.print("ElapsedMs: ");
+  Serial.println(a.getElapsedMs());
   return true;
 }
 
