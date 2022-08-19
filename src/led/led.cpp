@@ -22,7 +22,7 @@ void LED::init()
   {
     FastLED.addLeds<WS2812, LED_PIN_B, GRB>(getInstance().ledsB, CNT_B);
   }
-  FastLED.setBrightness(LED_BRIGHTNESS_LOW);
+  FastLED.setBrightness(DEMO1_BRIGHTNESS);
 }
 
 void LED::fillColor(CRGB color)
