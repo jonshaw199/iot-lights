@@ -58,4 +58,29 @@
     "typeinfo": "cpp",
     "queue": "cpp"
   }
+  /*
+  "deploy.reloaded": {
+    "packages": [
+      {
+        "name": "Version 2.3.4",
+        "description": "Package version 2.3.4",
+
+        "files": ["lib/AF1/**"],
+        // "exclude": ["tests/**"],
+
+        "deployOnSave": ["AF1 Lib"]
+      }
+    ],
+
+    "targets": [
+      {
+        "type": "local",
+        "name": "AF1 Lib",
+        "description": "Local lib",
+
+        "dir": "C:/Users/jonsh/OneDrive/Documents/PlatformIO/Projects/AF1"
+      }
+    ]
+  }
+  */
 }
