@@ -1,7 +1,7 @@
 
 #include "demo2Slave.h"
 #include "led/led.h"
-#include "stateent/demo2/demo2.h"
+#include "stateEnt/demo2/demo2.h"
 
 void Demo2Slave::setup()
 {

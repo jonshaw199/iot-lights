@@ -4,11 +4,11 @@
 #include <framework.h>
 
 #ifdef MASTER
-#include "stateent/demo1/master/demo1Master.h"
-#include "stateent/demo2/master/demo2Master.h"
+#include "stateEnt/demo1/master/demo1Master.h"
+#include "stateEnt/demo2/master/demo2Master.h"
 #else
-#include "stateent/demo1/slave/demo1Slave.h"
-#include "stateent/demo2/slave/demo2Slave.h"
+#include "stateEnt/demo1/slave/demo1Slave.h"
+#include "stateEnt/demo2/slave/demo2Slave.h"
 #endif
 #include "state.h"
 

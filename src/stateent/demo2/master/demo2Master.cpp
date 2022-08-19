@@ -2,7 +2,7 @@
 #include "demo2Master.h"
 #include "state.h"
 #include "led/led.h"
-#include "stateent/demo2/demo2.h"
+#include "stateEnt/demo2/demo2.h"
 
 Demo2Master::Demo2Master()
 {
