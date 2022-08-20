@@ -1,18 +1,18 @@
 
 #include "led.h"
 
-LED::LED()
+JSLED::JSLED()
 {
 }
 
-LED &LED::getInstance()
+JSLED &JSLED::getInstance()
 {
-  static LED instance; // Guaranteed to be destroyed.
-                       // Instantiated on first use.
+  static JSLED instance; // Guaranteed to be destroyed.
+                         // Instantiated on first use.
   return instance;
 }
 
-void LED::init()
+void JSLED::init()
 {
   if (CNT_A)
   {
@@ -25,7 +25,7 @@ void LED::init()
   FastLED.setBrightness(DEMO1_BRIGHTNESS);
 }
 
-void LED::fillColor(CRGB color)
+void JSLED::fillColor(CRGB color)
 {
   Serial.println("Filling color");
   if (CNT_A)
@@ -39,19 +39,19 @@ void LED::fillColor(CRGB color)
   FastLED.show();
 }
 
-CRGB LED::getRandColor()
+CRGB JSLED::getRandColor()
 {
   CRGB options[] = {CRGB::Red, CRGB::Blue, CRGB::Green, CRGB::White};
   int i = rand() % 4;
   return options[i];
 }
 
-const uint8_t LED::getBrightness()
+const uint8_t JSLED::getBrightness()
 {
   return getInstance().brightness;
 }
 
-void LED::setBrightness(uint8_t b)
+void JSLED::setBrightness(uint8_t b)
 {
   getInstance().brightness = b;
 }

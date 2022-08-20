@@ -13,9 +13,9 @@
 
 #include <framework.h>
 
-class LED
+class JSLED
 {
-  LED();
+  JSLED();
   CRGB ledsA[CNT_A];
   CRGB ledsB[CNT_B];
   uint8_t brightness = 0;
@@ -23,7 +23,7 @@ class LED
 
 public:
   // LED(); // Now singleton
-  static LED &getInstance();
+  static JSLED &getInstance();
   static void init();
   static void fillColor(CRGB color);
   static CRGB getRandColor();

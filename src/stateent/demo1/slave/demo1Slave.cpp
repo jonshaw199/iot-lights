@@ -5,7 +5,7 @@
 void Demo1Slave::setup()
 {
   Base::setup();
-  LED::init();
+  JSLED::init();
 }
 
 bool Demo1Slave::preStateChange(int s)
@@ -14,7 +14,7 @@ bool Demo1Slave::preStateChange(int s)
   if (baseResult)
   {
     Serial.println("Turning off lights on the way out");
-    LED::fillColor(CRGB::Black);
+    JSLED::fillColor(CRGB::Black);
   }
   return baseResult;
 }
@@ -26,7 +26,7 @@ bool Demo1Slave::handleInboxMsg(JSMessage m)
   case TYPE_RUN_DATA:
     CRGB c;
     memcpy(&c, m.getData(), sizeof(c));
-    LED::fillColor(c);
+    JSLED::fillColor(c);
     return true;
   }
 
