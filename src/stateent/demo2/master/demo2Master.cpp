@@ -4,8 +4,9 @@
 #include "led/led.h"
 #include "stateEnt/demo2/demo2.h"
 
-const float Demo2Master::coefs[] = {0, .1, .3, .5, .7, .9, 1, 1, .9, .7, .5, .3, .1, 0, 0};
-const unsigned long Demo2Master::sceneMs = 10000;
+const float Demo2Master::coefs[] = {0, .5, .1, .15, .3, .5, .7, .9, 1, 1, .9, .7, .5, .3, .15, .1, .5, 0, 0};
+const unsigned long Demo2Master::sceneMs = 7000;
+const uint8_t Demo2Master::maxBrightness = 100;
 
 Demo2Master::Demo2Master()
 {
@@ -14,9 +15,8 @@ Demo2Master::Demo2Master()
 
 bool Demo2Master::demo2(IECBArg a)
 {
-  Serial.print("ElapsedMs: ");
-  Serial.println(a.getElapsedMs());
-  getCurCoef(a.getElapsedMs());
+  uint8_t brightness = getCurCoef(a.getElapsedMs()) * maxBrightness;
+  sendMsg(brightness);
   return true;
 }
 

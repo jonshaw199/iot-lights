@@ -10,6 +10,7 @@ class Demo2Master : public Base
   static const float coefs[];
   static const unsigned long sceneMs;
   static float getCurCoef(unsigned long elapsedMs);
+  static const uint8_t maxBrightness;
 
 public:
   Demo2Master();
