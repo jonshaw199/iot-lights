@@ -4,8 +4,8 @@
 #include "led/led.h"
 #include "stateEnt/demo2/demo2.h"
 
-const float Demo2Master::coefs[] = {0, .5, .1, .15, .3, .5, .7, .9, 1, 1, .9, .7, .5, .3, .15, .1, .5, 0, 0};
-const unsigned long Demo2Master::sceneMs = 7000;
+const float Demo2Master::coefs[] = {0, .005, .01, .03, .05, .1, .15, .3, .5, .7, .9, 1, 1, .9, .7, .5, .3, .15, .1, .05, .03, .01, .005, 0, 0};
+const unsigned long Demo2Master::sceneMs = 9000;
 const uint8_t Demo2Master::maxBrightness = 100;
 
 Demo2Master::Demo2Master()
