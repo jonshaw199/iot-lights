@@ -54,4 +54,5 @@ const uint8_t JSLED::getBrightness()
 void JSLED::setBrightness(uint8_t b)
 {
   getInstance().brightness = b;
+  FastLED.setBrightness(b);
 }
