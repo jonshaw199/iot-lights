@@ -7,6 +7,9 @@ class Demo2Master : public Base
 {
   static bool demo2(IECBArg a);
   static void sendMsg(uint8_t b);
+  static const float coefs[];
+  static const unsigned long sceneMs;
+  static float getCurCoef(unsigned long elapsedMs);
 
 public:
   Demo2Master();
