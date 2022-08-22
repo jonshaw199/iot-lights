@@ -3,12 +3,12 @@
 
 #include <framework.h>
 
-class demo3Master : public Base
+class Demo3Master : public Base
 {
   static bool demo3(IECBArg a);
 
 public:
-  demo3Master();
+  Demo3Master();
 };
 
 #endif // STATEENT_DEMO3_MASTER_DEMO3MASTER_H_
