@@ -27,7 +27,6 @@ void JSLED::init()
 
 void JSLED::fillColor(CRGB color)
 {
-  Serial.println("Filling color");
   if (CNT_A)
   {
     fill_solid(getInstance().ledsA, CNT_A, color);
