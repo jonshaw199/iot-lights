@@ -3,7 +3,7 @@
 
 #include <framework.h>
 
-class demo3Slave : public Base
+class Demo3Slave : public Base
 {
 public:
   void setup();

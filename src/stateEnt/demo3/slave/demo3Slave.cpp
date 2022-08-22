@@ -3,13 +3,13 @@
 #include "led/led.h"
 #include "stateEnt/demo3/demo3.h"
 
-void demo3Slave::setup()
+void Demo3Slave::setup()
 {
   Base::setup();
   JSLED::init();
 }
 
-bool demo3Slave::preStateChange(int s)
+bool Demo3Slave::preStateChange(int s)
 {
   bool baseResult = Base::preStateChange(s);
   if (baseResult)
@@ -20,7 +20,7 @@ bool demo3Slave::preStateChange(int s)
   return baseResult;
 }
 
-bool demo3Slave::handleInboxMsg(JSMessage m)
+bool Demo3Slave::handleInboxMsg(JSMessage m)
 {
   switch (m.getType())
   {
@@ -35,7 +35,7 @@ bool demo3Slave::handleInboxMsg(JSMessage m)
   return Base::handleInboxMsg(m);
 }
 
-void demo3Slave::setInboxMessageHandler()
+void Demo3Slave::setInboxMessageHandler()
 {
   MessageHandler::setInboxMsgHandler(handleInboxMsg);
 }
