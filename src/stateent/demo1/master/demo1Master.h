@@ -3,7 +3,7 @@
 
 #include <framework.h>
 
-class Demo1Master : public ESPNowEnt
+class Demo1Master : public ESPNowEntMaster
 {
   static bool demo1(IECBArg a);
 
