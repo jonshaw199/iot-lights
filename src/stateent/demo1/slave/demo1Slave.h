@@ -3,7 +3,7 @@
 
 #include <framework.h>
 
-class Demo1Slave : public Base
+class Demo1Slave : public ESPNowEnt
 {
 public:
   void setup();
