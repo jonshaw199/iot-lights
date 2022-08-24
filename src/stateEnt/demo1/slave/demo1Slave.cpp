@@ -35,5 +35,5 @@ bool Demo1Slave::handleInboxMsg(JSMessage m)
 
 void Demo1Slave::setInboxMessageHandler()
 {
-  MessageHandler::setInboxMsgHandler(handleInboxMsg);
+  setInboxMsgHandler(handleInboxMsg);
 }

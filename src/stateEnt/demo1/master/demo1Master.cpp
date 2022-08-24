@@ -16,7 +16,7 @@ bool Demo1Master::demo1(IECBArg a)
   msg.setMaxRetries(MS_DEMO1_LOOP >= 1000 ? 3 : 0);
   CRGB c = JSLED::getRandColor();
   msg.setData((uint8_t *)&c);
-  MessageHandler::pushOutbox(msg);
+  pushOutbox(msg);
 
   return true;
 }

@@ -33,7 +33,7 @@ void Demo2Master::sendMsg(uint8_t b)
   demo2_data d;
   d.brightness = b;
   msg.setData((uint8_t *)&d);
-  MessageHandler::pushOutbox(msg);
+  pushOutbox(msg);
 }
 
 // Smooths out transitions from one coef to the next
