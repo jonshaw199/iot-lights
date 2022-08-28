@@ -5,7 +5,8 @@ enum js_state_extended
 {
   STATE_DEMO1,
   STATE_DEMO2,
-  STATE_DEMO3
+  STATE_DEMO3,
+  STATE_DEMO4
 };
 
 #endif // STATE_H_

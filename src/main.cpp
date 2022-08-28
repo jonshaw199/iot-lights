@@ -13,6 +13,7 @@
 #include "stateEnt/demo3/slave/demo3Slave.h"
 #endif
 #include "state.h"
+#include "stateEnt/demo4/demo4.h"
 
 void setStateDemo1()
 {
@@ -29,6 +30,11 @@ void setStateDemo3()
   StateManager::getInstance().setRequestedState(STATE_DEMO3);
 }
 
+void setStateDemo4()
+{
+  StateManager::getInstance().setRequestedState(STATE_DEMO4);
+}
+
 void setup()
 {
   Serial.begin(JS_BAUD);
@@ -42,9 +48,11 @@ void setup()
   Framework::registerStateEnt(STATE_DEMO2, new Demo2Slave(), "STATE_DEMO2");
   Framework::registerStateEnt(STATE_DEMO3, new Demo3Slave(), "STATE_DEMO3");
 #endif
+  Framework::registerStateEnt(STATE_DEMO4, new Demo4(), "STATE_DEMO4");
   Framework::registerStringHandler("1", setStateDemo1);
   Framework::registerStringHandler("2", setStateDemo2);
   Framework::registerStringHandler("3", setStateDemo3);
+  Framework::registerStringHandler("4", setStateDemo4);
 }
 
 void loop()
