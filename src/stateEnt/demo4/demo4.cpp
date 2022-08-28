@@ -25,8 +25,10 @@ bool Demo4::handleInboxMsg(JSMessage m)
   case TYPE_RUN_DATA:
     uint8_t b = m.getJson()["brightness"];
     JSLED::setBrightness(b);
-    JSLED::fillColor(CRGB::Red);
-    Serial.println(b);
+    uint8_t r = m.getJson()["red"];
+    uint8_t g = m.getJson()["green"];
+    uint8_t b2 = m.getJson()["blue"];
+    JSLED::fillColor(CRGB(r, g, b2));
     return true;
   }
 
