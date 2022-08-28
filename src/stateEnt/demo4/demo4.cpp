@@ -23,10 +23,10 @@ bool Demo4::handleInboxMsg(JSMessage m)
   switch (m.getType())
   {
   case TYPE_RUN_DATA:
-    demo4_data d;
-    memcpy(&d, m.getData(), sizeof(d));
-    JSLED::setBrightness(d.brightness);
-    JSLED::fillColor(d.color);
+    uint8_t b = m.getJson()["brightness"];
+    JSLED::setBrightness(b);
+    JSLED::fillColor(CRGB::Red);
+    Serial.println(b);
     return true;
   }
 
