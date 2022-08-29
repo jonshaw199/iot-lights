@@ -22,7 +22,7 @@
 
 #include <FastLED.h>
 
-#include <framework.h>
+#include <AF1.h>
 
 class JSLED
 {

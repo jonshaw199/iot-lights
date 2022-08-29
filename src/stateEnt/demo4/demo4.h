@@ -1,7 +1,7 @@
 #ifndef STATEENT_DEMO4_DEMO4_H_
 #define STATEENT_DEMO4_DEMO4_H_
 
-#include <framework.h>
+#include <AF1.h>
 
 class Demo4 : public WSEnt
 {

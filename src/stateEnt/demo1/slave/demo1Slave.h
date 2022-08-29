@@ -1,7 +1,7 @@
 #ifndef STATEENT_DEMO1_SLAVE_DEMO1SLAVE_H_
 #define STATEENT_DEMO1_SLAVE_DEMO1SLAVE_H_
 
-#include <framework.h>
+#include <AF1.h>
 
 class Demo1Slave : public ESPNowEnt
 {

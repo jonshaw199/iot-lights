@@ -1,7 +1,7 @@
 #ifndef STATEENT_DEMO2_MASTER_DEMO2MASTER_H_
 #define STATEENT_DEMO2_MASTER_DEMO2MASTER_H_
 
-#include <framework.h>
+#include <AF1.h>
 
 class Demo2Master : public ESPNowEnt
 {
