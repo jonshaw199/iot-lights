@@ -5,8 +5,6 @@
 
 class Demo1Master : public ESPNowEnt
 {
-  static bool demo1(IECBArg a);
-
 public:
   Demo1Master();
 };

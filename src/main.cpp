@@ -15,26 +15,6 @@
 #include "state.h"
 #include "stateEnt/demo4/demo4.h"
 
-void setStateDemo1()
-{
-  AF1::setRequestedState(STATE_DEMO1);
-}
-
-void setStateDemo2()
-{
-  AF1::setRequestedState(STATE_DEMO2);
-}
-
-void setStateDemo3()
-{
-  AF1::setRequestedState(STATE_DEMO3);
-}
-
-void setStateDemo4()
-{
-  AF1::setRequestedState(STATE_DEMO4);
-}
-
 void setup()
 {
   Serial.begin(JS_BAUD);
@@ -49,10 +29,14 @@ void setup()
   AF1::registerStateEnt(STATE_DEMO3, new Demo3Slave(), "STATE_DEMO3");
 #endif
   AF1::registerStateEnt(STATE_DEMO4, new Demo4(), "STATE_DEMO4");
-  AF1::registerStringHandler("1", setStateDemo1);
-  AF1::registerStringHandler("2", setStateDemo2);
-  AF1::registerStringHandler("3", setStateDemo3);
-  AF1::registerStringHandler("4", setStateDemo4);
+  AF1::registerStringHandler("1", []()
+                             { AF1::setRequestedState(STATE_DEMO1); });
+  AF1::registerStringHandler("2", []()
+                             { AF1::setRequestedState(STATE_DEMO2); });
+  AF1::registerStringHandler("3", []()
+                             { AF1::setRequestedState(STATE_DEMO3); });
+  AF1::registerStringHandler("4", []()
+                             { AF1::setRequestedState(STATE_DEMO4); });
 }
 
 void loop()

@@ -5,11 +5,8 @@
 
 Demo1Master::Demo1Master()
 {
-  intervalEvents.push_back(IntervalEvent(MS_DEMO1_LOOP, demo1));
-}
-
-bool Demo1Master::demo1(IECBArg a)
-{
+  intervalEvents.push_back(IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
+                                         {
   JSMessage msg;
   msg.setState(STATE_DEMO1);
   msg.setType(TYPE_RUN_DATA);
@@ -18,5 +15,5 @@ bool Demo1Master::demo1(IECBArg a)
   msg.setData((uint8_t *)&c);
   pushOutbox(msg);
 
-  return true;
+  return true; }));
 }
