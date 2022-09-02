@@ -33,7 +33,7 @@ bool Demo1Slave::handleInboxMsg(JSMessage m)
   return Base::handleInboxMsg(m);
 }
 
-void Demo1Slave::setInboxMessageHandler()
+void Demo1Slave::overrideInboxHandler()
 {
   setInboxMsgHandler(handleInboxMsg);
 }

@@ -35,7 +35,7 @@ bool Demo4::handleInboxMsg(JSMessage m)
   return WSEnt::handleInboxMsg(m);
 }
 
-void Demo4::setInboxMessageHandler()
+void Demo4::overrideInboxHandler()
 {
   setInboxMsgHandler(handleInboxMsg);
 }

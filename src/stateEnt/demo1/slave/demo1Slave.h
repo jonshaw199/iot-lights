@@ -9,7 +9,7 @@ public:
   void setup();
   bool preStateChange(int s);
   static bool handleInboxMsg(JSMessage m);
-  void setInboxMessageHandler();
+  void overrideInboxHandler();
 };
 
 #endif // STATEENT_DEMO1_SLAVE_DEMO1SLAVE_H_
