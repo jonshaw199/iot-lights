@@ -39,6 +39,7 @@ void setup()
                              { AF1::setRequestedState(STATE_DEMO3); });
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
+  AF1::setInitialState(STATE_IDLE_WS);
 }
 
 void loop()
