@@ -11,7 +11,7 @@ void Demo2Slave::setup()
 
 bool Demo2Slave::preStateChange(int s)
 {
-  bool baseResult = Base::preStateChange(s);
+  bool baseResult = ESPNowEnt::preStateChange(s);
   if (baseResult)
   {
     Serial.println("Turning off lights on the way out");
