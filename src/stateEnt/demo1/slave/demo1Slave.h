@@ -7,7 +7,7 @@ class Demo1Slave : public ESPNowEnt
 {
 public:
   void setup();
-  bool preStateChange(int s);
+  bool validateStateChange(int s);
   static bool handleInboxMsg(JSMessage m);
   void overrideInboxHandler();
 };

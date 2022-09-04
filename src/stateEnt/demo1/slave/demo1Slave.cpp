@@ -8,9 +8,9 @@ void Demo1Slave::setup()
   JSLED::init();
 }
 
-bool Demo1Slave::preStateChange(int s)
+bool Demo1Slave::validateStateChange(int s)
 {
-  bool baseResult = ESPNowEnt::preStateChange(s);
+  bool baseResult = ESPNowEnt::validateStateChange(s);
   if (baseResult)
   {
     Serial.println("Turning off lights on the way out");

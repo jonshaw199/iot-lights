@@ -5,8 +5,8 @@
 
 Demo1Master::Demo1Master()
 {
-  intervalEvents.push_back(IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
-                                         {
+  intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1Master_1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
+                                                                                          {
   JSMessage msg;
   msg.setState(STATE_DEMO1);
   msg.setType(TYPE_RUN_DATA);
@@ -15,5 +15,5 @@ Demo1Master::Demo1Master()
   msg.setData((uint8_t *)&c);
   pushOutbox(msg);
 
-  return true; }));
+  return true; })));
 }

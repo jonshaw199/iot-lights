@@ -7,9 +7,9 @@ void Demo4::setup()
   JSLED::init();
 }
 
-bool Demo4::preStateChange(int s)
+bool Demo4::validateStateChange(int s)
 {
-  bool baseResult = WSEnt::preStateChange(s);
+  bool baseResult = WSEnt::validateStateChange(s);
   if (baseResult)
   {
     Serial.println("Turning off lights on the way out");
