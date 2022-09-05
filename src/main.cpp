@@ -3,7 +3,7 @@
 
 #include <AF1.h>
 
-#ifdef MASTER
+#if MASTER
 #include "stateEnt/demo1/master/demo1Master.h"
 #include "stateEnt/demo2/master/demo2Master.h"
 #else
@@ -19,7 +19,7 @@ void setup()
   AF1::setup();
   AF1::registerWifiAP("js-guest", "B1g5lams!", JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
   AF1::registerWSServer("192.168.1.65", "/ws", 3000);
-#ifdef MASTER
+#if MASTER
   AF1::registerStateEnt(STATE_DEMO1, new Demo1Master(), "STATE_DEMO1");
   AF1::registerStateEnt(STATE_DEMO2, new Demo2Master(), "STATE_DEMO2");
 #else
