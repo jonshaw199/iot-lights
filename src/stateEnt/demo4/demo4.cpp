@@ -1,7 +1,7 @@
 #include "demo4.h"
 #include "led/led.h"
 
-Demo4::Demo4() : WSEnt{"192.168.1.65", "/ws", 3000} {}
+Demo4::Demo4() : WSEnt{"192.168.1.65", "/lights/ws", 3000} {}
 
 void Demo4::setup()
 {
