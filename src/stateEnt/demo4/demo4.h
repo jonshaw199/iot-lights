@@ -5,6 +5,8 @@
 
 class Demo4 : public WSEnt
 {
+public:
+  Demo4();
   void setup();
   bool validateStateChange(int s);
   static bool handleInboxMsg(JSMessage m);
