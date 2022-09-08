@@ -25,7 +25,9 @@ void setup()
   AF1::registerStateEnt(STATE_DEMO1, new Demo1Slave(), "STATE_DEMO1");
   AF1::registerStateEnt(STATE_DEMO2, new Demo2Slave(), "STATE_DEMO2");
 #endif
-  AF1::registerStateEnt(STATE_DEMO4, new Demo4(), "STATE_DEMO4");
+  Demo4 *d = new Demo4();
+  AF1::registerStateEnt(STATE_DEMO4, d, "STATE_DEMO4");
+  AF1::registerStateEnt(STATE_DEMO5, d, "STATE_DEMO5");
   AF1::registerStringHandler("1", []()
                              { AF1::setRequestedState(STATE_DEMO1); });
   AF1::registerStringHandler("2", []()
@@ -33,6 +35,7 @@ void setup()
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
   AF1::setInitialState(STATE_IDLE_WS);
+  AF1::setDefaultWSServerInfo(STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT);
 }
 
 void loop()
