@@ -8,7 +8,7 @@ class Demo2Slave : public ESPNowEnt
 public:
   void setup();
   bool validateStateChange(int s);
-  static bool handleInboxMsg(JSMessage m);
+  static bool handleInboxMsg(AF1Msg m);
   void overrideInboxHandler();
 };
 

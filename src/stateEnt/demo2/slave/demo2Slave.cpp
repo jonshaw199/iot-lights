@@ -20,7 +20,7 @@ bool Demo2Slave::validateStateChange(int s)
   return baseResult;
 }
 
-bool Demo2Slave::handleInboxMsg(JSMessage m)
+bool Demo2Slave::handleInboxMsg(AF1Msg m)
 {
   switch (m.getType())
   {

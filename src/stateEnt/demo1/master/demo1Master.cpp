@@ -7,7 +7,7 @@ Demo1Master::Demo1Master()
 {
   intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1Master_1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
                                                                                           {
-  JSMessage msg;
+  AF1Msg msg;
   msg.setState(STATE_DEMO1);
   msg.setType(TYPE_RUN_DATA);
   msg.setMaxRetries(MS_DEMO1_LOOP >= 1000 ? 3 : 0);

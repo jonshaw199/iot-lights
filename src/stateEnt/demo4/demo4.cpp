@@ -20,7 +20,7 @@ bool Demo4::validateStateChange(int s)
   return baseResult;
 }
 
-bool Demo4::handleInboxMsg(JSMessage m)
+bool Demo4::handleInboxMsg(AF1Msg m)
 {
   switch (m.getType())
   {
