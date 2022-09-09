@@ -20,8 +20,9 @@ bool Demo4::validateStateChange(int s)
   return baseResult;
 }
 
-bool Demo4::handleInboxMsg(AF1Msg m)
+void Demo4::handleInboxMsg(AF1Msg m)
 {
+  WSEnt::handleInboxMsg(m);
   switch (m.getType())
   {
   case TYPE_RUN_DATA:
@@ -31,10 +32,7 @@ bool Demo4::handleInboxMsg(AF1Msg m)
     uint8_t g = m.getJson()["green"];
     uint8_t b2 = m.getJson()["blue"];
     JSLED::fillColor(CRGB(r, g, b2));
-    return true;
   }
-
-  return WSEnt::handleInboxMsg(m);
 }
 
 void Demo4::overrideInboxHandler()

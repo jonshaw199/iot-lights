@@ -9,7 +9,7 @@ public:
   Demo4();
   void setup();
   bool validateStateChange(int s);
-  static bool handleInboxMsg(AF1Msg m);
+  static void handleInboxMsg(AF1Msg m);
   void overrideInboxHandler();
 };
 
