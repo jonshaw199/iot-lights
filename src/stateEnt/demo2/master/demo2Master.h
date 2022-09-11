@@ -3,7 +3,7 @@
 
 #include <AF1.h>
 
-class Demo2Master : public ESPNowEnt
+class Demo2Master : public Base
 {
   static bool demo2(IECBArg a);
   static void sendMsg(uint8_t b);

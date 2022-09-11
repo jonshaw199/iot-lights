@@ -1,28 +1,22 @@
 #include "demo4.h"
 #include "led/led.h"
 
-Demo4::Demo4() : WSEnt{STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT} {}
-
 void Demo4::setup()
 {
-  WSEnt::setup();
+  Base::setup();
   JSLED::init();
 }
 
-bool Demo4::validateStateChange(int s)
+void Demo4::preStateChange(int s)
 {
-  bool baseResult = WSEnt::validateStateChange(s);
-  if (baseResult)
-  {
-    Serial.println("Turning off lights on the way out");
-    JSLED::fillColor(CRGB::Black);
-  }
-  return baseResult;
+  Base::preStateChange(s);
+  Serial.println("Turning off lights on the way out");
+  JSLED::fillColor(CRGB::Black);
 }
 
 void Demo4::handleInboxMsg(AF1Msg m)
 {
-  WSEnt::handleInboxMsg(m);
+  Base::handleInboxMsg(m);
   switch (m.getType())
   {
   case TYPE_RUN_DATA:

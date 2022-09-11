@@ -3,11 +3,11 @@
 
 #include <AF1.h>
 
-class Demo2Slave : public ESPNowEnt
+class Demo2Slave : public Base
 {
 public:
   void setup();
-  bool validateStateChange(int s);
+  void preStateChange(int s);
   static void handleInboxMsg(AF1Msg m);
   void overrideInboxHandler();
 };

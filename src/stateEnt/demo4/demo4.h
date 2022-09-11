@@ -3,12 +3,11 @@
 
 #include <AF1.h>
 
-class Demo4 : public WSEnt
+class Demo4 : public Base
 {
 public:
-  Demo4();
   void setup();
-  bool validateStateChange(int s);
+  void preStateChange(int s);
   static void handleInboxMsg(AF1Msg m);
   void overrideInboxHandler();
 };

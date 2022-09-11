@@ -8,7 +8,7 @@ const float Demo2Master::coefs[] = {0, .00001, .0001, .0003, .0005, .001, .003, 
 const unsigned long Demo2Master::sceneMs = 7000;
 const uint8_t Demo2Master::maxBrightness = 150;
 
-Demo2Master::Demo2Master()
+Demo2Master::Demo2Master() : Base()
 {
   intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo2Master_1", IntervalEvent(MS_DEMO2_LOOP, demo2)));
 }

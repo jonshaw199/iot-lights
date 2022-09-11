@@ -3,7 +3,7 @@
 #include "state.h"
 #include "led/led.h"
 
-Demo1Master::Demo1Master()
+Demo1Master::Demo1Master() : Base()
 {
   intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1Master_1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
                                                                                           {

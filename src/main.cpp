@@ -26,6 +26,7 @@ void setup()
   AF1::registerStateEnt(STATE_DEMO2, new Demo2Slave(), "STATE_DEMO2");
 #endif
   Demo4 *d = new Demo4();
+  d->setWSClientInfo({"192.168.1.65", "/rc/demo5/ws", 3000, ""});
   AF1::registerStateEnt(STATE_DEMO4, d, "STATE_DEMO4");
   AF1::registerStateEnt(STATE_DEMO5, d, "STATE_DEMO5");
   AF1::registerStringHandler("1", []()
@@ -34,8 +35,8 @@ void setup()
                              { AF1::setRequestedState(STATE_DEMO2); });
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
-  AF1::setInitialState(STATE_IDLE_WS);
-  AF1::setDefaultWSClientInfo(STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT, STRINGIFY(WS_PROTOCOL));
+  AF1::setInitialState(STATE_IDLE_BASE);
+  AF1::setDefaultWSClientInfo({STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT, STRINGIFY(WS_PROTOCOL)});
 }
 
 void loop()

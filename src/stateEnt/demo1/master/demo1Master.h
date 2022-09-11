@@ -3,7 +3,7 @@
 
 #include <AF1.h>
 
-class Demo1Master : public ESPNowEnt
+class Demo1Master : public Base
 {
 public:
   Demo1Master();

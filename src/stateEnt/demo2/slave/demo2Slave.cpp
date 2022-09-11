@@ -9,15 +9,11 @@ void Demo2Slave::setup()
   JSLED::init();
 }
 
-bool Demo2Slave::validateStateChange(int s)
+void Demo2Slave::preStateChange(int s)
 {
-  bool baseResult = ESPNowEnt::validateStateChange(s);
-  if (baseResult)
-  {
-    Serial.println("Turning off lights on the way out");
-    JSLED::fillColor(CRGB::Black);
-  }
-  return baseResult;
+  Base::preStateChange(s);
+  Serial.println("Turning off lights on the way out");
+  JSLED::fillColor(CRGB::Black);
 }
 
 void Demo2Slave::handleInboxMsg(AF1Msg m)
