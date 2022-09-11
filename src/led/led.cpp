@@ -16,11 +16,19 @@ void JSLED::init()
 {
   if (CNT_A)
   {
+#if LED_2811
+    FastLED.addLeds<WS2811, LED_PIN_A>(getInstance().ledsA, CNT_A);
+#else
     FastLED.addLeds<WS2812, LED_PIN_A, GRB>(getInstance().ledsA, CNT_A);
+#endif
   }
   if (CNT_B)
   {
+#if LED_2811
+    FastLED.addLeds<WS2811, LED_PIN_B>(getInstance().ledsB, CNT_B);
+#else
     FastLED.addLeds<WS2812, LED_PIN_B, GRB>(getInstance().ledsB, CNT_B);
+#endif
   }
   FastLED.setBrightness(DEMO1_BRIGHTNESS);
 }
