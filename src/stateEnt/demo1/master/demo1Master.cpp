@@ -3,7 +3,7 @@
 #include "state.h"
 #include "led/led.h"
 
-Demo1Master::Demo1Master() : Base()
+Demo1Master::Demo1Master()
 {
   intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1Master_1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
                                                                                           {
@@ -16,4 +16,9 @@ Demo1Master::Demo1Master() : Base()
   pushOutbox(msg);
 
   return true; })));
+}
+
+String Demo1Master::getName()
+{
+  return "STATE_DEMO1_MASTER";
 }

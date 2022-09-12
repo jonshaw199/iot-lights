@@ -33,3 +33,8 @@ void Demo4::overrideInboxHandler()
 {
   setInboxMsgHandler(handleInboxMsg);
 }
+
+String Demo4::getName()
+{
+  return "STATE_DEMO4";
+}

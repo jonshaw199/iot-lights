@@ -8,7 +8,7 @@ const float Demo2Master::coefs[] = {0, .00001, .0001, .0003, .0005, .001, .003, 
 const unsigned long Demo2Master::sceneMs = 7000;
 const uint8_t Demo2Master::maxBrightness = 150;
 
-Demo2Master::Demo2Master() : Base()
+Demo2Master::Demo2Master()
 {
   intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo2Master_1", IntervalEvent(MS_DEMO2_LOOP, demo2)));
 }
@@ -22,6 +22,7 @@ bool Demo2Master::demo2(IECBArg a)
 
 void Demo2Master::setup()
 {
+  Base::setup();
   sendMsg(0);
 }
 
@@ -54,4 +55,9 @@ float Demo2Master::getCurCoef(unsigned long elapsedMs)
   float rem = coefArrIdxRem * dif;
   float result = min == coefA ? min + rem : max - rem;
   return result;
+}
+
+String Demo2Master::getName()
+{
+  return "STATE_DEMO2_MASTER";
 }

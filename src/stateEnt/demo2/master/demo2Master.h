@@ -15,6 +15,7 @@ class Demo2Master : public Base
 public:
   Demo2Master();
   void setup();
+  String getName();
 };
 
 #endif // STATEENT_DEMO2_MASTER_DEMO2MASTER_H_

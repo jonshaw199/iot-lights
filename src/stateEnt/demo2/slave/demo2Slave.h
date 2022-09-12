@@ -10,6 +10,7 @@ public:
   void preStateChange(int s);
   static void handleInboxMsg(AF1Msg m);
   void overrideInboxHandler();
+  String getName();
 };
 
 #endif // STATEENT_DEMO2_SLAVE_DEMO1SLAVE_H_

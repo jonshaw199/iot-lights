@@ -31,3 +31,8 @@ void Demo1Slave::overrideInboxHandler()
 {
   setInboxMsgHandler(handleInboxMsg);
 }
+
+String Demo1Slave::getName()
+{
+  return "STATE_DEMO1_SLAVE";
+}
