@@ -3,18 +3,25 @@
 #include "state.h"
 #include "led/led.h"
 
+typedef struct demo1_data
+{
+  int r;
+  int g;
+  int b;
+} demo1_data;
+
 Demo1::Demo1()
 {
 #if MASTER
-  intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1Master_1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
-                                                                                          {
+  intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
+                                                                                  {
   AF1Msg msg;
   msg.setState(STATE_DEMO1);
   msg.setType(TYPE_RUN_DATA);
   msg.setMaxRetries(MS_DEMO1_LOOP >= 1000 ? 3 : 0);
-  msg.getJson()["r"] = 250;
-  msg.getJson()["g"] = 0;
-  msg.getJson()["b"] = 0;
+  msg.getJson()["r"] = rand() % 250;
+  msg.getJson()["g"] = rand() % 250;
+  msg.getJson()["b"] = rand() % 250;
   pushOutbox(msg);
 
   return true; })));
@@ -38,24 +45,14 @@ void Demo1::overrideInboxHandler()
 {
   setInboxMsgHandler([](AF1Msg m)
                      {
-  Base::handleInboxMsg(m);
-  Serial.println(0);
-  switch (m.getType())
-  {
-  case TYPE_RUN_DATA:
-  Serial.println(1);
-  Serial.println((int) m.getJson()["r"]);
-    CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
-    JSLED::fillColor(c);
-  } });
+    Base::handleInboxMsg(m);
+    switch (m.getType()) {
+    case TYPE_RUN_DATA:        
+      CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
+      JSLED::fillColor(c);
+      break;
+    } });
 }
-
-typedef struct demo1_data
-{
-  int r;
-  int g;
-  int b;
-} demo1_data;
 
 String Demo1::getName()
 {

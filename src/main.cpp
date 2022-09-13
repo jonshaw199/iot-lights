@@ -4,11 +4,7 @@
 #include <AF1.h>
 
 #include "stateEnt/demo1/demo1.h"
-#if MASTER
-#include "stateEnt/demo2/master/demo2Master.h"
-#else
-#include "stateEnt/demo2/slave/demo2Slave.h"
-#endif
+#include "stateEnt/demo2/demo2.h"
 #include "state.h"
 #include "stateEnt/demo4/demo4.h"
 
@@ -18,11 +14,7 @@ void setup()
   AF1::registerWifiAP("js-guest", "B1g5lams!", JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
   AF1::setup(JS_ID);
   AF1::registerStateEnt(STATE_DEMO1, new Demo1());
-#if MASTER
-  AF1::registerStateEnt(STATE_DEMO2, new Demo2Master());
-#else
-  AF1::registerStateEnt(STATE_DEMO2, new Demo2Slave());
-#endif
+  AF1::registerStateEnt(STATE_DEMO2, new Demo2());
   Demo4 *d = new Demo4();
   d->setWSClientInfo({"192.168.1.65", "/rc/demo5/ws", 3000, ""});
   AF1::registerStateEnt(STATE_DEMO4, d);
