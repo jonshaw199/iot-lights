@@ -32,6 +32,7 @@ void Demo1::setup()
 {
   Base::setup();
   JSLED::init();
+  JSLED::setBrightness(10);
 }
 
 void Demo1::preStateChange(int s)

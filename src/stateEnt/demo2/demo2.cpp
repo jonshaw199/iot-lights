@@ -15,7 +15,7 @@ typedef struct demo2_data
 
 const float Demo2::coefs[] = {0, .00001, .0001, .0003, .0005, .001, .003, .005, .01, .03, .05, .1, .15, .3, .5, .7, .9, 1, 1, 1, .9, .7, .5, .3, .15, .1, .05, .03, .01, .005, .003, .001, .0005, 0};
 const unsigned long Demo2::sceneMs = 7000;
-const uint8_t Demo2::maxBrightness = 150;
+const uint8_t Demo2::maxBrightness = 25;
 
 Demo2::Demo2()
 {
