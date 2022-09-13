@@ -98,3 +98,8 @@ float Demo2::getCurCoef(unsigned long elapsedMs)
   float result = min == coefA ? min + rem : max - rem;
   return result;
 }
+
+bool Demo2::scanForESPNowPeers()
+{
+  return false;
+}

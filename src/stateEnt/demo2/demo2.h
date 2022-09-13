@@ -18,6 +18,7 @@ public:
   void serializeESPNow(AF1Msg &m);
   void deserializeESPNow(AF1Msg &m);
   String getName();
+  bool scanForESPNowPeers();
 };
 
 #endif // STATEENT_DEMO2_DEMO2_H_
