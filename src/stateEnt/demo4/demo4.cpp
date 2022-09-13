@@ -1,6 +1,13 @@
 #include "demo4.h"
 #include "led/led.h"
 
+Demo4::Demo4() {}
+
+Demo4::Demo4(ws_client_info i)
+{
+  setWSClientInfo(i);
+}
+
 void Demo4::setup()
 {
   Base::setup();
