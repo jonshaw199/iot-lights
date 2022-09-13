@@ -1,11 +1,10 @@
 
 #include <Arduino.h>
-
 #include <AF1.h>
 
+#include "state.h"
 #include "stateEnt/demo1/demo1.h"
 #include "stateEnt/demo2/demo2.h"
-#include "state.h"
 #include "stateEnt/demo4/demo4.h"
 
 void setup()
