@@ -23,8 +23,6 @@ void setup()
                              { AF1::setRequestedState(STATE_DEMO2); });
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
-  AF1::registerStringHandler("5", []()
-                             { AF1::setRequestedMode(AF1::getCurMode() == MODE_BASIC ? MODE_MESH : MODE_BASIC); });
   AF1::setInitialState(STATE_IDLE_BASE);
   AF1::setDefaultWSClientInfo({STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT, STRINGIFY(WS_PROTOCOL)});
 }
