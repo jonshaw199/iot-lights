@@ -47,11 +47,13 @@ void Demo1::overrideInboxHandler()
   setInboxMsgHandler([](AF1Msg m)
                      {
     Base::handleInboxMsg(m);
+    if (m.getState() == STATE_DEMO1) {
     switch (m.getType()) {
     case TYPE_RUN_DATA:        
       CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
       JSLED::fillColor(c);
       break;
+    }
     } });
 }
 
