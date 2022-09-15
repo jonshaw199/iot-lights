@@ -14,9 +14,8 @@ void setup()
   AF1::setup(JS_ID);
   AF1::registerStateEnt(STATE_DEMO1, new Demo1());
   AF1::registerStateEnt(STATE_DEMO2, new Demo2());
-  Demo4 *d = new Demo4({"192.168.1.65", "/rc/demo5/ws", 3000, ""});
-  AF1::registerStateEnt(STATE_DEMO4, d);
-  AF1::registerStateEnt(STATE_DEMO5, d);
+  AF1::registerStateEnt(STATE_DEMO4, new Demo4());
+  AF1::registerStateEnt(STATE_DEMO5, new Demo4({"192.168.1.65", "/rc/demo5/ws", 3000, ""}));
   AF1::registerStringHandler("1", []()
                              { AF1::setRequestedState(STATE_DEMO1); });
   AF1::registerStringHandler("2", []()

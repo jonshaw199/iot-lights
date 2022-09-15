@@ -6,6 +6,7 @@
 class Demo4 : public Base
 {
 public:
+  Demo4();
   Demo4(ws_client_info i);
   void setup();
   void preStateChange(int s);
