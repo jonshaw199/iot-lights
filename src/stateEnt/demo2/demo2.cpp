@@ -49,12 +49,14 @@ void Demo2::overrideInboxHandler()
   setInboxMsgHandler([](AF1Msg m)
                      {
     Base::handleInboxMsg(m);
-    switch (m.getType()) {
-    case TYPE_RUN_DATA:   
-      JSLED::setBrightness(m.getJson()["brightness"]); 
-      CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
-      JSLED::fillColor(c);
-      break;
+    if (m.getState() == STATE_DEMO2) {
+      switch (m.getType()) {
+      case TYPE_RUN_DATA:   
+        JSLED::setBrightness(m.getJson()["brightness"]); 
+        CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
+        JSLED::fillColor(c);
+        break;
+      } 
     } });
 }
 
