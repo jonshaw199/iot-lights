@@ -40,9 +40,9 @@ void Demo4::handleInboxMsg(AF1Msg m)
   }
 }
 
-void Demo4::overrideInboxHandler()
+msg_handler Demo4::getInboxHandler()
 {
-  setInboxMsgHandler(handleInboxMsg);
+  return handleInboxMsg;
 }
 
 String Demo4::getName()

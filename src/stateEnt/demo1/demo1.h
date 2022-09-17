@@ -9,7 +9,7 @@ public:
   Demo1();
   void setup();
   void preStateChange(int s);
-  void overrideInboxHandler();
+  msg_handler getInboxHandler();
   void serializeESPNow(AF1Msg &m);
   void deserializeESPNow(AF1Msg &m);
   String getName();

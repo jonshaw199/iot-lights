@@ -11,7 +11,7 @@ public:
   void setup();
   void preStateChange(int s);
   static void handleInboxMsg(AF1Msg m);
-  void overrideInboxHandler();
+  msg_handler getInboxHandler();
   String getName();
 };
 

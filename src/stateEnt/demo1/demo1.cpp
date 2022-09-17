@@ -42,19 +42,22 @@ void Demo1::preStateChange(int s)
   JSLED::fillColor(CRGB::Black);
 }
 
-void Demo1::overrideInboxHandler()
+msg_handler Demo1::getInboxHandler()
 {
-  setInboxMsgHandler([](AF1Msg m)
-                     {
+  return [](AF1Msg m)
+  {
     Base::handleInboxMsg(m);
-    if (m.getState() == STATE_DEMO1) {
-      switch (m.getType()) {
-      case TYPE_RUN_DATA:        
+    if (m.getState() == STATE_DEMO1)
+    {
+      switch (m.getType())
+      {
+      case TYPE_RUN_DATA:
         CRGB c(m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]);
         JSLED::fillColor(c);
         break;
       }
-    } });
+    }
+  };
 }
 
 String Demo1::getName()
