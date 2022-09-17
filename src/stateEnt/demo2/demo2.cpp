@@ -104,7 +104,7 @@ float Demo2::getCurCoef(unsigned long elapsedMs)
   return result;
 }
 
-bool Demo2::scanForESPNowPeers()
+bool Demo2::doScanForPeersESPNow()
 {
   return false;
 }
