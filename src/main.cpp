@@ -10,7 +10,7 @@
 void setup()
 {
   Serial.begin(JS_BAUD);
-  AF1::registerWifiAP("js-guest", "B1g5lams!lol", JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
+  AF1::registerWifiAP("js-guest", "B1g5lams!", JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
   AF1::setup(JS_ID);
   AF1::registerStateEnt(STATE_DEMO1, new Demo1());
   AF1::registerStateEnt(STATE_DEMO2, new Demo2());
