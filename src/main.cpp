@@ -23,7 +23,7 @@ void setup()
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
   AF1::setInitialState(STATE_IDLE_BASE);
-  AF1::setDefaultWSClientInfo({STRINGIFY(WS_HOST), STRINGIFY(WS_PATH), WS_PORT, STRINGIFY(WS_PROTOCOL)});
+  AF1::setDefaultWSClientInfo({WS_HOST, WS_PATH, WS_PORT, WS_PROTOCOL});
 }
 
 void loop()
