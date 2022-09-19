@@ -6,12 +6,14 @@ unsigned long long Demo3::showtime = 0;
 
 void Demo3::start()
 {
-    StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_Start", IntervalEvent(300, [](IECBArg a)
-                                                                                                                               {
+    StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_Start", IntervalEvent(
+                                                                                                                     300, [](IECBArg a)
+                                                                                                                     {
             Serial.println("Do");
             on = !on;
             setBuiltinLED(on);
-            return true; })));
+            return true; },
+                                                                                                                     -1, true)));
 }
 
 void Demo3::scheduleStart()
@@ -20,15 +22,20 @@ void Demo3::scheduleStart()
     Serial.print("Current time: ");
     Serial.print(millis());
     Serial.print("; Showtime: ");
-    Serial.println(showtime);
+    Serial.print(showtime);
+
+    unsigned long long rem = showtime - millis();
+    Serial.print("(");
+    Serial.print(rem);
+    Serial.println(" ms remaining)");
 
     StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_ScheduleStart", IntervalEvent(
-                                                                                                                             showtime, [](IECBArg a)
+                                                                                                                             rem, [](IECBArg a)
                                                                                                                              {
             Serial.println("Starting");
             start();
             return true; },
-                                                                                                                             1)));
+                                                                                                                             1, true)));
 }
 
 Demo3::Demo3()
