@@ -9,7 +9,6 @@ void Demo3::start()
     StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_Start", IntervalEvent(
                                                                                                                      300, [](IECBArg a)
                                                                                                                      {
-            Serial.println("Do");
             on = !on;
             setBuiltinLED(on);
             return true; },
@@ -24,10 +23,9 @@ void Demo3::scheduleStart()
     Serial.print("; Showtime: ");
     Serial.print(showtime);
 
-    unsigned long long rem = showtime - millis();
-    Serial.print("(");
-    Serial.print(rem);
-    Serial.println(" ms remaining)");
+    unsigned long long rem = showtime - StateManager::getCurStateEnt()->getStartMs();
+    Serial.print("; rem: ");
+    Serial.println(rem);
 
     StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_ScheduleStart", IntervalEvent(
                                                                                                                              rem, [](IECBArg a)
