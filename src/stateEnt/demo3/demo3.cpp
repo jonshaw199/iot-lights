@@ -41,7 +41,7 @@ Demo3::Demo3()
 #if MASTER
     // Schedule send start time
     intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo3_Sendshowtimeg", IntervalEvent(
-                                                                                        6000, [](IECBArg a)
+                                                                                        3000, [](IECBArg a)
                                                                                         {
             AF1Msg msg;
             msg.setState(STATE_DEMO3);
@@ -87,4 +87,9 @@ msg_handler Demo3::getInboxHandler()
 bool Demo3::doScanForPeersESPNow()
 {
     return false;
+}
+
+void Demo3::preStateChange(int s)
+{
+    setBuiltinLED(0);
 }

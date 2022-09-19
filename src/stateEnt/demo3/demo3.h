@@ -19,6 +19,7 @@ public:
     void setup();
     msg_handler getInboxHandler();
     bool doScanForPeersESPNow();
+    void preStateChange(int s);
     static bool on;
     static unsigned long long showtime;
 };
