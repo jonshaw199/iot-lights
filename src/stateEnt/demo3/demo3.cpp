@@ -91,5 +91,6 @@ bool Demo3::doScanForPeersESPNow()
 
 void Demo3::preStateChange(int s)
 {
+    Base::preStateChange(s);
     setBuiltinLED(0);
 }
