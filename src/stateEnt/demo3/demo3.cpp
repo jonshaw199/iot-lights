@@ -16,9 +16,16 @@ void Demo3::start()
 
 void Demo3::scheduleStart()
 {
+    Serial.println("Scheduling");
+    Serial.print("Current time: ");
+    Serial.print(millis());
+    Serial.print("; Showtime: ");
+    Serial.println(showtime);
+
     StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_ScheduleStart", IntervalEvent(
                                                                                                                              showtime, [](IECBArg a)
                                                                                                                              {
+            Serial.println("Starting");
             start();
             return true; },
                                                                                                                              1)));
@@ -27,8 +34,6 @@ void Demo3::scheduleStart()
 Demo3::Demo3()
 {
 #if MASTER
-    showtime = millis() + 5000;
-
     // Schedule send start time
     intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo3_Sendshowtimeg", IntervalEvent(
                                                                                         3000, [](IECBArg a)
@@ -40,10 +45,17 @@ Demo3::Demo3()
             d.ms = showtime;
             msg.setData((uint8_t *)&d);
             pushOutbox(msg);
+            scheduleStart();
             return true; },
                                                                                         1)));
+#endif
+}
 
-    scheduleStart();
+void Demo3::setup()
+{
+    Base::setup();
+#if MASTER
+    showtime = millis() + (unsigned long long)6000;
 #endif
 }
 

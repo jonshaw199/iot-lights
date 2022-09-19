@@ -16,6 +16,7 @@ class Demo3 : public Base
 
 public:
     Demo3();
+    void setup();
     msg_handler getInboxHandler();
     bool doScanForPeersESPNow();
     static bool on;
