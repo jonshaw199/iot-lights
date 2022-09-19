@@ -41,7 +41,7 @@ Demo3::Demo3()
 #if MASTER
     // Schedule send start time
     intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo3_Sendshowtimeg", IntervalEvent(
-                                                                                        3000, [](IECBArg a)
+                                                                                        6000, [](IECBArg a)
                                                                                         {
             AF1Msg msg;
             msg.setState(STATE_DEMO3);
