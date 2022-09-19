@@ -11,7 +11,11 @@
 void setup()
 {
   Serial.begin(JS_BAUD);
+#ifdef JS_IP_A
   AF1::registerWifiAP("js-guest", "B1g5lams!", JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
+#else
+  AF1::registerWifiAP("js-guest", "B1g5lams!");
+#endif
   AF1::setup(JS_ID);
   AF1::registerStateEnt(STATE_DEMO1, new Demo1());
   AF1::registerStateEnt(STATE_DEMO2, new Demo2());
@@ -27,7 +31,7 @@ void setup()
   AF1::registerStringHandler("4", []()
                              { AF1::setRequestedState(STATE_DEMO4); });
   AF1::setInitialState(STATE_IDLE_BASE);
-  AF1::setDefaultWSClientInfo({WS_HOST, WS_PATH, WS_PORT, WS_PROTOCOL});
+  // AF1::setDefaultWSClientInfo({WS_HOST, WS_PATH, WS_PORT, WS_PROTOCOL});
 }
 
 void loop()
