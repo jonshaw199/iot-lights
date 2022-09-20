@@ -9,9 +9,8 @@ void Demo3::start()
     StateManager::getCurStateEnt()->getIntervalEventMap().insert(std::pair<String, IntervalEvent>("Demo3_Start", IntervalEvent(
                                                                                                                      300, [](IECBArg a)
                                                                                                                      {
-            Serial.print(a.getCbCnt());
             on = !on;
-            setBuiltinLED(on);
+            setBuiltinLED(a.getCbCnt() % 2);
             return true; },
                                                                                                                      -1, true)));
 }
