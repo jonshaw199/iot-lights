@@ -6,7 +6,7 @@
 
 typedef struct demo3_data
 {
-    unsigned long long ms;
+    unsigned long ms;
 } demo3_data;
 
 class Demo3 : public Base
@@ -16,12 +16,11 @@ class Demo3 : public Base
 
 public:
     Demo3();
-    void setup();
     msg_handler getInboxHandler();
     bool doScanForPeersESPNow();
     void preStateChange(int s);
     static bool on;
-    static unsigned long long showtime;
+    static unsigned long showtime;
 };
 
 #endif // STATEENT_DEMO3_DEMO3_H_
