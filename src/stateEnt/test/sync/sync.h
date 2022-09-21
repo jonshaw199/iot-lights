@@ -1,21 +1,21 @@
-#ifndef STATEENT_DEMO3_DEMO3_H_
-#define STATEENT_DEMO3_DEMO3_H_
+#ifndef STATEENT_TEST_SYNC_H_
+#define STATEENT_TEST_SYNC_H_
 
 #include <Arduino.h>
 #include <AF1.h>
 
-typedef struct demo3_data
+typedef struct sync_data
 {
     unsigned long ms;
-} demo3_data;
+} sync_data;
 
-class Demo3 : public Base
+class Sync : public Base
 {
     static void start();
     static void scheduleStart();
 
 public:
-    Demo3();
+    Sync();
     msg_handler getInboxHandler();
     bool doScanForPeersESPNow();
     void preStateChange(int s);
@@ -23,4 +23,4 @@ public:
     static unsigned long showtime;
 };
 
-#endif // STATEENT_DEMO3_DEMO3_H_
+#endif // STATEENT_TEST_SYNC_H_

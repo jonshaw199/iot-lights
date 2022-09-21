@@ -1,24 +1,24 @@
 
-#include "demo1.h"
+#include "blink.h"
 #include "state.h"
 #include "led/led.h"
 
-typedef struct demo1_data
+typedef struct blink_data
 {
   int r;
   int g;
   int b;
-} demo1_data;
+} blink_data;
 
-Demo1::Demo1()
+Blink::Blink()
 {
 #if MASTER
-  intervalEventMap.insert(std::pair<String, IntervalEvent>("Demo1", IntervalEvent(MS_DEMO1_LOOP, [](IECBArg a)
-                                                                                  {
+  intervalEventMap.insert(std::pair<String, IntervalEvent>("Blink_1", IntervalEvent(MS_BLINK_LOOP, [](IECBArg a)
+                                                                                    {
   AF1Msg msg;
-  msg.setState(STATE_DEMO1);
+  msg.setState(STATE_BLINK);
   msg.setType(TYPE_RUN_DATA);
-  msg.setMaxRetries(MS_DEMO1_LOOP >= 1000 ? 3 : 0);
+  msg.setMaxRetries(MS_BLINK_LOOP >= 1000 ? 3 : 0);
   msg.getJson()["r"] = rand() % 250;
   msg.getJson()["g"] = rand() % 250;
   msg.getJson()["b"] = rand() % 250;
@@ -28,26 +28,26 @@ Demo1::Demo1()
 #endif
 }
 
-void Demo1::setup()
+void Blink::setup()
 {
   Base::setup();
   JSLED::init();
   JSLED::setBrightness(10);
 }
 
-void Demo1::preStateChange(int s)
+void Blink::preStateChange(int s)
 {
   Base::preStateChange(s);
   Serial.println("Turning off lights on the way out");
   JSLED::fillColor(CRGB::Black);
 }
 
-msg_handler Demo1::getInboxHandler()
+msg_handler Blink::getInboxHandler()
 {
   return [](AF1Msg m)
   {
     Base::handleInboxMsg(m);
-    if (m.getState() == STATE_DEMO1)
+    if (m.getState() == STATE_BLINK)
     {
       switch (m.getType())
       {
@@ -60,20 +60,20 @@ msg_handler Demo1::getInboxHandler()
   };
 }
 
-String Demo1::getName()
+String Blink::getName()
 {
-  return "STATE_DEMO1";
+  return "STATE_BLINK";
 }
 
-void Demo1::serializeESPNow(AF1Msg &m)
+void Blink::serializeESPNow(AF1Msg &m)
 {
-  demo1_data d = {m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]};
+  blink_data d = {m.getJson()["r"], m.getJson()["g"], m.getJson()["b"]};
   m.setData((uint8_t *)&d);
 }
 
-void Demo1::deserializeESPNow(AF1Msg &m)
+void Blink::deserializeESPNow(AF1Msg &m)
 {
-  demo1_data d;
+  blink_data d;
   memcpy(&d, m.getData(), sizeof(d));
   m.getJson()["r"] = d.r;
   m.getJson()["g"] = d.g;

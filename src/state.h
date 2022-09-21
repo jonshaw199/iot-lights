@@ -3,11 +3,8 @@
 
 enum af1_state_extended
 {
-  STATE_DEMO1,
-  STATE_DEMO2,
-  STATE_DEMO3,
-  STATE_DEMO4,
-  STATE_DEMO5
+  STATE_BLINK,
+  STATE_SYNC,
 };
 
 #endif // STATE_H_

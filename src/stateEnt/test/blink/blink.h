@@ -1,12 +1,12 @@
-#ifndef STATEENT_DEMO1_DEMO1_H_
-#define STATEENT_DEMO1_DEMO1_H_
+#ifndef STATEENT_TEST_BLINK_BLINK_H_
+#define STATEENT_TEST_BLINK_BLINK_H_
 
 #include <AF1.h>
 
-class Demo1 : public Base
+class Blink : public Base
 {
 public:
-  Demo1();
+  Blink();
   void setup();
   void preStateChange(int s);
   msg_handler getInboxHandler();
@@ -15,4 +15,4 @@ public:
   String getName();
 };
 
-#endif // STATEENT_DEMO1_DEMO1_H_
+#endif // STATEENT_TEST_BLINK_BLINK_H_

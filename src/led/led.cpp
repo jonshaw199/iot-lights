@@ -30,7 +30,7 @@ void JSLED::init()
     FastLED.addLeds<WS2812, LED_PIN_B, GRB>(getInstance().ledsB, CNT_B);
 #endif
   }
-  FastLED.setBrightness(DEMO1_BRIGHTNESS);
+  FastLED.setBrightness(200);
 }
 
 void JSLED::fillColor(CRGB color)
