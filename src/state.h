@@ -3,6 +3,8 @@
 
 enum af1_state_extended
 {
+  STATE_BLINK,
+  STATE_SYNC,
   STATE_HOME
 };
 

@@ -7,6 +7,6 @@ class Home : public Base
 {
 public:
     String getName();
-}
+};
 
 #endif
