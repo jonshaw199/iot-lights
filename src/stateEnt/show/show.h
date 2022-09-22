@@ -6,7 +6,7 @@
 class Show : public Base
 {
 public:
-    String getName();
+  String getName();
 };
 
 #endif
