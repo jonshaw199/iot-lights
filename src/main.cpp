@@ -21,13 +21,13 @@ void setup()
   AF1::registerStateEnt(STATE_SHOW, new Show());
   AF1::registerStateEnt(STATE_BLINK, new Blink());
   AF1::registerStateEnt(STATE_SYNC, new Sync());
-  AF1::registerStringHandler("1", []()
+  AF1::registerStringHandler("home", []()
                              { AF1::setRequestedState(STATE_HOME); });
-  AF1::registerStringHandler("2", []()
+  AF1::registerStringHandler("show", []()
                              { AF1::setRequestedState(STATE_SHOW); });
-  AF1::registerStringHandler("3", []()
+  AF1::registerStringHandler("blink", []()
                              { AF1::setRequestedState(STATE_BLINK); });
-  AF1::registerStringHandler("4", []()
+  AF1::registerStringHandler("sync", []()
                              { AF1::setRequestedState(STATE_SYNC); });
 }
 
