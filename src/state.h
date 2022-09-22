@@ -1,11 +1,14 @@
 #ifndef STATE_H_
 #define STATE_H_
 
-enum af1_state_extended
+enum custom_states
 {
+  // Test
   STATE_BLINK,
   STATE_SYNC,
-  STATE_HOME
+  // Real
+  STATE_HOME,
+  STATE_SHOW,
 };
 
 #endif // STATE_H_
