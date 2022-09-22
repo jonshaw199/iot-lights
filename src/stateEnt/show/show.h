@@ -7,6 +7,8 @@ class Show : public Base
 {
 public:
   String getName();
+  bool doScanForPeersESPNow();
+  bool doConnectToWSServer();
 };
 
 #endif
