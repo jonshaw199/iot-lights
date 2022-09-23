@@ -12,5 +12,5 @@ bool doScanForPeersESPNow()
 
 bool doConnectToWSServer()
 {
-  return false
+  return false;
 }
