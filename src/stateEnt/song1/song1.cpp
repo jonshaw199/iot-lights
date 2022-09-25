@@ -37,13 +37,3 @@ String Song1::getName()
 {
   return "Song1";
 }
-
-bool Song1::doScanForPeersESPNow()
-{
-  return false;
-}
-
-bool Song1::doConnectToWSServer()
-{
-  return false;
-}
