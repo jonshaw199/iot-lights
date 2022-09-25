@@ -22,8 +22,8 @@ void Song1::setup()
 void Song1::preStateChange(int s)
 {
   Base::preStateChange(s);
-  fill_rainbow(ledsA, CNT_A /*led count*/, CRGB(0, 0, 0));
-  fill_rainbow(ledsB, CNT_B /*led count*/, CRGB(0, 0, 0));
+  fill_solid(ledsA, CNT_A, CRGB::Black);
+  fill_solid(ledsB, CNT_B, CRGB::Black);
   FastLED.show();
 }
 
