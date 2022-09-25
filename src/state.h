@@ -4,11 +4,10 @@
 enum custom_states
 {
   // Test
-  STATE_BLINK,
   STATE_SYNC,
   // Real
   STATE_HOME,
-  STATE_SHOW,
+  STATE_SONG1
 };
 
 #endif // STATE_H_

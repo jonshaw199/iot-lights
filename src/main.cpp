@@ -3,7 +3,7 @@
 
 #include "state.h"
 #include "stateEnt/home/home.h"
-#include "stateEnt/show/show.h"
+#include "stateEnt/song1/song1.h"
 #include "stateEnt/test/sync/sync.h"
 
 void setup()
@@ -17,12 +17,12 @@ void setup()
   AF1::registerWifiAP("js-guest", "B1g5lams!");
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
-  AF1::registerStateEnt(STATE_SHOW, new Show());
+  AF1::registerStateEnt(STATE_SONG1, new Song1());
   AF1::registerStateEnt(STATE_SYNC, new Sync());
   AF1::registerStringHandler("home", []()
                              { AF1::setRequestedState(STATE_HOME); });
-  AF1::registerStringHandler("show", []()
-                             { AF1::setRequestedState(STATE_SHOW); });
+  AF1::registerStringHandler("song1", []()
+                             { AF1::setRequestedState(STATE_SONG1); });
   AF1::registerStringHandler("sync", []()
                              { AF1::setRequestedState(STATE_SYNC); });
 }
