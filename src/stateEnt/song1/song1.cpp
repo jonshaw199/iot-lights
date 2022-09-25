@@ -5,23 +5,8 @@ CRGB Song1::ledsB[CNT_B];
 
 Song1::Song1()
 {
-  if (CNT_A)
-  {
-#if LED_2811
-    FastLED.addLeds<WS2811, LED_PIN_A>(ledsA, CNT_A);
-#else
-    FastLED.addLeds<WS2812, LED_PIN_A, GRB>(ledsA, CNT_A);
-#endif
-  }
-  if (CNT_B)
-  {
-#if LED_2811
-    FastLED.addLeds<WS2811, LED_PIN_B>(ledsB, CNT_B);
-#else
-    FastLED.addLeds<WS2812, LED_PIN_B, GRB>(ledsB, CNT_B);
-#endif
-  }
-
+  FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(ledsA, CNT_A);
+  FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(ledsB, CNT_B);
   intervalEventMap.insert(std::pair<String, IntervalEvent>("SONG1_BPM", IntervalEvent(0, [](IECBArg a)
                                                                                       { return true; } /*, maxCbCnt */)));
 }
