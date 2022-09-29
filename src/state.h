@@ -3,9 +3,6 @@
 
 enum custom_states
 {
-  // Test
-  STATE_SYNC,
-  // Real
   STATE_HOME,
   STATE_SONG1
 };
