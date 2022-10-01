@@ -11,9 +11,9 @@ void setup()
   Serial.setTimeout(JS_SERIAL_TIMEOUT);
   AF1::setup(JS_ID);
 #ifdef JS_IP_A
-  AF1::registerWifiAP(SSID, PASS, JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
+  AF1::registerWifiAP(JSSSID, JSPASS, JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
 #else
-  AF1::registerWifiAP(SSID, PASS);
+  AF1::registerWifiAP(JSSSID, JSPASS);
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
   AF1::registerStateEnt(STATE_SONG1, new Song1());
