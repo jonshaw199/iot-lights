@@ -3,7 +3,7 @@
 
 #include <AF1.h>
 
-class Song : public Base
+class Song : public Sync
 {
   bool doScanForPeersESPNow();
   bool doConnectToWSServer();

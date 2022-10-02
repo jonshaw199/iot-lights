@@ -14,7 +14,6 @@ protected:
 
 public:
   Song1();
-  void setup();
   void preStateChange(int s);
   String getName();
 };
