@@ -5,6 +5,7 @@
 
 class Song : public Sync
 {
+public:
   bool doScanForPeersESPNow();
   bool doConnectToWSServer();
 };
