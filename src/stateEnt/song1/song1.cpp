@@ -12,8 +12,8 @@ Song1::Song1()
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 
   setSyncedTask([](STArg a)
-                { StateManager::getCurStateEnt()->getIntervalEventMap()["Sync_Start"] = IntervalEvent(
-                      "Sync_Start",
+                { StateManager::getCurStateEnt()->getIntervalEventMap()["Song1"] = IntervalEvent(
+                      "Song1",
                       1, [](IECBArg a)
                       {
       Serial.print(a.getCbCnt() % 2);
@@ -33,7 +33,7 @@ Song1::Song1()
 
 void Song1::preStateChange(int s)
 {
-  Sync::preStateChange(s);
+  Song::preStateChange(s);
   // Turn off lights
   fill_solid(ledsA, CNT_A, CRGB::Black);
   fill_solid(ledsB, CNT_B, CRGB::Black);
