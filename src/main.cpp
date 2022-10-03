@@ -9,6 +9,8 @@
 #include "state.h"
 #include "stateEnt/home/home.h"
 #include "stateEnt/song1/song1.h"
+#include "img/apple.h"
+#include "img/mountains.h"
 
 void setup()
 {
@@ -16,6 +18,9 @@ void setup()
   Serial.begin(JS_BAUD);
 #ifdef ARDUINO_M5Stick_C
   M5.begin();
+  M5.Lcd.setSwapBytes(true);
+  M5.Lcd.fillScreen(TFT_WHITE);
+  M5.Lcd.pushImage((DISPLAY_PORTRAIT_WIDTH - APPLE_WIDTH) / 2, (DISPLAY_PORTRAIT_HEIGHT - APPLE_HEIGHT) / 2, APPLE_WIDTH, APPLE_HEIGHT, (uint16_t *)apple);
 #endif
   AF1::setup(JS_ID);
 #ifdef JS_IP_A
@@ -29,6 +34,12 @@ void setup()
                              { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("song1", []()
                              { AF1::setRequestedState(STATE_SONG1); });
+#ifdef ARDUINO_M5Stick_C
+  delay(500);
+  M5.Lcd.fillScreen(TFT_WHITE);
+  M5.Lcd.setRotation(0);
+  M5.Lcd.pushImage(0, 0, MOUNTAINS_WIDTH, MOUNTAINS_HEIGHT, (uint16_t *)mountains);
+#endif
 }
 
 void loop()
