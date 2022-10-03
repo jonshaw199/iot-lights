@@ -18,7 +18,8 @@ Song1::Song1()
   uint8_t beatA = beatsin8(17, 0, 255);                        // Starting hue
   uint8_t beatB = beatsin8(13, 0, 255);
   fill_rainbow(ledsA, CNT_A, (beatA+beatB)/2, 8); 
-  fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); },
+  fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); 
+  return true; },
                       -1, true); });
 }
 
