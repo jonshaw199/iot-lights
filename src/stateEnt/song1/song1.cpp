@@ -35,9 +35,9 @@ void Song1::preStateChange(int s)
 {
   Song::preStateChange(s);
   // Turn off lights
-  // fill_solid(ledsA, CNT_A, CRGB::Black); !
-  // fill_solid(ledsB, CNT_B, CRGB::Black); !
-  // FastLED.show(); !
+  fill_solid(ledsA, CNT_A, CRGB::Black);
+  fill_solid(ledsB, CNT_B, CRGB::Black);
+  FastLED.show();
 }
 
 String Song1::getName()
