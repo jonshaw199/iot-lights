@@ -15,6 +15,7 @@ public:
   Song1();
   void preStateChange(int s);
   String getName();
+  void doSynced(STArg a);
 };
 
 #endif
