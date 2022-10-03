@@ -10,7 +10,6 @@ class Song1 : public Song
 protected:
   static CRGB ledsA[CNT_A];
   static CRGB ledsB[CNT_B];
-  static int hue;
 
 public:
   Song1();
