@@ -26,7 +26,7 @@ String Song1::getName()
   return "Song1";
 }
 
-void Song1::doSynced(STArg a)
+void Song1::doSynced()
 {
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song1"] = IntervalEvent(
       "Song1",
