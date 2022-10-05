@@ -3,9 +3,9 @@
 
 #include <FastLED.h>
 
-#include "stateEnt/virtual/song/song.h"
+#include "stateEnt/virtual/base/base.h"
 
-class Song1 : public Song
+class Song1 : public Base
 {
 protected:
   static CRGB ledsA[CNT_A];
@@ -16,6 +16,7 @@ public:
   void preStateChange(int s);
   String getName();
   void doSynced(STArg a);
+  bool doSync();
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "song1.h"
+#include "stateManager/stateManager.h"
 
 CRGB Song1::ledsA[CNT_A];
 CRGB Song1::ledsB[CNT_B];
@@ -13,7 +14,7 @@ Song1::Song1()
 
 void Song1::preStateChange(int s)
 {
-  Song::preStateChange(s);
+  Base::preStateChange(s);
   // Turn off lights
   fill_solid(ledsA, CNT_A, CRGB::Black);
   fill_solid(ledsB, CNT_B, CRGB::Black);
@@ -38,4 +39,9 @@ void Song1::doSynced(STArg a)
   FastLED.show();
   return true; },
       -1, true);
+}
+
+bool Song1::doSync()
+{
+  return true;
 }
