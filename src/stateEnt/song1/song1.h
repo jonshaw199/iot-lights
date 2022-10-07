@@ -17,6 +17,7 @@ public:
   String getName();
   void doSynced();
   bool doSync();
+  static void setBrightness(uint8_t b);
 };
 
 #endif

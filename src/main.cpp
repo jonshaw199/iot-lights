@@ -34,6 +34,11 @@ void setup()
                              { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("song1", []()
                              { AF1::setRequestedState(STATE_SONG1); });
+  AF1::registerStringHandler("brightness*", []()
+                             {
+                              if (StateManager::getCurState() == STATE_SONG1) {
+                                (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(100);
+                              } });
 #ifdef ARDUINO_M5Stick_C
   delay(500);
   M5.Lcd.fillScreen(TFT_WHITE);

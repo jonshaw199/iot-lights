@@ -45,3 +45,11 @@ bool Song1::doSync()
 {
   return true;
 }
+
+void Song1::setBrightness(uint8_t b)
+{
+  Serial.print("Setting brightness to ");
+  Serial.println(b);
+  FastLED.setBrightness(b);
+  // FastLED.show();
+}
