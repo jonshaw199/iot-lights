@@ -8,8 +8,8 @@ Song1::Song1()
 {
   FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(ledsA, CNT_A);
   FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(ledsB, CNT_B);
-  FastLED.setBrightness(5);
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
+  FastLED.setBrightness(50);
+  // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 }
 
 void Song1::preStateChange(int s)
@@ -30,7 +30,7 @@ void Song1::doSynced()
 {
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song1"] = IntervalEvent(
       "Song1",
-      1, [](IECBArg a)
+      15, [](IECBArg a)
       {
   uint8_t beatA = beatsin8(17, 0, 255);                        // Starting hue
   uint8_t beatB = beatsin8(13, 0, 255);
