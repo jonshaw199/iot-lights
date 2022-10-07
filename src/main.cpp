@@ -30,14 +30,15 @@ void setup()
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
   AF1::registerStateEnt(STATE_SONG1, new Song1());
-  AF1::registerStringHandler("home", []()
+  AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
-  AF1::registerStringHandler("song1", []()
+  AF1::registerStringHandler("song1", [](SHArg a)
                              { AF1::setRequestedState(STATE_SONG1); });
-  AF1::registerStringHandler("brightness*", []()
+  AF1::registerStringHandler("brightness*", [](SHArg a)
                              {
                               if (StateManager::getCurState() == STATE_SONG1) {
-                                (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(100);
+                                int b = a.getValue().toInt();
+                                (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(b >= 0 && b < 256 ? b : 50);
                               } });
 #ifdef ARDUINO_M5Stick_C
   delay(500);
