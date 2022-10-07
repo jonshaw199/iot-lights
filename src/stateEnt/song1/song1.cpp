@@ -8,7 +8,7 @@ Song1::Song1()
 {
   FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(ledsA, CNT_A);
   FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(ledsB, CNT_B);
-  FastLED.setBrightness(150);
+  FastLED.setBrightness(5);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 }
 
