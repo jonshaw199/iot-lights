@@ -9,6 +9,7 @@
 #include "state.h"
 #include "stateEnt/home/home.h"
 #include "stateEnt/song1/song1.h"
+#include "stateEnt/song2/song2.h"
 #include "img/apple.h"
 #include "img/mountains.h"
 
@@ -30,16 +31,27 @@ void setup()
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
   AF1::registerStateEnt(STATE_SONG1, new Song1());
+  AF1::registerStateEnt(STATE_SONG2, new Song2());
   AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("song1", [](SHArg a)
                              { AF1::setRequestedState(STATE_SONG1); });
+  AF1::registerStringHandler("song2", [](SHArg a)
+                             { AF1::setRequestedState(STATE_SONG2); });
   AF1::registerStringHandler("brightness*", [](SHArg a)
                              {
                               if (StateManager::getCurState() == STATE_SONG1) {
                                 int b = a.getValue().toInt();
                                 (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(b >= 0 && b < 256 ? b : 50);
                               } });
+  AF1::registerStringHandler("otaws", [](SHArg a)
+                             {
+      DynamicJsonDocument body(1024);
+      body["type"] = TYPE_CHANGE_STATE;
+      body["state"] = STATE_OTA;
+      StateManager::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
+
+  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
 #ifdef ARDUINO_M5Stick_C
   delay(500);
   M5.Lcd.fillScreen(TFT_WHITE);
