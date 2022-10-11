@@ -7,6 +7,8 @@ CRGB Song2::ledsB[CNT_B];
 CRGBPalette16 currentPalette;
 TBlendType currentBlending;
 
+bool override = false;
+
 Song2::Song2()
 {
   if (CNT_A)
@@ -21,22 +23,22 @@ Song2::Song2()
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 
   // currentPalette = RainbowColors_p;
-  currentBlending = LINEARBLEND;
+  // currentBlending = LINEARBLEND;
+  currentBlending = NOBLEND;
   setupPurpleAndGreenPalette();
 
   intervalEventMap["Song2"] = IntervalEvent(
       "Song2",
-      50, [](IECBArg a)
+      25, [](IECBArg a)
       {
-  /*
-  fillGrad();
-  */
+        if (!override) {
     static uint8_t startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
     
     fillFromPalette( startIndex);
     
   FastLED.show();
+        }
   return true; });
 }
 
@@ -66,49 +68,33 @@ void Song2::setBrightness(uint8_t b)
   Serial.print("Setting brightness to ");
   Serial.println(b);
   FastLED.setBrightness(b);
-  // FastLED.show();
+  FastLED.show();
 }
 
-void Song2::fillGrad()
+void Song2::setHue(uint8_t h)
 {
-
-  uint8_t starthue = beatsin8(5, 24, 28);
-  uint8_t endhue = beatsin8(7, 36, 40);
-
+  Serial.print("Setting hue to ");
+  Serial.println(h);
+  override = true;
   if (CNT_A)
   {
-    if (starthue < endhue)
-    {
-      fill_gradient(ledsA, CNT_A, CHSV(starthue, 255, 255), CHSV(endhue, 255, 255), FORWARD_HUES); // If we don't have this, the colour fill will flip around.
-    }
-    else
-    {
-      fill_gradient(ledsA, CNT_A, CHSV(starthue, 255, 255), CHSV(endhue, 255, 255), BACKWARD_HUES);
-    }
+    fill_solid(ledsA, CNT_A, h);
   }
-
   if (CNT_B)
   {
-    if (starthue < endhue)
-    {
-      fill_gradient(ledsB, CNT_B, CHSV(starthue, 255, 255), CHSV(endhue, 255, 255), FORWARD_HUES); // If we don't have this, the colour fill will flip around.
-    }
-    else
-    {
-      fill_gradient(ledsB, CNT_B, CHSV(starthue, 255, 255), CHSV(endhue, 255, 255), BACKWARD_HUES);
-    }
+    fill_solid(ledsB, CNT_B, h);
   }
+  FastLED.show();
 }
 
 // This function sets up a palette of purple and green stripes.
 void Song2::setupPurpleAndGreenPalette()
 {
-  CRGB purple = CHSV(HUE_PURPLE, 255, 255);
-  CRGB green = CHSV(HUE_GREEN, 255, 255);
-  CRGB orange = CHSV(HUE_ORANGE - 10, 255, 255);
-  CRGB black = CRGB::Black;
+  CHSV purple = CHSV(HUE_PURPLE, 255, 255);
+  CHSV green = CHSV(HUE_GREEN, 255, 255);
+  CHSV orange = CHSV(HUE_ORANGE, 255, 255);
 
-  currentPalette = CRGBPalette16(
+  currentPalette = CHSVPalette16(
       orange, purple, orange, purple,
       orange, purple, orange, purple,
       orange, purple, orange, purple,

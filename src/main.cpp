@@ -44,6 +44,12 @@ void setup()
                                 int b = a.getValue().toInt();
                                 (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(b >= 0 && b < 256 ? b : 50);
                               } });
+  AF1::registerStringHandler("hue*", [](SHArg a)
+                             {
+                              if (StateManager::getCurState() == STATE_SONG2) {
+                                uint8_t h = a.getValue().toInt();
+                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setHue(b >= 0 && b < 256 ? b : 0);
+                              } });
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {
       DynamicJsonDocument body(1024);

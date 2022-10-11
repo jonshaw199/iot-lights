@@ -7,7 +7,6 @@
 
 class Song2 : public Base
 {
-  static void fillGrad();
   void setupPurpleAndGreenPalette();
   static void fillFromPalette(uint8_t i);
 
@@ -20,6 +19,7 @@ public:
   void preStateChange(int s);
   String getName();
   static void setBrightness(uint8_t b);
+  static void setHue(uint8_t h);
   bool doScanForPeersESPNow();
 };
 
