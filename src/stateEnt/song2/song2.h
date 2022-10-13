@@ -3,9 +3,9 @@
 
 #include <FastLED.h>
 
-#include "stateEnt/virtual/base/base.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
-class Song2 : public Base
+class Song2 : public LightShowBase
 {
   void setupPurpleAndGreenPalette();
   static void fillFromPalette(uint8_t i);
@@ -18,8 +18,10 @@ public:
   Song2();
   void preStateChange(int s);
   String getName();
-  static void setBrightness(uint8_t b);
+  static void set();
+  static void setValue(uint8_t v);
   static void setHue(uint8_t h);
+  static void setSaturation(uint8_t s);
   bool doScanForPeersESPNow();
 };
 

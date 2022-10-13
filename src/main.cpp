@@ -38,17 +38,23 @@ void setup()
                              { AF1::setRequestedState(STATE_SONG1); });
   AF1::registerStringHandler("song2", [](SHArg a)
                              { AF1::setRequestedState(STATE_SONG2); });
-  AF1::registerStringHandler("brightness*", [](SHArg a)
+  AF1::registerStringHandler("v*", [](SHArg a)
                              {
-                              if (StateManager::getCurState() == STATE_SONG1) {
-                                int b = a.getValue().toInt();
-                                (static_cast<Song1 *>(StateManager::getCurStateEnt()))->setBrightness(b >= 0 && b < 256 ? b : 50);
+                              if (StateManager::getCurState() == STATE_SONG2) {
+                                uint8_t v = a.getValue().toInt();
+                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setValue(v);
                               } });
-  AF1::registerStringHandler("hue*", [](SHArg a)
+  AF1::registerStringHandler("h*", [](SHArg a)
                              {
                               if (StateManager::getCurState() == STATE_SONG2) {
                                 uint8_t h = a.getValue().toInt();
-                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setHue(b >= 0 && b < 256 ? b : 0);
+                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setHue(h);
+                              } });
+  AF1::registerStringHandler("s*", [](SHArg a)
+                             {
+                              if (StateManager::getCurState() == STATE_SONG2) {
+                                uint8_t s = a.getValue().toInt();
+                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setSaturation(s);
                               } });
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {

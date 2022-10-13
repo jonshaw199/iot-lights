@@ -3,9 +3,9 @@
 
 #include <FastLED.h>
 
-#include "stateEnt/virtual/base/base.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
-class Song1 : public Base
+class Song1 : public LightShowBase
 {
 protected:
   static CRGB ledsA[CNT_A];

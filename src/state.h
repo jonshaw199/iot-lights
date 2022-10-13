@@ -8,4 +8,9 @@ enum custom_states
   STATE_SONG2
 };
 
+enum custom_types
+{
+  TYPE_MOTION
+};
+
 #endif // STATE_H_

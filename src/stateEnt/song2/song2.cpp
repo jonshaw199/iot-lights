@@ -9,6 +9,10 @@ TBlendType currentBlending;
 
 bool override = false;
 
+uint8_t hue = 50;
+uint8_t saturation = 255;
+uint8_t value = 255;
+
 Song2::Song2()
 {
   if (CNT_A)
@@ -23,8 +27,8 @@ Song2::Song2()
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 
   // currentPalette = RainbowColors_p;
-  // currentBlending = LINEARBLEND;
-  currentBlending = NOBLEND;
+  currentBlending = LINEARBLEND;
+  // currentBlending = NOBLEND;
   setupPurpleAndGreenPalette();
 
   intervalEventMap["Song2"] = IntervalEvent(
@@ -44,7 +48,7 @@ Song2::Song2()
 
 void Song2::preStateChange(int s)
 {
-  Base::preStateChange(s);
+  LightShowBase::preStateChange(s);
   // Turn off lights
   if (CNT_A)
   {
@@ -63,42 +67,49 @@ String Song2::getName()
   return "Song2";
 }
 
-void Song2::setBrightness(uint8_t b)
+void Song2::set()
 {
-  Serial.print("Setting brightness to ");
-  Serial.println(b);
-  FastLED.setBrightness(b);
+  override = true;
+  if (CNT_A)
+  {
+    fill_solid(ledsA, CNT_A, CHSV(hue, saturation, value));
+  }
+  if (CNT_B)
+  {
+    fill_solid(ledsB, CNT_B, CHSV(hue, saturation, value));
+  }
   FastLED.show();
+}
+
+void Song2::setValue(uint8_t v)
+{
+  value = v;
+  set();
 }
 
 void Song2::setHue(uint8_t h)
 {
-  Serial.print("Setting hue to ");
-  Serial.println(h);
-  override = true;
-  if (CNT_A)
-  {
-    fill_solid(ledsA, CNT_A, h);
-  }
-  if (CNT_B)
-  {
-    fill_solid(ledsB, CNT_B, h);
-  }
-  FastLED.show();
+  hue = h;
+  set();
+}
+
+void Song2::setSaturation(uint8_t s)
+{
+  saturation = s;
+  set();
 }
 
 // This function sets up a palette of purple and green stripes.
 void Song2::setupPurpleAndGreenPalette()
 {
-  CHSV purple = CHSV(HUE_PURPLE, 255, 255);
-  CHSV green = CHSV(HUE_GREEN, 255, 255);
-  CHSV orange = CHSV(HUE_ORANGE, 255, 255);
+  CHSV purple = CHSV(213, 255, 50);
+  CHSV orange = CHSV(5, 255, 150);
 
   currentPalette = CHSVPalette16(
-      orange, purple, orange, purple,
-      orange, purple, orange, purple,
-      orange, purple, orange, purple,
-      orange, purple, orange, purple);
+      orange, orange, orange, orange,
+      purple, purple, purple, purple,
+      orange, orange, orange, orange,
+      purple, purple, purple, purple);
 }
 
 void Song2::fillFromPalette(uint8_t colorIndex)

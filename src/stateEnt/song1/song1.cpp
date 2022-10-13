@@ -20,7 +20,7 @@ Song1::Song1()
 
 void Song1::preStateChange(int s)
 {
-  Base::preStateChange(s);
+  LightShowBase::preStateChange(s);
   // Turn off lights
   if (CNT_A)
   {
