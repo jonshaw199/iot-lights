@@ -76,7 +76,7 @@ RC2 &RC2::getInstance()
 
 void RC2::setup()
 {
-  Base::setup();
+  LightShowBase::setup();
   setupM5();
 }
 

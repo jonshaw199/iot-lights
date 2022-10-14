@@ -7,8 +7,9 @@
 #undef min // https://github.com/m5stack/M5Stack/issues/97
 
 #include "state.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
-class RC3 : public Base
+class RC3 : public LightShowBase
 {
 protected:
   static float accX;

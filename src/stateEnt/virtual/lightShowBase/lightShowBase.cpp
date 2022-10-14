@@ -46,3 +46,12 @@ void LightShowBase::loop()
   }
 #endif
 }
+
+bool LightShowBase::doConnectToWSServer()
+{
+#ifdef ARDUINO_M5Stick_C
+  return false;
+#else
+  return true;
+#endif
+}

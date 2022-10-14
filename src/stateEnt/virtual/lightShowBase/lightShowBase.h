@@ -8,6 +8,7 @@ class LightShowBase : public Base
 public:
   void setup();
   void loop();
+  bool doConnectToWSServer();
 };
 
 #endif

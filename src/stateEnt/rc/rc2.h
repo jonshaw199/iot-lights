@@ -7,6 +7,7 @@
 #undef min // https://github.com/m5stack/M5Stack/issues/97
 
 #include "state.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
 typedef struct
 {
@@ -27,7 +28,7 @@ typedef struct
   point_3d_t end_point;
 } line_3d_t;
 
-class RC2 : public Base
+class RC2 : public LightShowBase
 {
 public:
   static RC2 &getInstance();

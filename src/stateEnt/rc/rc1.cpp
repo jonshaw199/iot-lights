@@ -7,15 +7,16 @@
 
 #include "state.h"
 #include "img/mountains.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
-class RC1 : public Base
+class RC1 : public LightShowBase
 {
   int lastState;
 
 public:
   void setup()
   {
-    Base::setup();
+    LightShowBase::setup();
 
     lastState = 0;
 
@@ -26,7 +27,7 @@ public:
 
   void loop()
   {
-    Base::loop();
+    LightShowBase::loop();
 
     M5.update(); // Read the press state of the key.  读取按键 A, B, C 的状态
     if (M5.BtnA.wasReleased())

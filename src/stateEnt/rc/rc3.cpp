@@ -77,7 +77,7 @@ RC3::RC3(ws_client_info i)
 
 void RC3::setup()
 {
-  Base::setup();
+  LightShowBase::setup();
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.setRotation(0);
   M5.Lcd.pushImage((DISPLAY_PORTRAIT_WIDTH - SPONGE_WIDTH) / 2, (DISPLAY_PORTRAIT_HEIGHT - SPONGE_HEIGHT) / 2, SPONGE_WIDTH, SPONGE_HEIGHT, (uint16_t *)sponge);
