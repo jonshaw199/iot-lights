@@ -12,6 +12,7 @@ bool override = false;
 uint8_t hue = 50;
 uint8_t saturation = 255;
 uint8_t value = 255;
+int dirCoef = 1;
 
 Song2::Song2()
 {
@@ -37,12 +38,19 @@ Song2::Song2()
       {
         if (!override) {
     static uint8_t startIndex = 0;
-    startIndex = startIndex + 1; /* motion speed */
+    startIndex = startIndex + dirCoef; /* motion speed... and direction */
     
     fillFromPalette( startIndex);
     
   FastLED.show();
         }
+  return true; });
+
+  intervalEventMap["Song2_Direction"] = IntervalEvent(
+      "Song2_Direction",
+      15000, [](IECBArg a)
+      {
+        dirCoef = dirCoef * -1;
   return true; });
 }
 
