@@ -1,3 +1,5 @@
+#ifdef ARDUINO_M5Stick_C
+
 #include "rc2.h"
 #include "img/space.h"
 #include "state.h"
@@ -250,3 +252,5 @@ void RC2::Displaybuff()
 {
   Disbuff.pushSprite(0, 0);
 }
+
+#endif

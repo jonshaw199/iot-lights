@@ -1,3 +1,5 @@
+#ifdef ARDUINO_M5Stick_C
+
 #include <AF1.h>
 
 #include <M5StickCPlus.h>
@@ -93,3 +95,5 @@ void RC3::preStateChange(int s)
   body["state"] = STATE_IDLE_BASE;
   httpPost(String("http://") + String(STRINGIFY(REMOTE_URL)), body);
 }
+
+#endif

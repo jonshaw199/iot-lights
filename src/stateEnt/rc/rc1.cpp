@@ -1,3 +1,5 @@
+#ifdef ARDUINO_M5Stick_C
+
 #include <AF1.h>
 
 #include <M5StickCPlus.h>
@@ -57,3 +59,4 @@ public:
     return "STATE_RC1";
   }
 };
+#endif
