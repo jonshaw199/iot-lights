@@ -67,7 +67,6 @@ void setup()
       body["state"] = STATE_OTA;
       StateManager::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
 
-  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
 #ifdef ARDUINO_M5Stick_C
   AF1::registerStateEnt(STATE_RC1, new RC1());
   AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
@@ -83,6 +82,9 @@ void setup()
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.setRotation(0);
   M5.Lcd.pushImage(0, 0, MOUNTAINS_WIDTH, MOUNTAINS_HEIGHT, (uint16_t *)mountains);
+#else
+  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
+  AF1::setInitialState(STATE_HOME);
 #endif
 }
 

@@ -55,3 +55,8 @@ bool LightShowBase::doConnectToWSServer()
   return true;
 #endif
 }
+
+bool LightShowBase::doScanForPeersESPNow()
+{
+  return false;
+}
