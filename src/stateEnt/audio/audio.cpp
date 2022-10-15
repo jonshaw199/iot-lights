@@ -97,9 +97,9 @@ public:
 
     if (!SD.begin(CARDCS))
     {
-      Serial.println(F("SD failed, or not present"));
-      while (1)
-        ; // don't do anything more
+      Serial.println(F("CRITICAL: SD failed, or not present"));
+      // while (1)
+      // ; // don't do anything more
     }
 
     // list files
