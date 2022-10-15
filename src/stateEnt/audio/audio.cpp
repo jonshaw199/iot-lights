@@ -137,6 +137,11 @@ public:
     Serial.println("Audio stop");
     musicPlayer.stopPlaying();
   }
+
+  String getName()
+  {
+    return "STATE_AUDIO";
+  }
 };
 
 #endif
