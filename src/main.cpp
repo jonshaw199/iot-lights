@@ -37,6 +37,8 @@ void setup()
   AF1::registerStateEnt(STATE_HOME, new Home());
 #if VS1053
   AF1::registerStateEnt(STATE_AUDIO, new JSAudio());
+  AF1::registerStringHandler("audio", [](SHArg a)
+                             { AF1::setRequestedState(STATE_AUDIO); });
   AF1::registerStringHandler("audiostop", [](SHArg a)
                              {
     if (StateManager::getCurState() == STATE_AUDIO) {
