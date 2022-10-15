@@ -87,6 +87,8 @@ public:
 
   void setup()
   {
+    LightShowBase::setup();
+
     if (!musicPlayer.begin())
     { // initialise the music player
       Serial.println(F("CRITICAL: Couldn't find VS1053, do you have the right pins defined?"));
