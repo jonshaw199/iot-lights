@@ -89,15 +89,17 @@ public:
   {
     if (!musicPlayer.begin())
     { // initialise the music player
-      Serial.println(F("Couldn't find VS1053, do you have the right pins defined?"));
-      while (1)
-        ;
+      Serial.println(F("CRITICAL: Couldn't find VS1053, do you have the right pins defined?"));
+      return;
+      // while (1)
+      // ;
     }
     Serial.println(F("VS1053 found"));
 
     if (!SD.begin(CARDCS))
     {
       Serial.println(F("CRITICAL: SD failed, or not present"));
+      return;
       // while (1)
       // ; // don't do anything more
     }
