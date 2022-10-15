@@ -16,6 +16,7 @@
 #include "stateEnt/song2/song2.h"
 #include "img/apple.h"
 #include "img/mountains.h"
+#include "stateEnt/audio/audio.cpp"
 
 void setup()
 {
@@ -34,6 +35,9 @@ void setup()
   AF1::registerWifiAP(JSSSID, JSPASS);
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
+#if VS1053
+  AF1::registerStateEnt(STATE_AUDIO, new JSAudio());
+#else
   AF1::registerStateEnt(STATE_SONG1, new Song1());
   AF1::registerStateEnt(STATE_SONG2, new Song2());
   AF1::registerStringHandler("home", [](SHArg a)
@@ -60,6 +64,7 @@ void setup()
                                 uint8_t s = a.getValue().toInt();
                                 (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setSaturation(s);
                               } });
+#endif
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {
       DynamicJsonDocument body(1024);

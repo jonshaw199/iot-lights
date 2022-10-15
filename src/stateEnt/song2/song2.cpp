@@ -1,3 +1,5 @@
+#if CNT_A || CNT_B || LIGHTS
+
 #include "song2.h"
 #include "stateManager/stateManager.h"
 
@@ -362,3 +364,5 @@ void Song2::setTargetPalette()
                                 CHSV(baseC + random8(16), 255, random8(128, 255)));
                                 */
 }
+
+#endif
