@@ -300,14 +300,29 @@ void Song2::setupNoise()
   */
 
   setupOrangeAndPurplePalette();
+  setTargetPalette();
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
       "Song2",
       1, [](IECBArg a)
-      {
-        fillNoise8(ledsA, CNT_A);
-        fillNoise8(ledsB, CNT_B);
+      { if (CNT_A) fillNoise8(ledsA, CNT_A);
+        if (CNT_B) fillNoise8(ledsB, CNT_B);
         FastLED.show();
+        return true; });
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Blend"] = IntervalEvent(
+      "Song2_Blend",
+      10, [](IECBArg a)
+      {
+        nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
+        FastLED.show();
+  return true; });
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_MovingTarget"] = IntervalEvent(
+      "Song2_MovingTarget",
+      5000, [](IECBArg a)
+      {
+        setTargetPalette();
   return true; });
 }
 
@@ -323,3 +338,27 @@ void Song2::fillNoise8(CRGB *leds, int cnt)
   }
 
 } // fillnoise8()
+
+void Song2::setTargetPalette()
+{
+  CHSV purple = CHSV(213, 255, 50);
+  CHSV orange = CHSV(5, 255, 200);
+  CHSV green = CHSV(96, 255, 200);
+  CHSV white = CHSV(5, 10, 200);
+
+  CHSV o[] = {orange, purple};
+  targetPalette = CRGBPalette16(o[rand() % 2], o[rand() % 2], o[rand() % 2], o[rand() % 2]);
+
+  // CHSV arr[] = {purple, orange, green, white};
+  // CHSV arr[] = {purple, purple, orange, orange};
+  // std::random_shuffle(&arr[0], &arr[3]);
+  // targetPalette = CRGBPalette16(arr[0], arr[1], arr[2], arr[3], arr[4]);
+
+  /*
+  uint8_t baseC = random8();
+  targetPalette = CRGBPalette16(CHSV(baseC + random8(32), 255, random8(128, 255)), // Create palettes with similar colours.
+                                CHSV(baseC + random8(64), 255, random8(128, 255)),
+                                CHSV(baseC + random8(96), 192, random8(128, 255)),
+                                CHSV(baseC + random8(16), 255, random8(128, 255)));
+                                */
+}

@@ -7,8 +7,9 @@
 
 class Song2 : public LightShowBase
 {
+  // Shared
+  static void setupOrangeAndPurplePalette();
   // Stripes
-  static void setupOrangeAndPurplePalette(); // Not really purple and green; to do
   static void fillFromPalette(uint8_t i);
   static void setupStripes();
   // Fire
@@ -16,6 +17,7 @@ class Song2 : public LightShowBase
   // Noise
   static void setupNoise();
   static void fillNoise8(CRGB *arr, int cnt);
+  static void setTargetPalette();
 
 public:
   void preStateChange(int s);
