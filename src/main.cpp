@@ -37,6 +37,21 @@ void setup()
   AF1::registerStateEnt(STATE_HOME, new Home());
 #if VS1053
   AF1::registerStateEnt(STATE_AUDIO, new JSAudio());
+  AF1::registerStringHandler("audiostop", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->stopPlaying();
+    } });
+  AF1::registerStringHandler("audiopause", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->pausePlaying(true);
+    } });
+  AF1::registerStringHandler("audioresume", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->pausePlaying(false);
+    } });
 #else
   AF1::registerStateEnt(STATE_SONG1, new Song1());
   AF1::registerStateEnt(STATE_SONG2, new Song2());
