@@ -57,8 +57,6 @@ void setup()
 #else
   AF1::registerStateEnt(STATE_SONG1, new Song1());
   AF1::registerStateEnt(STATE_SONG2, new Song2());
-  AF1::registerStringHandler("home", [](SHArg a)
-                             { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("song1", [](SHArg a)
                              { AF1::setRequestedState(STATE_SONG1); });
   AF1::registerStringHandler("song2", [](SHArg a)
@@ -82,6 +80,8 @@ void setup()
                                 (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setSaturation(s);
                               } });
 #endif
+  AF1::registerStringHandler("home", [](SHArg a)
+                             { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {
       DynamicJsonDocument body(1024);
