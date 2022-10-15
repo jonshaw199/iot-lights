@@ -1,16 +1,20 @@
 #include "song2.h"
 #include "stateManager/stateManager.h"
 
-CRGB Song2::ledsA[CNT_A];
-CRGB Song2::ledsB[CNT_B];
+CRGB ledsA[CNT_A];
+CRGB ledsB[CNT_B];
 
+// Now shared (same with above)
 CRGBPalette16 currentPalette;
 TBlendType currentBlending;
+CRGBPalette16 targetPalette;
 
+// Static
 uint8_t hue = 50;
 uint8_t saturation = 255;
 uint8_t value = 255;
 
+// Stripes
 int dirCoef = 1;
 
 void Song2::setup()
@@ -26,7 +30,8 @@ void Song2::setup()
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
   // setupStripes();
-  setupFire();
+  // setupFire();
+  setupNoise();
 }
 
 void Song2::preStateChange(int s)
@@ -273,3 +278,48 @@ void Song2::setupFire()
   FastLED.show();
   return true; });
 }
+
+void Song2::setupNoise()
+{
+  /*
+  fillnoise8();
+
+  EVERY_N_MILLIS(10) {
+    nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
+  }
+
+  EVERY_N_SECONDS(5) {                                                      // Change the target palette to a random one every 5 seconds.
+    uint8_t baseC=random8();
+    targetPalette = CRGBPalette16(CHSV(baseC+random8(32), 255, random8(128,255)),   // Create palettes with similar colours.
+                                  CHSV(baseC+random8(64), 255, random8(128,255)),
+                                  CHSV(baseC+random8(96), 192, random8(128,255)),
+                                  CHSV(baseC+random8(16), 255, random8(128,255)));
+  }
+
+  LEDS.show();
+  */
+
+  setupOrangeAndPurplePalette();
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+      "Song2",
+      1, [](IECBArg a)
+      {
+        fillNoise8(ledsA, CNT_A);
+        fillNoise8(ledsB, CNT_B);
+        FastLED.show();
+  return true; });
+}
+
+void Song2::fillNoise8(CRGB *leds, int cnt)
+{
+
+#define scale 30 // Don't change this programmatically or everything shakes.
+
+  for (int i = 0; i < cnt; i++)
+  {                                                                      // Just ONE loop to fill up the LED array as all of the pixels change.
+    uint8_t index = inoise8(i * scale, millis() / 10 + i * scale);       // Get a value from the noise function. I'm using both x and y axis.
+    leds[i] = ColorFromPalette(currentPalette, index, 255, LINEARBLEND); // With that value, look up the 8 bit colour palette value and assign it to the current LED.
+  }
+
+} // fillnoise8()

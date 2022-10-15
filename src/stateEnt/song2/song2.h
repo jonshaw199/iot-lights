@@ -13,10 +13,9 @@ class Song2 : public LightShowBase
   static void setupStripes();
   // Fire
   static void setupFire();
-
-protected:
-  static CRGB ledsA[CNT_A];
-  static CRGB ledsB[CNT_B];
+  // Noise
+  static void setupNoise();
+  static void fillNoise8(CRGB *arr, int cnt);
 
 public:
   void preStateChange(int s);
