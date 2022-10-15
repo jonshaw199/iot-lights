@@ -7,17 +7,21 @@
 
 class Song2 : public LightShowBase
 {
-  void setupPurpleAndGreenPalette();
+  // Stripes
+  static void setupOrangeAndPurplePalette(); // Not really purple and green; to do
   static void fillFromPalette(uint8_t i);
+  static void setupStripes();
+  // Fire
+  static void setupFire();
 
 protected:
   static CRGB ledsA[CNT_A];
   static CRGB ledsB[CNT_B];
 
 public:
-  Song2();
   void preStateChange(int s);
   String getName();
+  void setup();
   static void set();
   static void setValue(uint8_t v);
   static void setHue(uint8_t h);
