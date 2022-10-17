@@ -17,7 +17,10 @@ class Song2 : public LightShowBase
   // Noise
   static void setupNoise();
   static void fillNoise8(CRGB *arr, int cnt);
-  static void setTargetPalette();
+  static void setTargetPalette(unsigned int seed = 0);
+  // Breathing
+  static void setupBreathing();
+  static void breath(CRGB *arr, int cnt);
 
 public:
   void preStateChange(int s);

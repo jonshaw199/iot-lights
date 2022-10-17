@@ -31,7 +31,8 @@ void Song2::setup()
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
   // setupStripes();
   // setupFire();
-  setupNoise();
+  // setupNoise();
+  setupBreathing();
 }
 
 void Song2::preStateChange(int s)
@@ -322,7 +323,7 @@ void Song2::setupNoise()
       "Song2_MovingTarget",
       5000, [](IECBArg a)
       {
-        setTargetPalette();
+        setTargetPalette(a.getCbCnt());
   return true; });
 }
 
@@ -339,7 +340,7 @@ void Song2::fillNoise8(CRGB *leds, int cnt)
 
 } // fillnoise8()
 
-void Song2::setTargetPalette()
+void Song2::setTargetPalette(unsigned int seed)
 {
   CHSV purple = CHSV(213, 255, 50);
   CHSV orange = CHSV(5, 255, 200);
@@ -347,7 +348,19 @@ void Song2::setTargetPalette()
   CHSV white = CHSV(5, 10, 200);
 
   CHSV o[] = {orange, purple};
-  targetPalette = CRGBPalette16(o[rand() % 2], o[rand() % 2], o[rand() % 2], o[rand() % 2]);
+  srand(seed);
+  Serial.print("Random nums (seed: ");
+  Serial.print(seed);
+  Serial.print("): ");
+  uint8_t randOne = rand() % 2;
+  uint8_t randTwo = rand() % 2;
+  uint8_t randThree = rand() % 2;
+  uint8_t randFour = rand() % 2;
+  Serial.print(randOne);
+  Serial.print(randTwo);
+  Serial.print(randThree);
+  Serial.println(randFour);
+  targetPalette = CRGBPalette16(o[randOne], o[randTwo], o[randThree], o[randFour]);
 
   // CHSV arr[] = {purple, orange, green, white};
   // CHSV arr[] = {purple, purple, orange, orange};
@@ -361,4 +374,52 @@ void Song2::setTargetPalette()
                                 CHSV(baseC + random8(96), 192, random8(128, 255)),
                                 CHSV(baseC + random8(16), 255, random8(128, 255)));
                                 */
+}
+
+void Song2::setupBreathing()
+{
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+      "Song2",
+      10, [](IECBArg a)
+      { if (CNT_A) breath(ledsA, CNT_A);
+        if (CNT_B) breath(ledsB, CNT_B);
+        FastLED.show();
+        return true; });
+}
+
+void Song2::breath(CRGB *arr, int cnt)
+{
+  static float pulseSpeed = 0.5; // Larger value gives faster pulse.
+
+  uint8_t hueA = 15;      // 15;      // Start hue at valueMin.
+  uint8_t satA = 230;     // Start saturation at valueMin.
+  float valueMin = 120.0; // Pulse minimum value (Should be less then valueMax).
+
+  uint8_t hueB = 0;       // 95;      // End hue at valueMax.
+  uint8_t satB = 255;     // End saturation at valueMax.
+  float valueMax = 255.0; // Pulse maximum value (Should be larger then valueMin).
+
+  uint8_t hue = hueA;                                      // Do Not Edit
+  uint8_t sat = satA;                                      // Do Not Edit
+  float val = valueMin;                                    // Do Not Edit
+  uint8_t hueDelta = hueA - hueB;                          // Do Not Edit
+  static float delta = (valueMax - valueMin) / 2.35040238; // Do Not Edit
+
+  float dV = ((exp(sin(pulseSpeed * millis() / 2000.0 * PI)) - 0.36787944) * delta);
+  val = valueMin + dV;
+  hue = map(val, valueMin, valueMax, hueA, hueB); // Map hue based on current val
+  sat = map(val, valueMin, valueMax, satA, satB); // Map sat based on current val
+
+  for (int i = 0; i < cnt; i++)
+  {
+    arr[i] = CHSV(hue, sat, val);
+
+    // You can experiment with commenting out these dim8_video lines
+    // to get a different sort of look.
+    arr[i].r = dim8_video(arr[i].r);
+    arr[i].g = dim8_video(arr[i].g);
+    arr[i].b = dim8_video(arr[i].b);
+  }
+
+  FastLED.show();
 }
