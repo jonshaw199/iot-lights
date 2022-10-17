@@ -35,7 +35,7 @@ void setup()
   AF1::registerWifiAP(JSSSID, JSPASS);
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
-#if VS1053
+#if JSVS1053
   AF1::registerStateEnt(STATE_AUDIO, new JSAudio());
   AF1::registerStringHandler("audio", [](SHArg a)
                              { AF1::setRequestedState(STATE_AUDIO); });

@@ -1,5 +1,5 @@
 
-#if VS1053
+#if JSVS1053
 
 #include <Wire.h>
 #include <SPI.h>
@@ -149,6 +149,7 @@ public:
   void preStateChange(int s)
   {
     musicPlayer.stopPlaying();
+    musicPlayer.reset();
   }
 };
 
