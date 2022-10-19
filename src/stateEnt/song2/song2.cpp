@@ -15,10 +15,13 @@ uint8_t saturation = 255;
 uint8_t value = 255;
 
 // Stripes
-int dirCoef = 2;
+const int DIR_COEF_INIT = 2;
+const int DIR_COEF_CRAZY = 10;
+int dirCoef = DIR_COEF_INIT;
 
 void Song2::setup()
 {
+  LightShowBase::setup();
   if (CNT_A)
   {
     FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(ledsA, CNT_A);
@@ -98,8 +101,8 @@ void Song2::setupOrangeAndPurplePalette()
 {
   CHSV orange = CHSV(10, 255, 200);
   CHSV purple = CHSV(213, 255, 125);
-  CHSV green = CHSV(80, 255, 200);
-  CHSV white = CHSV(0, 0, 200);
+  CHSV green = CHSV(85, 255, 200);
+  CHSV white = CHSV(45, 111, 175);
 
   currentPalette = CHSVPalette16(
       orange, orange, orange, orange,
@@ -144,12 +147,42 @@ void Song2::setupStripes()
   FastLED.show();
   return true; });
 
+  /*
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Direction"] = IntervalEvent(
       "Song2_Direction",
       15000, [](IECBArg a)
       {
         dirCoef = dirCoef * -1;
   return true; });
+  */
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy"] = IntervalEvent(
+      "Song2_Crazy",
+      30000, [](IECBArg a)
+      {
+        dirCoef = 0;
+        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start"] = IntervalEvent(
+          "Song2_Crazy_Start",
+          StateManager::getCurStateEnt()->getElapsedMs() + 3000, [](IECBArg a)
+          {
+            dirCoef = DIR_COEF_CRAZY;
+            return true;
+          }, 1, true);
+        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Pause"] = IntervalEvent(
+          "Song2_Crazy_Pause",
+          StateManager::getCurStateEnt()->getElapsedMs() + 9000, [](IECBArg a)
+          {
+            dirCoef = 0;
+            return true;
+          }, 1, true);
+        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_End"] = IntervalEvent(
+          "Song2_Crazy_End",
+          StateManager::getCurStateEnt()->getElapsedMs() + 11000, [](IECBArg a)
+          {
+            dirCoef = DIR_COEF_INIT;
+            return true;
+          }, 1, true);
+      return true; });
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
