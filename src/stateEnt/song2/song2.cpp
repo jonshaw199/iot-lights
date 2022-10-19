@@ -15,7 +15,7 @@ uint8_t saturation = 255;
 uint8_t value = 255;
 
 // Stripes
-int dirCoef = 1;
+int dirCoef = 2;
 
 void Song2::setup()
 {
@@ -29,10 +29,10 @@ void Song2::setup()
   }
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  // setupStripes();
+  setupStripes();
   // setupFire();
   // setupNoise();
-  setupBreathing();
+  // setupBreathing();
 }
 
 void Song2::preStateChange(int s)
@@ -96,14 +96,16 @@ void Song2::setSaturation(uint8_t s)
 // This function sets up a palette of purple and green stripes.
 void Song2::setupOrangeAndPurplePalette()
 {
-  CHSV purple = CHSV(213, 255, 50);
-  CHSV orange = CHSV(5, 255, 150);
+  CHSV orange = CHSV(10, 255, 200);
+  CHSV purple = CHSV(213, 255, 125);
+  CHSV green = CHSV(80, 255, 200);
+  CHSV white = CHSV(0, 0, 200);
 
   currentPalette = CHSVPalette16(
       orange, orange, orange, orange,
       purple, purple, purple, purple,
-      orange, orange, orange, orange,
-      purple, purple, purple, purple);
+      green, green, green, green,
+      white, white, white, white);
 }
 
 void Song2::fillFromPalette(uint8_t colorIndex)
@@ -126,8 +128,8 @@ void Song2::fillFromPalette(uint8_t colorIndex)
 void Song2::setupStripes()
 {
   // currentPalette = RainbowColors_p;
-  currentBlending = LINEARBLEND;
-  // currentBlending = NOBLEND;
+  // currentBlending = LINEARBLEND;
+  currentBlending = NOBLEND;
   setupOrangeAndPurplePalette();
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
