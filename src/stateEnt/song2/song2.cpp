@@ -471,6 +471,7 @@ void Song2::breath(CRGB *arr, int cnt)
 }
 
 // Lightning
+// RIP therealhttps://github.com/fibonacci162
 
 #define MAX_FLASHES 8
 #define MIN_FLASHES 3
@@ -496,6 +497,10 @@ void Song2::setupLightning()
   step = 0;
   flashCounter = 0;
   dimmer = 1;
+
+  // The first "flash" in a bolt of lightning is the "leader." The leader
+  // is usually duller and has a longer delay until the next flash. Subsequent
+  // flashes, the "strokes," are brighter and happen at shorter intervals.
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
       "Song2",
