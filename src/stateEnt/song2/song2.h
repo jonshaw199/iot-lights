@@ -21,6 +21,8 @@ class Song2 : public LightShowBase
   // Breathing
   static void setupBreathing();
   static void breath(CRGB *arr, int cnt);
+  // Lightning
+  static void setupLightning();
 
 public:
   void preStateChange(int s);

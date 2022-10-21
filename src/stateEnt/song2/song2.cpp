@@ -16,7 +16,7 @@ uint8_t value = 255;
 
 // Stripes
 const int DIR_COEF_INIT = 2;
-const int DIR_COEF_CRAZY = 10;
+const int DIR_COEF_CRAZY = 11;
 int dirCoef = DIR_COEF_INIT;
 
 void Song2::setup()
@@ -32,10 +32,11 @@ void Song2::setup()
   }
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  setupStripes();
+  // setupStripes();
   // setupFire();
   // setupNoise();
   // setupBreathing();
+  setupLightning();
 }
 
 void Song2::preStateChange(int s)
@@ -99,16 +100,16 @@ void Song2::setSaturation(uint8_t s)
 // This function sets up a palette of purple and green stripes.
 void Song2::setupOrangeAndPurplePalette()
 {
-  CHSV orange = CHSV(10, 255, 200);
-  CHSV purple = CHSV(213, 255, 125);
-  CHSV green = CHSV(85, 255, 200);
-  CHSV white = CHSV(45, 111, 175);
+  CHSV orange = CHSV(18, 255, 225);
+  CHSV white = CHSV(30, 150, 225);
+  CHSV purple = CHSV(213, 255, 150);
+  CHSV green = CHSV(95, 200, 150);
 
   currentPalette = CHSVPalette16(
       orange, orange, orange, orange,
       purple, purple, purple, purple,
-      green, green, green, green,
-      white, white, white, white);
+      white, white, white, white,
+      green, green, green, green);
 }
 
 void Song2::fillFromPalette(uint8_t colorIndex)
@@ -158,7 +159,7 @@ void Song2::setupStripes()
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy"] = IntervalEvent(
       "Song2_Crazy",
-      30000, [](IECBArg a)
+      60000, [](IECBArg a)
       {
         dirCoef = 0;
         StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start"] = IntervalEvent(
@@ -166,6 +167,15 @@ void Song2::setupStripes()
           StateManager::getCurStateEnt()->getElapsedMs() + 3000, [](IECBArg a)
           {
             dirCoef = DIR_COEF_CRAZY;
+
+            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"] = IntervalEvent(
+              "Song2_Crazy_Start_Dir",
+              2500, [](IECBArg a)
+              {
+                dirCoef = dirCoef * -1;
+                return true;
+              }, -1, true);
+
             return true;
           }, 1, true);
         StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Pause"] = IntervalEvent(
@@ -173,6 +183,7 @@ void Song2::setupStripes()
           StateManager::getCurStateEnt()->getElapsedMs() + 9000, [](IECBArg a)
           {
             dirCoef = 0;
+            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"].deactivate();
             return true;
           }, 1, true);
         StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_End"] = IntervalEvent(
@@ -457,4 +468,64 @@ void Song2::breath(CRGB *arr, int cnt)
   }
 
   FastLED.show();
+}
+
+// Lightning
+
+#define MAX_FLASHES 8
+#define MIN_FLASHES 3
+#define MIN_FLASH_MS 4
+#define MAX_FLASH_MS 10
+#define FLASH_DELAY_MS_INITIAL 150
+#define FLASH_DELAY_MS_BASE 50
+#define FLASH_DELAY_MS_MAX 100
+#define FLASHES_FREQ 25
+
+int step;
+int flashCounter;
+int dimmer;
+
+enum lightning_steps
+{
+  LS_PRE_FLASH,
+  LS_POST_FLASH
+};
+
+void Song2::setupLightning()
+{
+  step = 0;
+  flashCounter = 0;
+  dimmer = 1;
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+      "Song2",
+      1, [](IECBArg a)
+      { 
+        switch (step) {
+        case LS_PRE_FLASH:
+          if (flashCounter < random8(MIN_FLASHES, MAX_FLASHES)) {
+            if(flashCounter == 0) dimmer = 5;     // the brightness of the leader is scaled down by a factor of 5
+            else dimmer = random8(1,3);           // return strokes are brighter than the leader
+            FastLED.showColor(CHSV(255, 0, 255/dimmer));
+            // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
+            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"].setIntervalMs(random8(MIN_FLASH_MS, MAX_FLASH_MS), StateManager::getCurStateEnt()->getElapsedMs());
+            step = LS_POST_FLASH;
+          } else {
+            flashCounter = 0;
+            // delay(random8(FREQUENCY)*100);          // delay between strikes
+            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"].setIntervalMs(random8(FLASHES_FREQ) * 100, StateManager::getCurStateEnt()->getElapsedMs());
+            // step = LS_PRE_FLASH;
+          }
+          break;
+        case LS_POST_FLASH:
+          FastLED.showColor(CHSV(255, 0, 0));
+          // if (flashCounter == 0) delay (150);   // longer delay until next flash after the leader
+          // delay(50+random8(100));               // shorter delay between strikes
+          StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"].setIntervalMs(flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX), StateManager::getCurStateEnt()->getElapsedMs());
+          flashCounter++;
+          step = LS_PRE_FLASH;
+          break;
+        }
+        
+        return true; });
 }
