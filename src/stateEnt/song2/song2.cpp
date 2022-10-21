@@ -480,11 +480,16 @@ void Song2::breath(CRGB *arr, int cnt)
 #define FLASH_DELAY_MS_INITIAL 150
 #define FLASH_DELAY_MS_BASE 50
 #define FLASH_DELAY_MS_MAX 100
-#define FLASHES_FREQ 25
+#define FLASHES_FREQ 50
+#define FLASHES_FREQ_FINALE 2
+#define FINALE_SEC_MIN 8
+#define FINALE_SEC_MAX 11
+#define FINALE_INTERVAL_MS 30000
 
 int step;
 int flashCounter;
 int dimmer;
+int flashesFreq;
 
 enum lightning_steps
 {
@@ -497,6 +502,7 @@ void Song2::setupLightning()
   step = 0;
   flashCounter = 0;
   dimmer = 1;
+  flashesFreq = FLASHES_FREQ;
 
   // The first "flash" in a bolt of lightning is the "leader." The leader
   // is usually duller and has a longer delay until the next flash. Subsequent
@@ -526,7 +532,7 @@ void Song2::setupLightning()
           } else {
             flashCounter = 0;
             // delay(random8(FREQUENCY)*100);          // delay between strikes
-            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(FLASHES_FREQ) * 100);
+            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(flashesFreq) * 100);
           }
           break;
         case LS_POST_FLASH:
@@ -539,5 +545,22 @@ void Song2::setupLightning()
           break;
         }
         
+        return true; });
+
+  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Finale"] = IntervalEvent(
+      "Song2_Finale",
+      FINALE_INTERVAL_MS, [](IECBArg a)
+      { 
+        if (flashesFreq == FLASHES_FREQ) {
+          flashesFreq = FLASHES_FREQ_FINALE;
+          StateManager::getCurStateEnt()->setIEIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
+          setBuiltinLED(1);
+          Serial.println("Start");
+        } else {
+          flashesFreq = FLASHES_FREQ;
+          StateManager::getCurStateEnt()->setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
+          setBuiltinLED(0);
+          Serial.println("End");
+        }
         return true; });
 }
