@@ -513,9 +513,15 @@ void Song2::setupLightning()
           if (flashCounter < random8(MIN_FLASHES, MAX_FLASHES)) {
             if(flashCounter == 0) dimmer = 5;     // the brightness of the leader is scaled down by a factor of 5
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
-            FastLED.showColor(CHSV(255, 0, 255/dimmer));
-            // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
-            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+            if (flashCounter == 2) {
+              FastLED.showColor(CHSV(5, 255, 255));
+              StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
+            }
+            else {
+              FastLED.showColor(CHSV(255, 0, 255/dimmer));
+              // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
+              StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+            }
             step = LS_POST_FLASH;
           } else {
             flashCounter = 0;
