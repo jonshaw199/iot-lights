@@ -506,6 +506,8 @@ void Song2::setupLightning()
       "Song2",
       1, [](IECBArg a)
       { 
+        random16_set_seed(a.getElapsedMs() / 1000);
+        
         switch (step) {
         case LS_PRE_FLASH:
           if (flashCounter < random8(MIN_FLASHES, MAX_FLASHES)) {
