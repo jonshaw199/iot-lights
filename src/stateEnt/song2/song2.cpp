@@ -513,19 +513,19 @@ void Song2::setupLightning()
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
             FastLED.showColor(CHSV(255, 0, 255/dimmer));
             // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
-            StateManager::getCurStateEnt()->setIntervalEventIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
             step = LS_POST_FLASH;
           } else {
             flashCounter = 0;
             // delay(random8(FREQUENCY)*100);          // delay between strikes
-            StateManager::getCurStateEnt()->setIntervalEventIntervalMs("Song2", random8(FLASHES_FREQ) * 100);
+            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(FLASHES_FREQ) * 100);
           }
           break;
         case LS_POST_FLASH:
           FastLED.showColor(CHSV(255, 0, 0));
           // if (flashCounter == 0) delay (150);   // longer delay until next flash after the leader
           // delay(50+random8(100));               // shorter delay between strikes
-          StateManager::getCurStateEnt()->setIntervalEventIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
+          StateManager::getCurStateEnt()->setIEIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
