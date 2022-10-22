@@ -480,7 +480,7 @@ void Song2::breath(CRGB *arr, int cnt)
 #define FLASH_DELAY_MS_INITIAL 150
 #define FLASH_DELAY_MS_BASE 50
 #define FLASH_DELAY_MS_MAX 100
-#define FLASHES_FREQ 33
+#define FLASHES_FREQ 22
 #define FLASHES_FREQ_FINALE 2
 #define FINALE_SEC_MIN 8
 #define FINALE_SEC_MAX 11
@@ -520,7 +520,7 @@ void Song2::setupLightning()
             if(flashCounter == 0) dimmer = 5;     // the brightness of the leader is scaled down by a factor of 5
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
             if (flashCounter == 2) {
-              FastLED.showColor(CHSV(5, 255, 255));
+              FastLED.showColor(CHSV(0, 255, 255));
               StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
             }
             else {
