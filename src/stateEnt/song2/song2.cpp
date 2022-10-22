@@ -33,6 +33,7 @@ void Song2::setup()
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
   // setupStripes();
+  // setupFire();
   // setupNoise();
   // setupBreathing();
   setupLightning();
@@ -329,6 +330,7 @@ void Song2::setupFire()
   FastLED.show();
   return true; });
 }
+
 // Noise
 
 void Song2::setupNoise()
