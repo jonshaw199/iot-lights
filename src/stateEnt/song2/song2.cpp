@@ -480,11 +480,11 @@ void Song2::breath(CRGB *arr, int cnt)
 #define FLASH_DELAY_MS_INITIAL 150
 #define FLASH_DELAY_MS_BASE 50
 #define FLASH_DELAY_MS_MAX 100
-#define FLASHES_FREQ 50
+#define FLASHES_FREQ 33
 #define FLASHES_FREQ_FINALE 2
 #define FINALE_SEC_MIN 8
 #define FINALE_SEC_MAX 11
-#define FINALE_INTERVAL_MS 30000
+#define FINALE_INTERVAL_MS 45000
 
 int step;
 int flashCounter;
