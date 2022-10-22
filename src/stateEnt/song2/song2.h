@@ -8,7 +8,7 @@
 class Song2 : public LightShowBase
 {
   // Shared
-  static void setupOrangeAndPurplePalette();
+  static void setupHalloweenPalette();
   // Stripes
   static void fillFromPalette(uint8_t i);
   static void setupStripes();

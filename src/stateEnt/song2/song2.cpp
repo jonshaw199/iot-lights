@@ -33,7 +33,6 @@ void Song2::setup()
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
   // setupStripes();
-  // setupFire();
   // setupNoise();
   // setupBreathing();
   setupLightning();
@@ -64,6 +63,8 @@ bool Song2::doScanForPeersESPNow()
 {
   return false;
 }
+
+// For updating HSV at runtime (solid color)
 
 void Song2::set()
 {
@@ -97,8 +98,9 @@ void Song2::setSaturation(uint8_t s)
   set();
 }
 
-// This function sets up a palette of purple and green stripes.
-void Song2::setupOrangeAndPurplePalette()
+// Reusable (but only used for Stripes right now)
+
+void Song2::setupHalloweenPalette()
 {
   CHSV orange = CHSV(18, 255, 225);
   CHSV white = CHSV(30, 150, 225);
@@ -129,12 +131,14 @@ void Song2::fillFromPalette(uint8_t colorIndex)
   }
 }
 
+// Stripes
+
 void Song2::setupStripes()
 {
   // currentPalette = RainbowColors_p;
   // currentBlending = LINEARBLEND;
   currentBlending = NOBLEND;
-  setupOrangeAndPurplePalette();
+  setupHalloweenPalette();
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
       "Song2",
@@ -325,6 +329,7 @@ void Song2::setupFire()
   FastLED.show();
   return true; });
 }
+// Noise
 
 void Song2::setupNoise()
 {
@@ -346,7 +351,7 @@ void Song2::setupNoise()
   LEDS.show();
   */
 
-  setupOrangeAndPurplePalette();
+  setupHalloweenPalette();
   setTargetPalette();
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
@@ -422,6 +427,8 @@ void Song2::setTargetPalette(unsigned int seed)
                                 */
 }
 
+// Breathing
+
 void Song2::setupBreathing()
 {
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
@@ -471,7 +478,10 @@ void Song2::breath(CRGB *arr, int cnt)
 }
 
 // Lightning
+
 // RIP therealhttps://github.com/fibonacci162
+
+// Added a bit of red for halloween, increased gap between flashes, added finale
 
 #define MAX_FLASHES 8
 #define MIN_FLASHES 3
