@@ -53,8 +53,7 @@ fill_rainbow(ledsA, CNT_A, (beatA+beatB)/2, 8);
   if (CNT_B) {
     fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); 
   }
-  FastLED.show();
-  return true; },
+  FastLED.show(); },
       -1, true);
 }
 

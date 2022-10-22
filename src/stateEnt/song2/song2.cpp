@@ -150,8 +150,7 @@ void Song2::setupStripes()
     
     fillFromPalette( startIndex);
     
-  FastLED.show();
-  return true; });
+  FastLED.show(); });
 
   /*
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Direction"] = IntervalEvent(
@@ -178,10 +177,8 @@ void Song2::setupStripes()
               2500, [](IECBArg a)
               {
                 dirCoef = dirCoef * -1;
-                return true;
               }, -1, true);
 
-            return true;
           }, 1, true);
         StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Pause"] = IntervalEvent(
           "Song2_Crazy_Pause",
@@ -189,16 +186,13 @@ void Song2::setupStripes()
           {
             dirCoef = 0;
             StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"].deactivate();
-            return true;
           }, 1, true);
         StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_End"] = IntervalEvent(
           "Song2_Crazy_End",
           StateManager::getCurStateEnt()->getElapsedMs() + 11000, [](IECBArg a)
           {
             dirCoef = DIR_COEF_INIT;
-            return true;
-          }, 1, true);
-      return true; });
+          }, 1, true); });
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
@@ -327,8 +321,7 @@ void Song2::setupFire()
     }
   }
     
-  FastLED.show();
-  return true; });
+  FastLED.show(); });
 }
 
 // Noise
@@ -361,23 +354,19 @@ void Song2::setupNoise()
       1, [](IECBArg a)
       { if (CNT_A) fillNoise8(ledsA, CNT_A);
         if (CNT_B) fillNoise8(ledsB, CNT_B);
-        FastLED.show();
-        return true; });
+        FastLED.show(); });
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Blend"] = IntervalEvent(
       "Song2_Blend",
       10, [](IECBArg a)
       {
         nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
-        FastLED.show();
-  return true; });
+        FastLED.show(); });
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_MovingTarget"] = IntervalEvent(
       "Song2_MovingTarget",
       5000, [](IECBArg a)
-      {
-        setTargetPalette(a.getCbCnt());
-  return true; });
+      { setTargetPalette(a.getCbCnt()); });
 }
 
 void Song2::fillNoise8(CRGB *leds, int cnt)
@@ -438,8 +427,7 @@ void Song2::setupBreathing()
       10, [](IECBArg a)
       { if (CNT_A) breath(ledsA, CNT_A);
         if (CNT_B) breath(ledsB, CNT_B);
-        FastLED.show();
-        return true; });
+        FastLED.show(); });
 }
 
 void Song2::breath(CRGB *arr, int cnt)
@@ -555,9 +543,7 @@ void Song2::setupLightning()
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
-        }
-        
-        return true; });
+        } });
 
   StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Finale"] = IntervalEvent(
       "Song2_Finale",
@@ -573,6 +559,5 @@ void Song2::setupLightning()
           StateManager::getCurStateEnt()->setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
           setBuiltinLED(0);
           Serial.println("End");
-        }
-        return true; });
+        } });
 }

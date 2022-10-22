@@ -23,9 +23,7 @@ TFT_eSprite Disbuff = TFT_eSprite(&M5.Lcd);
 RC2::RC2()
 {
   intervalEventMap["RC2_1"] = IntervalEvent("RC2_1", 50, [](IECBArg a)
-                                            {
-    getInstance().loopM5();                                                                                    
-    return true; });
+                                            { getInstance().loopM5(); });
 
   /*intervalEventMap.insert(std::pair<String, IntervalEvent>("RC2_2", IntervalEvent(200, [](IECBArg a)
                                                                                   {
@@ -62,9 +60,7 @@ RC2::RC2()
     d["z"]["endPoint"]["y"] = z.end_point.y;
     d["z"]["endPoint"]["z"] = z.end_point.z;
 
-    pushOutbox(d);
-
-    return true; })));*/
+    pushOutbox(d); })));*/
 }
 
 RC2 &RC2::getInstance()
