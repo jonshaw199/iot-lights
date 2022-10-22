@@ -1,4 +1,4 @@
-#if CNT_A || CNT_B || LIGHTS
+#if CNT_A || CNT_B
 
 #include "song1.h"
 #include "stateManager/stateManager.h"
