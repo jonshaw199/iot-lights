@@ -41,7 +41,7 @@ String Song1::getName()
 
 void Song1::doSynced()
 {
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song1"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song1",
       15, [](IECBArg a)
       {
@@ -54,7 +54,7 @@ fill_rainbow(ledsA, CNT_A, (beatA+beatB)/2, 8);
     fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); 
   }
   FastLED.show(); },
-      -1, true);
+      -1, true));
 }
 
 bool Song1::doSync()

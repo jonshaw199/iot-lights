@@ -69,7 +69,7 @@ bool Song2::doScanForPeersESPNow()
 
 void Song2::set()
 {
-  StateManager::getCurStateEnt()->deactivateIntervalEvents();
+  AF1::getCurStateEnt()->deactivateIntervalEvents();
   if (CNT_A)
   {
     fill_solid(ledsA, CNT_A, CHSV(hue, saturation, value));
@@ -141,7 +141,7 @@ void Song2::setupStripes()
   currentBlending = NOBLEND;
   setupHalloweenPalette();
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2",
       25, [](IECBArg a)
       {
@@ -150,49 +150,47 @@ void Song2::setupStripes()
     
     fillFromPalette( startIndex);
     
-  FastLED.show(); });
+  FastLED.show(); }));
 
   /*
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Direction"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2_Direction",
       15000, [](IECBArg a)
       {
         dirCoef = dirCoef * -1;
-  return true; });
+  return true; }));
   */
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2_Crazy",
       60000, [](IECBArg a)
       {
-        dirCoef = 0;
-        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start"] = IntervalEvent(
-          "Song2_Crazy_Start",
-          StateManager::getCurStateEnt()->getElapsedMs() + 3000, [](IECBArg a)
-          {
-            dirCoef = DIR_COEF_CRAZY;
+    dirCoef = 0;
+    AF1::setIE(IntervalEvent(
+        "Song2_Crazy_Start",
+        AF1::getCurStateEnt()->getElapsedMs() + 3000, [](IECBArg a)
+        {
+          dirCoef = DIR_COEF_CRAZY;
 
-            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"] = IntervalEvent(
+          AF1::setIE(IntervalEvent(
               "Song2_Crazy_Start_Dir",
               2500, [](IECBArg a)
-              {
-                dirCoef = dirCoef * -1;
-              }, -1, true);
-
-          }, 1, true);
-        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Pause"] = IntervalEvent(
-          "Song2_Crazy_Pause",
-          StateManager::getCurStateEnt()->getElapsedMs() + 9000, [](IECBArg a)
-          {
+              { dirCoef = dirCoef * -1; },
+              -1, true)); },
+        1, true));
+    AF1::setIE(IntervalEvent(
+        "Song2_Crazy_Pause",
+        AF1::getCurStateEnt()->getElapsedMs() + 9000, [](IECBArg a)
+        {
             dirCoef = 0;
-            StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"].deactivate();
-          }, 1, true);
-        StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_End"] = IntervalEvent(
+            AF1::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"].deactivate(); },
+        1, true));
+        AF1::setIE(IntervalEvent(
           "Song2_Crazy_End",
-          StateManager::getCurStateEnt()->getElapsedMs() + 11000, [](IECBArg a)
+          AF1::getCurStateEnt()->getElapsedMs() + 11000, [](IECBArg a)
           {
-            dirCoef = DIR_COEF_INIT;
-          }, 1, true); });
+      dirCoef = DIR_COEF_INIT;
+          }, 1, true)); }));
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
@@ -235,7 +233,7 @@ void Song2::setupStripes()
 
 void Song2::setupFire()
 {
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2",
       25, [](IECBArg a)
       {
@@ -321,7 +319,7 @@ void Song2::setupFire()
     }
   }
     
-  FastLED.show(); });
+  FastLED.show(); }));
 }
 
 // Noise
@@ -349,24 +347,24 @@ void Song2::setupNoise()
   setupHalloweenPalette();
   setTargetPalette();
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2",
       1, [](IECBArg a)
       { if (CNT_A) fillNoise8(ledsA, CNT_A);
         if (CNT_B) fillNoise8(ledsB, CNT_B);
-        FastLED.show(); });
+        FastLED.show(); }));
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Blend"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2_Blend",
       10, [](IECBArg a)
       {
         nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
-        FastLED.show(); });
+        FastLED.show(); }));
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_MovingTarget"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2_MovingTarget",
       5000, [](IECBArg a)
-      { setTargetPalette(a.getCbCnt()); });
+      { setTargetPalette(a.getCbCnt()); }));
 }
 
 void Song2::fillNoise8(CRGB *leds, int cnt)
@@ -422,12 +420,12 @@ void Song2::setTargetPalette(unsigned int seed)
 
 void Song2::setupBreathing()
 {
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2",
       10, [](IECBArg a)
       { if (CNT_A) breath(ledsA, CNT_A);
         if (CNT_B) breath(ledsB, CNT_B);
-        FastLED.show(); });
+        FastLED.show(); }));
 }
 
 void Song2::breath(CRGB *arr, int cnt)
@@ -508,7 +506,7 @@ void Song2::setupLightning()
   // is usually duller and has a longer delay until the next flash. Subsequent
   // flashes, the "strokes," are brighter and happen at shorter intervals.
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2",
       1, [](IECBArg a)
       { 
@@ -521,43 +519,43 @@ void Song2::setupLightning()
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
             if (flashCounter == 2) {
               FastLED.showColor(CHSV(0, 255, 255));
-              StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
+              AF1::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
             }
             else {
               FastLED.showColor(CHSV(255, 0, 255/dimmer));
               // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
-              StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+              AF1::getCurStateEnt()->setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
             }
             step = LS_POST_FLASH;
           } else {
             flashCounter = 0;
             // delay(random8(FREQUENCY)*100);          // delay between strikes
-            StateManager::getCurStateEnt()->setIEIntervalMs("Song2", random8(flashesFreq) * 100);
+            AF1::getCurStateEnt()->setIEIntervalMs("Song2", random8(flashesFreq) * 100);
           }
           break;
         case LS_POST_FLASH:
           FastLED.showColor(CHSV(255, 0, 0));
           // if (flashCounter == 0) delay (150);   // longer delay until next flash after the leader
           // delay(50+random8(100));               // shorter delay between strikes
-          StateManager::getCurStateEnt()->setIEIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
+          AF1::getCurStateEnt()->setIEIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
-        } });
+        } }));
 
-  StateManager::getCurStateEnt()->getIntervalEventMap()["Song2_Finale"] = IntervalEvent(
+  AF1::setIE(IntervalEvent(
       "Song2_Finale",
       FINALE_INTERVAL_MS, [](IECBArg a)
       { 
         if (flashesFreq == FLASHES_FREQ) {
           flashesFreq = FLASHES_FREQ_FINALE;
-          StateManager::getCurStateEnt()->setIEIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
+          AF1::getCurStateEnt()->setIEIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
           setBuiltinLED(1);
           Serial.println("Start");
         } else {
           flashesFreq = FLASHES_FREQ;
-          StateManager::getCurStateEnt()->setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
+          AF1::getCurStateEnt()->setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
           setBuiltinLED(0);
           Serial.println("End");
-        } });
+        } }));
 }
