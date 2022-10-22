@@ -8,7 +8,7 @@
 class Song2 : public LightShowBase
 {
   // Shared
-  static void setupOrangeAndPurplePalette();
+  static void setupHalloweenPalette();
   // Stripes
   static void fillFromPalette(uint8_t i);
   static void setupStripes();
@@ -17,7 +17,12 @@ class Song2 : public LightShowBase
   // Noise
   static void setupNoise();
   static void fillNoise8(CRGB *arr, int cnt);
-  static void setTargetPalette();
+  static void setTargetPalette(unsigned int seed = 0);
+  // Breathing
+  static void setupBreathing();
+  static void breath(CRGB *arr, int cnt);
+  // Lightning
+  static void setupLightning();
 
 public:
   void preStateChange(int s);
