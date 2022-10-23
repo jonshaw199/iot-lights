@@ -20,9 +20,9 @@
 */
 
 // define the pins used
-#define CLK VS1053_SCLK_PIN  // (18) // SPI Clock, shared with SD card
-#define MISO VS1053_MISO_PIN // (19) // Input data, from VS1053/SD card
-#define MOSI VS1053_MOSI_PIN // (23) // Output data, to VS1053/SD card
+// #define CLK VS1053_SCLK_PIN  // (18) // SPI Clock, shared with SD card
+// #define MISO VS1053_MISO_PIN // (19) // Input data, from VS1053/SD card
+// #define MOSI VS1053_MOSI_PIN // (23) // Output data, to VS1053/SD card
 // Connect CLK, MISO and MOSI to hardware SPI pins.
 // See http://arduino.cc/en/Reference/SPI "Connections"
 
