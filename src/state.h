@@ -9,7 +9,6 @@ enum custom_states
   STATE_RC1,
   STATE_RC2,
   STATE_RC3,
-  STATE_AUDIO
 };
 
 enum custom_types

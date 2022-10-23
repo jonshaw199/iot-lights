@@ -16,7 +16,6 @@
 #include "stateEnt/song2/song2.h"
 #include "img/apple.h"
 #include "img/mountains.h"
-#include "stateEnt/audio/audio.cpp"
 
 void setup()
 {
@@ -35,26 +34,6 @@ void setup()
   AF1::registerWifiAP(JSSSID, JSPASS);
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
-#ifdef VS1053_CS_PIN
-  AF1::registerStateEnt(STATE_AUDIO, new JSAudio());
-  AF1::registerStringHandler("audio", [](SHArg a)
-                             { AF1::setRequestedState(STATE_AUDIO); });
-  AF1::registerStringHandler("audiostop", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->stopPlaying();
-    } });
-  AF1::registerStringHandler("audiopause", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->pausePlaying(true);
-    } });
-  AF1::registerStringHandler("audioresume", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<JSAudio *>(StateManager::getCurStateEnt()))->pausePlaying(false);
-    } });
-#else
   AF1::registerStateEnt(STATE_SONG1, new Song1());
   AF1::registerStateEnt(STATE_SONG2, new Song2());
   AF1::registerStringHandler("song1", [](SHArg a)
@@ -79,7 +58,6 @@ void setup()
                                 uint8_t s = a.getValue().toInt();
                                 (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setSaturation(s);
                               } });
-#endif
   AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("otaws", [](SHArg a)
@@ -107,6 +85,24 @@ void setup()
 #else
   AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
   AF1::setInitialState(STATE_HOME);
+#endif
+
+#ifdef VS1053_CS_PIN
+  AF1::registerStringHandler("audiostop", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->stopPlaying();
+    } });
+  AF1::registerStringHandler("audiopause", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(true);
+    } });
+  AF1::registerStringHandler("audioresume", [](SHArg a)
+                             {
+    if (StateManager::getCurState() == STATE_AUDIO) {
+      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(false);
+    } });
 #endif
 }
 
