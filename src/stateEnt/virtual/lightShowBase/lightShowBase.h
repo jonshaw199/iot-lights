@@ -10,6 +10,10 @@ public:
   void loop();
   bool doConnectToWSServer();
   bool doScanForPeersESPNow();
+#ifdef VS1053_CS_PIN
+  void pausePlaying(bool p);
+  void stopPlaying();
+#endif
 };
 
 #endif

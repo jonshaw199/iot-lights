@@ -89,20 +89,11 @@ void setup()
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->stopPlaying();
-    } });
+                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->stopPlaying(); });
   AF1::registerStringHandler("audiopause", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(true);
-    } });
+                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(true); });
   AF1::registerStringHandler("audioresume", [](SHArg a)
-                             {
-    if (StateManager::getCurState() == STATE_AUDIO) {
-      (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(false);
-    } });
+                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(false); });
 #endif
 }
 

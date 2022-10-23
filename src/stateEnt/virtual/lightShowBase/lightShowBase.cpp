@@ -79,14 +79,14 @@ void printDirectory(File dir, int numTabs)
   }
 }
 
-void pausePlaying(bool p)
+void LightShowBase::pausePlaying(bool p)
 {
   Serial.print("Audio pause: ");
   Serial.println(p);
   musicPlayer.pausePlaying(p);
 }
 
-void stopPlaying()
+void LightShowBase::stopPlaying()
 {
   Serial.println("Audio stop");
   musicPlayer.stopPlaying();
