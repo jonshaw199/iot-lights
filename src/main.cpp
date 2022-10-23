@@ -114,9 +114,6 @@ void loop()
     case STATE_RC1:
       StateManager::setRequestedState(STATE_RC2);
       break;
-    case STATE_RC2:
-      StateManager::setRequestedState(STATE_RC3);
-      break;
     default:
       StateManager::setRequestedState(STATE_RC1);
     }
