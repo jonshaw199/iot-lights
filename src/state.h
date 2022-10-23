@@ -5,10 +5,7 @@ enum custom_states
 {
   STATE_HOME,
   STATE_SONG1,
-  STATE_SONG2,
-  STATE_RC1,
-  STATE_RC2,
-  STATE_RC3
+  STATE_SONG2
 };
 
 enum custom_types

@@ -4,10 +4,6 @@
 #ifdef ARDUINO_M5Stick_C
 #include <M5StickCPlus.h> // https://github.com/m5stack/M5Stack/issues/97
 #undef min
-
-#include "stateEnt/rc/rc1.cpp"
-#include "stateEnt/rc/rc2.h"
-#include "stateEnt/rc/rc3.h"
 #endif
 
 #include "state.h"
@@ -68,24 +64,15 @@ void setup()
       AF1::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
 
 #ifdef ARDUINO_M5Stick_C
-  AF1::registerStateEnt(STATE_RC1, new RC1());
-  AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
-  AF1::registerStateEnt(STATE_RC3, new RC3({"192.168.1.66", "/rc/demo5/ws", 3000, ""}));
-  AF1::registerStringHandler("1", [](SHArg a)
-                             { AF1::setRequestedState(STATE_RC1); });
-  AF1::registerStringHandler("2", [](SHArg a)
-                             { AF1::setRequestedState(STATE_RC2); });
-  AF1::registerStringHandler("3", [](SHArg a)
-                             { AF1::setRequestedState(STATE_RC3); });
-  AF1::setInitialState(STATE_RC1);
+  // AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
+  // AF1::registerStateEnt(STATE_RC3, new RC3({"192.168.1.66", "/rc/demo5/ws", 3000, ""}));
   delay(500);
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.setRotation(0);
   M5.Lcd.pushImage(0, 0, MOUNTAINS_WIDTH, MOUNTAINS_HEIGHT, (uint16_t *)mountains);
-#else
-  AF1::setInitialState(STATE_HOME);
 #endif
 
+  AF1::setInitialState(INITIAL_STATE);
   AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
 
 #ifdef VS1053_CS_PIN
@@ -100,25 +87,5 @@ void setup()
 
 void loop()
 {
-#ifdef ARDUINO_M5Stick_C
-  if (M5.BtnB.isReleased())
-  {
-    AF1::update();
-  }
-
-  M5.update(); // Read the press state of the key.  读取按键 A, B, C 的状态
-  if (M5.BtnB.wasReleased())
-  {
-    switch (AF1::getCurState())
-    {
-    case STATE_RC1:
-      AF1::setRequestedState(STATE_RC2);
-      break;
-    default:
-      AF1::setRequestedState(STATE_RC1);
-    }
-  }
-#else
   AF1::update();
-#endif
 }
