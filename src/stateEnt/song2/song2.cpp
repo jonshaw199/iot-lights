@@ -282,6 +282,7 @@ void Song2::setupFire()
     }
   }
 
+  // TODO fix this redundant crap
   if (CNT_B) {
   // Array of temperature readings at each simulation cell
     static uint8_t heatB[CNT_B];
