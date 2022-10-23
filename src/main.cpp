@@ -83,9 +83,10 @@ void setup()
   M5.Lcd.setRotation(0);
   M5.Lcd.pushImage(0, 0, MOUNTAINS_WIDTH, MOUNTAINS_HEIGHT, (uint16_t *)mountains);
 #else
-  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
   AF1::setInitialState(STATE_HOME);
 #endif
+
+  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)
