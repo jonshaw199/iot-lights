@@ -1,7 +1,7 @@
 #include "lightShowBase.h"
 #include "state.h"
 
-#if JSVS1053
+#ifdef VS1053_CS_PIN
 
 #include <Wire.h>
 #include <SPI.h>
@@ -104,7 +104,7 @@ void LightShowBase::setup()
   pinMode(IR_SENSOR_PIN, INPUT); // sensor pin INPUT
 #endif
 
-#if JSVS1053
+#ifdef VS1053_CS_PIN
   if (!musicPlayer.begin())
   { // initialise the music player
     Serial.println(F("CRITICAL: Couldn't find VS1053, do you have the right pins defined?"));
