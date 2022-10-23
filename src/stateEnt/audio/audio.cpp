@@ -47,7 +47,8 @@
 // Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);
 static Adafruit_VS1053_FilePlayer musicPlayer =
     // create breakout-example object!
-    Adafruit_VS1053_FilePlayer(MOSI, MISO, CLK, BREAKOUT_RESET, BREAKOUT_CS, BREAKOUT_DCS, DREQ, CARDCS);
+    // Adafruit_VS1053_FilePlayer(MOSI, MISO, CLK, BREAKOUT_RESET, BREAKOUT_CS, BREAKOUT_DCS, DREQ, CARDCS);
+    Adafruit_VS1053_FilePlayer(BREAKOUT_RESET, BREAKOUT_CS, BREAKOUT_DCS, DREQ, CARDCS);
 
 class JSAudio : public LightShowBase
 {
@@ -117,7 +118,7 @@ public:
 
     // If DREQ is on an interrupt pin (on uno, #2 or #3) we can do background
     // audio playing
-    musicPlayer.useInterrupt(VS1053_FILEPLAYER_PIN_INT); // DREQ int
+    // musicPlayer.useInterrupt(VS1053_FILEPLAYER_PIN_INT); // DREQ int
 
     // Play one file, don't return until complete
     Serial.println(F("Playing track 001"));
