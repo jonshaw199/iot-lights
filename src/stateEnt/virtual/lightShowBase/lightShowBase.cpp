@@ -157,7 +157,7 @@ void LightShowBase::loop()
       motion = true;
       Serial.println("Motion begin");
       AF1Msg msg;
-      msg.setState(StateManager::getCurState());
+      msg.setState(getCurState());
       msg.setType(TYPE_MOTION);
       msg.getJson()["motion"] = true;
       msg.setRecipients({255});
@@ -171,7 +171,7 @@ void LightShowBase::loop()
       motion = false;
       Serial.println("Motion end");
       AF1Msg msg;
-      msg.setState(StateManager::getCurState());
+      msg.setState(getCurState());
       msg.setType(TYPE_MOTION);
       msg.getJson()["motion"] = false;
       msg.setRecipients({255});

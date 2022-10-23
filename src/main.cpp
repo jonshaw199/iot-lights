@@ -27,7 +27,7 @@ void setup()
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.pushImage((DISPLAY_PORTRAIT_WIDTH - APPLE_WIDTH) / 2, (DISPLAY_PORTRAIT_HEIGHT - APPLE_HEIGHT) / 2, APPLE_WIDTH, APPLE_HEIGHT, (uint16_t *)apple);
 #endif
-  AF1::setup(JS_ID);
+  AF1::begin(JS_ID);
 #ifdef JS_IP_A
   AF1::registerWifiAP(JSSSID, JSPASS, JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
 #else
@@ -42,21 +42,21 @@ void setup()
                              { AF1::setRequestedState(STATE_SONG2); });
   AF1::registerStringHandler("v*", [](SHArg a)
                              {
-                              if (StateManager::getCurState() == STATE_SONG2) {
+                              if (AF1::getCurState() == STATE_SONG2) {
                                 uint8_t v = a.getValue().toInt();
-                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setValue(v);
+                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setValue(v);
                               } });
   AF1::registerStringHandler("h*", [](SHArg a)
                              {
-                              if (StateManager::getCurState() == STATE_SONG2) {
+                              if (AF1::getCurState() == STATE_SONG2) {
                                 uint8_t h = a.getValue().toInt();
-                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setHue(h);
+                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setHue(h);
                               } });
   AF1::registerStringHandler("s*", [](SHArg a)
                              {
-                              if (StateManager::getCurState() == STATE_SONG2) {
+                              if (AF1::getCurState() == STATE_SONG2) {
                                 uint8_t s = a.getValue().toInt();
-                                (static_cast<Song2 *>(StateManager::getCurStateEnt()))->setSaturation(s);
+                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setSaturation(s);
                               } });
   AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
@@ -65,7 +65,7 @@ void setup()
       DynamicJsonDocument body(1024);
       body["type"] = TYPE_CHANGE_STATE;
       body["state"] = STATE_OTA;
-      StateManager::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
+      AF1::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
 
 #ifdef ARDUINO_M5Stick_C
   AF1::registerStateEnt(STATE_RC1, new RC1());
@@ -90,11 +90,11 @@ void setup()
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)
-                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->stopPlaying(); });
+                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->stopPlaying(); });
   AF1::registerStringHandler("audiopause", [](SHArg a)
-                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(true); });
+                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->pausePlaying(true); });
   AF1::registerStringHandler("audioresume", [](SHArg a)
-                             { (static_cast<LightShowBase *>(StateManager::getCurStateEnt()))->pausePlaying(false); });
+                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->pausePlaying(false); });
 #endif
 }
 
@@ -103,22 +103,22 @@ void loop()
 #ifdef ARDUINO_M5Stick_C
   if (M5.BtnB.isReleased())
   {
-    AF1::loop();
+    AF1::update();
   }
 
   M5.update(); // Read the press state of the key.  读取按键 A, B, C 的状态
   if (M5.BtnB.wasReleased())
   {
-    switch (StateManager::getCurState())
+    switch (AF1::getCurState())
     {
     case STATE_RC1:
-      StateManager::setRequestedState(STATE_RC2);
+      AF1::setRequestedState(STATE_RC2);
       break;
     default:
-      StateManager::setRequestedState(STATE_RC1);
+      AF1::setRequestedState(STATE_RC1);
     }
   }
 #else
-  AF1::loop();
+  AF1::update();
 #endif
 }

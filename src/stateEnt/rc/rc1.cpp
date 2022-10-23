@@ -43,7 +43,7 @@ public:
     { // If the button B is pressed. 如果按键
       // B 被按下，
       // M5.Lcd.print('B');
-      StateManager::setRequestedState(STATE_RC2);
+      AF1::setRequestedState(STATE_RC2);
     }*/
     /*else if (M5.BtnB.wasReleasefor(
                  700))

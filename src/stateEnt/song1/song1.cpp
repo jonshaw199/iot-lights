@@ -1,5 +1,4 @@
 #include "song1.h"
-#include "stateManager/stateManager.h"
 
 CRGB Song1::ledsA[CNT_A];
 CRGB Song1::ledsB[CNT_B];
