@@ -8,7 +8,7 @@ enum custom_states
   STATE_SONG2,
   STATE_RC1,
   STATE_RC2,
-  STATE_RC3,
+  STATE_RC3
 };
 
 enum custom_types
