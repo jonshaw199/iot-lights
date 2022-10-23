@@ -161,6 +161,9 @@ void Song2::setupStripes()
   return true; }));
   */
 
+  /*
+   * This is a ridiculous way to use IEs; TODO revise
+   */
   AF1::setIE(IntervalEvent(
       "Song2_Crazy",
       60000, [](IECBArg a)
