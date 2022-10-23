@@ -1,5 +1,3 @@
-#if CNT_A || CNT_B
-
 #include "song1.h"
 #include "stateManager/stateManager.h"
 
@@ -71,5 +69,3 @@ void Song1::setBrightness(uint8_t b)
   FastLED.setBrightness(b);
   // FastLED.show();
 }
-
-#endif

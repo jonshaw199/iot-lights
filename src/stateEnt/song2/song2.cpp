@@ -1,5 +1,3 @@
-#if CNT_A || CNT_B
-
 #include "song2.h"
 #include "stateManager/stateManager.h"
 
@@ -561,5 +559,3 @@ void Song2::setupLightning()
           Serial.println("End");
         } }));
 }
-
-#endif
