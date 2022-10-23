@@ -229,3 +229,13 @@ bool LightShowBase::doScanForPeersESPNow()
 {
   return false;
 }
+
+void LightShowBase::onConnectWSServer()
+{
+  AF1Msg msg;
+  msg.setState(getCurState());
+  msg.setType(TYPE_MOTION);
+  msg.getJson()["info"] = getCurStateEnt()->getInfo();
+  msg.setRecipients({255});
+  pushOutbox(msg);
+}

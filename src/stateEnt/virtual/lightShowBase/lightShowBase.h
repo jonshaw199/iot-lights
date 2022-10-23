@@ -9,6 +9,7 @@ public:
   void setup();
   void loop();
   bool doScanForPeersESPNow();
+  void onConnectWSServer();
 #ifdef VS1053_CS_PIN
   void pausePlaying(bool p);
   void stopPlaying();
