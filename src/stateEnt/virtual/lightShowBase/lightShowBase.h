@@ -8,7 +8,6 @@ class LightShowBase : public Base
 public:
   void setup();
   void loop();
-  bool doConnectToWSServer();
   bool doScanForPeersESPNow();
 #ifdef VS1053_CS_PIN
   void pausePlaying(bool p);

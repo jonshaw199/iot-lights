@@ -59,5 +59,10 @@ public:
   {
     return "STATE_RC1";
   }
+
+  bool doConnectToWSServer()
+  {
+    return false;
+  }
 };
 #endif
