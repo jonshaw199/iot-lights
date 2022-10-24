@@ -199,7 +199,7 @@ void LightShowBase::loop()
     if (!motion)
     {
       motion = true;
-      Serial.println("Motion begin");
+      Serial.println("Local IR sensor motion begin");
       AF1Msg msg;
       msg.setState(getCurState());
       msg.setType(TYPE_MOTION);
@@ -213,7 +213,7 @@ void LightShowBase::loop()
     if (motion)
     {
       motion = false;
-      Serial.println("Motion end");
+      Serial.println("Local IR sensor motion end");
       AF1Msg msg;
       msg.setState(getCurState());
       msg.setType(TYPE_MOTION);
@@ -265,7 +265,7 @@ msg_handler LightShowBase::getInboxHandler()
     switch (m.getType())
     {
     case TYPE_MOTION:
-      Serial.print("Motion ");
+      Serial.print("Notification msg received: motion ");
       if (m.getJson()["motion"] == true)
       {
         Serial.println(" begin...");
