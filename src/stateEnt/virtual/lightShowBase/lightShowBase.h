@@ -13,8 +13,9 @@ public:
   DynamicJsonDocument getInfo();
   msg_handler getInboxHandler();
 #ifdef VS1053_CS_PIN
-  void pausePlaying(bool p);
-  void stopPlaying();
+  static void pausePlaying(bool p);
+  static void stopPlaying();
+  static bool playFile(String f);
 #endif
 };
 
