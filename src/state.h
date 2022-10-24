@@ -3,14 +3,14 @@
 
 enum custom_states
 {
-  STATE_HOME,
+  STATE_HOME = 0,
   STATE_SONG1,
   STATE_SONG2
 };
 
 enum custom_types
 {
-  TYPE_MOTION
+  TYPE_MOTION = 0
 };
 
 #endif // STATE_H_
