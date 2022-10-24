@@ -11,6 +11,7 @@ public:
   bool doScanForPeersESPNow();
   void onConnectWSServer();
   DynamicJsonDocument getInfo();
+  msg_handler getInboxHandler();
 #ifdef VS1053_CS_PIN
   void pausePlaying(bool p);
   void stopPlaying();

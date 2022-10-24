@@ -255,3 +255,26 @@ DynamicJsonDocument LightShowBase::getInfo()
 #endif
   return i;
 }
+
+msg_handler LightShowBase::getInboxHandler()
+{
+  return [](AF1Msg m)
+  {
+    Base::handleInboxMsg(m);
+
+    switch (m.getType())
+    {
+    case TYPE_MOTION:
+      Serial.print("Motion ");
+      if (m.getJson()["motion"] == true)
+      {
+        Serial.println(" begin...");
+      }
+      else
+      {
+        Serial.println(" end.");
+      }
+      break;
+    }
+  };
+}
