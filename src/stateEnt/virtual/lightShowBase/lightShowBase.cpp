@@ -174,7 +174,7 @@ void LightShowBase::loop()
     body["type"] = TYPE_CHANGE_STATE;
     lastState = lastState == 0 ? 2 : 0;
     body["state"] = lastState;
-    httpPost(String("http://") + String(STRINGIFY(REMOTE_URL)), body);
+    httpPost(String("http://") + String(REMOTE_URL), body);
   }
   /*else if (M5.BtnB.wasReleased())
   { // If the button B is pressed. 如果按键

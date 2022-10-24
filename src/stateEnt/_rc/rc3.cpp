@@ -68,8 +68,7 @@ RC3::RC3(ws_client_info i)
                                               d["lastPhi"] = phi;
                                               d["alpha"] = alpha;
 
-                                              pushOutbox(d);
-                                            });
+                                              pushOutbox(d); });
 }
 
 void RC3::setup()
@@ -82,7 +81,7 @@ void RC3::setup()
   DynamicJsonDocument body(1024);
   body["type"] = TYPE_CHANGE_STATE;
   body["state"] = 4;
-  httpPost(String("http://") + String(STRINGIFY(REMOTE_URL)), body);
+  httpPost(String("http://") + String(REMOTE_URL), body);
 }
 
 void RC3::preStateChange(int s)
@@ -90,7 +89,7 @@ void RC3::preStateChange(int s)
   DynamicJsonDocument body(1024);
   body["type"] = TYPE_CHANGE_STATE;
   body["state"] = STATE_IDLE_BASE;
-  httpPost(String("http://") + String(STRINGIFY(REMOTE_URL)), body);
+  httpPost(String("http://") + String(REMOTE_URL), body);
 }
 
 #endif
