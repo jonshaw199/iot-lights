@@ -61,11 +61,11 @@ void setup()
       DynamicJsonDocument body(1024);
       body["type"] = TYPE_CHANGE_STATE;
       body["state"] = STATE_OTA;
-      AF1::getCurStateEnt()->httpPost("http://192.168.1.66:3000/rc", body); });
+      AF1::getCurStateEnt()->httpPost(REMOTE_URL, body); });
 
 #ifdef ARDUINO_M5Stick_C
   // AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
-  // AF1::registerStateEnt(STATE_RC3, new RC3({"192.168.1.66", "/rc/demo5/ws", 3000, ""}));
+  // AF1::registerStateEnt(STATE_RC3, new RC3({SERVER_IP, "/rc/demo5/ws", SERVER_PORT, ""}));
   delay(500);
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.setRotation(0);
@@ -73,7 +73,7 @@ void setup()
 #endif
 
   AF1::setInitialState(INITIAL_STATE);
-  AF1::setDefaultWSClientInfo({"192.168.1.66", "/lights/ws", 3000, ""});
+  AF1::setDefaultWSClientInfo({SERVER_IP, "/lights/ws", SERVER_PORT, ""});
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)
