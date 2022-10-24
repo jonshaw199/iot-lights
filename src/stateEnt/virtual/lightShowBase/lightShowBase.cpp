@@ -234,3 +234,24 @@ void LightShowBase::onConnectWSServer()
 {
   sendMsgInfo({255});
 }
+
+DynamicJsonDocument LightShowBase::getInfo()
+{
+  DynamicJsonDocument i = Base::getInfo();
+#ifdef ARDUINO_M5Stick_C
+  i["arduinoM5StickC"] = true;
+#endif
+#ifdef VS1053_CS_PIN
+  i["vs1053"] = true;
+#endif
+#ifdef IR_SENSOR_PIN
+  i["ir"] = true;
+#endif
+#ifdef JS_IP_A
+  i["staticIp"] = String(JS_IP_A) + "." + String(JS_IP_B) + "." + String(JS_IP_C) + "." + String(JS_IP_D);
+#endif
+#ifdef MASTER
+  i["master"] = true;
+#endif
+  return i;
+}
