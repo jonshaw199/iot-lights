@@ -61,7 +61,7 @@ void setup()
       DynamicJsonDocument body(1024);
       body["type"] = TYPE_CHANGE_STATE;
       body["state"] = STATE_OTA;
-      AF1::getCurStateEnt()->httpPost(REMOTE_URL, body); });
+      AF1::getCurStateEnt()->httpPost(String("http://") + String(REMOTE_URL), body); });
 
 #ifdef ARDUINO_M5Stick_C
   // AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
