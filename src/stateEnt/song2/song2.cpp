@@ -108,9 +108,9 @@ void Song2::setupHalloweenPalette()
 
   currentPalette = CHSVPalette16(
       orange, orange, orange, orange,
+      orange, orange, orange, orange,
       purple, purple, purple, purple,
-      white, white, white, white,
-      green, green, green, green);
+      purple, purple, purple, purple);
 }
 
 void Song2::fillFromPalette(uint8_t colorIndex)
