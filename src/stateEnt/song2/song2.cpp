@@ -31,11 +31,10 @@ void Song2::setup()
   }
   FastLED.setBrightness(200);
   // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  // setupStripes();
+  setupStripes();
   // setupFire();
   // setupNoise();
   // setupBreathing();
-  setupLightning();
 }
 
 void Song2::preStateChange(int s)
@@ -163,6 +162,7 @@ void Song2::setupStripes()
   /*
    * This is a ridiculous way to use IEs; TODO revise
    */
+  /*
   AF1::setIE(IntervalEvent(
       "Song2_Crazy",
       60000, [](IECBArg a)
@@ -193,6 +193,7 @@ void Song2::setupStripes()
           {
       dirCoef = DIR_COEF_INIT;
           }, 1, true)); }));
+          */
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
