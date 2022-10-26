@@ -1,7 +1,7 @@
 #include "song2.h"
 
-CRGB ledsA[CNT_A];
-CRGB ledsB[CNT_B];
+const int cnt = CNT_A > CNT_B ? CNT_A : CNT_B;
+CRGB leds[cnt];
 
 // Now shared (same with above)
 CRGBPalette16 currentPalette;
@@ -21,35 +21,33 @@ int dirCoef = DIR_COEF_INIT;
 void Song2::setup()
 {
   LightShowBase::setup();
-  if (CNT_A)
+  if (cnt)
   {
-    FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(ledsA, CNT_A);
+    if (CNT_A)
+    {
+      FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(leds, cnt);
+    }
+    if (CNT_B)
+    {
+      FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(leds, cnt);
+    }
+    FastLED.setBrightness(200);
+    // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
+    // setupStripes();
+    setupFire();
+    // setupNoise();
+    // setupBreathing();
   }
-  if (CNT_B)
-  {
-    FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(ledsB, CNT_B);
-  }
-  FastLED.setBrightness(200);
-  // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  setupStripes();
-  // setupFire();
-  // setupNoise();
-  // setupBreathing();
 }
 
 void Song2::preStateChange(int s)
 {
   LightShowBase::preStateChange(s);
   // Turn off lights
-  if (CNT_A)
+  if (cnt)
   {
-    fill_solid(ledsA, CNT_A, CRGB::Black);
+    fill_solid(leds, cnt, CRGB::Black);
   }
-  if (CNT_B)
-  {
-    fill_solid(ledsB, CNT_B, CRGB::Black);
-  }
-
   FastLED.show();
 }
 
@@ -68,13 +66,9 @@ bool Song2::doScanForPeersESPNow()
 void Song2::set()
 {
   AF1::getCurStateEnt()->deactivateIntervalEvents();
-  if (CNT_A)
+  if (cnt)
   {
-    fill_solid(ledsA, CNT_A, CHSV(hue, saturation, value));
-  }
-  if (CNT_B)
-  {
-    fill_solid(ledsB, CNT_B, CHSV(hue, saturation, value));
+    fill_solid(leds, cnt, CHSV(hue, saturation, value));
   }
   FastLED.show();
 }
@@ -116,16 +110,9 @@ void Song2::setupHalloweenPalette()
 void Song2::fillFromPalette(uint8_t colorIndex)
 {
   uint8_t brightness = 255;
-
-  for (int i = 0; i < CNT_A; ++i)
+  for (int i = 0; i < cnt; ++i)
   {
-    ledsA[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
-    colorIndex += 3;
-  }
-
-  for (int i = 0; i < CNT_B; ++i)
-  {
-    ledsB[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
+    leds[i] = ColorFromPalette(currentPalette, colorIndex, brightness, currentBlending);
     colorIndex += 3;
   }
 }
@@ -242,87 +229,43 @@ void Song2::setupFire()
       {
   static bool gReverseDirection = false;
 
-  if (CNT_A) {
   // Array of temperature readings at each simulation cell
-    static uint8_t heatA[CNT_A];
+  static uint8_t heat[cnt];
 
-    // Step 1.  Cool down every cell a little
-    for (int i = 0; i < CNT_A; i++)
-    {
-      heatA[i] = qsub8(heatA[i], random8(0, ((COOLING * 10) / CNT_A) + 2));
-    }
-
-    // Step 2.  Heat from each cell drifts 'up' and diffuses a little
-    for (int k = CNT_A - 1; k >= 2; k--)
-    {
-      heatA[k] = (heatA[k - 1] + heatA[k - 2] + heatA[k - 2]) / 3;
-    }
-
-    // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
-    if (random8() < SPARKING)
-    {
-      int y = random8(7);
-      heatA[y] = qadd8(heatA[y], random8(160, 255));
-    }
-
-    // Step 4.  Map from heat cells to LED colors
-    for (int j = 0; j < CNT_A; j++)
-    {
-      CRGB color = HeatColor(heatA[j]);
-      int pixelnumber;
-      if (gReverseDirection)
-      {
-        pixelnumber = (CNT_A - 1) - j;
-      }
-      else
-      {
-        pixelnumber = j;
-      }
-      ledsA[pixelnumber] = color;
-    }
+  // Step 1.  Cool down every cell a little
+  for (int i = 0; i < cnt; i++)
+  {
+    heat[i] = qsub8(heat[i], random8(0, ((COOLING * 10) / cnt) + 2));
   }
 
-  // TODO fix this redundant crap
-  if (CNT_B) {
-  // Array of temperature readings at each simulation cell
-    static uint8_t heatB[CNT_B];
-
-    // Step 1.  Cool down every cell a little
-    for (int i = 0; i < CNT_B; i++)
-    {
-      heatB[i] = qsub8(heatB[i], random8(0, ((COOLING * 10) / CNT_B) + 2));
-    }
-
-    // Step 2.  Heat from each cell drifts 'up' and diffuses a little
-    for (int k = CNT_B - 1; k >= 2; k--)
-    {
-      heatB[k] = (heatB[k - 1] + heatB[k - 2] + heatB[k - 2]) / 3;
-    }
-
-    // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
-    if (random8() < SPARKING)
-    {
-      int y = random8(7);
-      heatB[y] = qadd8(heatB[y], random8(160, 255));
-    }
-
-    // Step 4.  Map from heat cells to LED colors
-    for (int j = 0; j < CNT_B; j++)
-    {
-      CRGB color = HeatColor(heatB[j]);
-      int pixelnumber;
-      if (gReverseDirection)
-      {
-        pixelnumber = (CNT_B - 1) - j;
-      }
-      else
-      {
-        pixelnumber = j;
-      }
-      ledsB[pixelnumber] = color;
-    }
+  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
+  for (int k = cnt - 1; k >= 2; k--)
+  {
+    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2]) / 3;
   }
-    
+
+  // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
+  if (random8() < SPARKING)
+  {
+    int y = random8(7);
+    heat[y] = qadd8(heat[y], random8(160, 255));
+  }
+
+  // Step 4.  Map from heat cells to LED colors
+  for (int j = 0; j < cnt; j++)
+  {
+    CRGB color = HeatColor(heat[j]);
+    int pixelnumber;
+    if (gReverseDirection)
+    {
+      pixelnumber = (cnt - 1) - j;
+    }
+    else
+    {
+      pixelnumber = j;
+    }
+    leds[pixelnumber] = color;
+  }
   FastLED.show(); }));
 }
 
@@ -354,8 +297,7 @@ void Song2::setupNoise()
   AF1::setIE(IntervalEvent(
       "Song2",
       1, [](IECBArg a)
-      { if (CNT_A) fillNoise8(ledsA, CNT_A);
-        if (CNT_B) fillNoise8(ledsB, CNT_B);
+      { fillNoise8();
         FastLED.show(); }));
 
   AF1::setIE(IntervalEvent(
@@ -371,7 +313,7 @@ void Song2::setupNoise()
       { setTargetPalette(a.getCbCnt()); }));
 }
 
-void Song2::fillNoise8(CRGB *leds, int cnt)
+void Song2::fillNoise8()
 {
 
 #define scale 30 // Don't change this programmatically or everything shakes.
@@ -427,12 +369,11 @@ void Song2::setupBreathing()
   AF1::setIE(IntervalEvent(
       "Song2",
       10, [](IECBArg a)
-      { if (CNT_A) breath(ledsA, CNT_A);
-        if (CNT_B) breath(ledsB, CNT_B);
+      { breath();
         FastLED.show(); }));
 }
 
-void Song2::breath(CRGB *arr, int cnt)
+void Song2::breath()
 {
   static float pulseSpeed = 0.5; // Larger value gives faster pulse.
 
@@ -457,13 +398,13 @@ void Song2::breath(CRGB *arr, int cnt)
 
   for (int i = 0; i < cnt; i++)
   {
-    arr[i] = CHSV(hue, sat, val);
+    leds[i] = CHSV(hue, sat, val);
 
     // You can experiment with commenting out these dim8_video lines
     // to get a different sort of look.
-    arr[i].r = dim8_video(arr[i].r);
-    arr[i].g = dim8_video(arr[i].g);
-    arr[i].b = dim8_video(arr[i].b);
+    leds[i].r = dim8_video(leds[i].r);
+    leds[i].g = dim8_video(leds[i].g);
+    leds[i].b = dim8_video(leds[i].b);
   }
 
   FastLED.show();

@@ -16,11 +16,11 @@ class Song2 : public LightShowBase
   static void setupFire();
   // Noise
   static void setupNoise();
-  static void fillNoise8(CRGB *arr, int cnt);
+  static void fillNoise8();
   static void setTargetPalette(unsigned int seed = 0);
   // Breathing
   static void setupBreathing();
-  static void breath(CRGB *arr, int cnt);
+  static void breath();
   // Lightning
   static void setupLightning();
 
