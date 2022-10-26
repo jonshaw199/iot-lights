@@ -23,6 +23,16 @@ class Song2 : public LightShowBase
   static void breath();
   // Lightning
   static void setupLightning();
+  // Discostrobe Halloween
+  static void setupDisco();
+  static void discostrobe();
+  static void discoWorker(
+      uint8_t dashperiod, uint8_t dashwidth, int8_t dashmotionspeed,
+      uint8_t stroberepeats,
+      uint8_t huedelta);
+  static void drawRainbowDashes(
+      uint8_t startpos, uint16_t lastpos, uint8_t period, uint8_t width,
+      uint8_t huestart, uint8_t huedelta, uint8_t saturation, uint8_t value);
 
 public:
   void preStateChange(int s);
