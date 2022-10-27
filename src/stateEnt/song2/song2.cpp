@@ -34,10 +34,10 @@ void Song2::setup()
     FastLED.setBrightness(200);
     // FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
     // setupStripes();
-    // setupFire();
+    setupFire();
     // setupNoise();
     // setupBreathing();
-    setupDisco();
+    // setupDisco();
   }
 }
 
@@ -215,20 +215,20 @@ void Song2::setupStripes()
 // COOLING: How much does the air cool as it rises?
 // Less cooling = taller flames.  More cooling = shorter flames.
 // Default 50, suggested range 20-100
-#define COOLING 55
+#define COOLING 25
 
 // SPARKING: What chance (out of 255) is there that a new spark will be lit?
 // Higher chance = more roaring fire.  Lower chance = more flickery fire.
 // Default 120, suggested range 50-200.
-#define SPARKING 120
+#define SPARKING 190
 
 void Song2::setupFire()
 {
   AF1::setIE(IntervalEvent(
       "Song2",
-      25, [](IECBArg a)
+      15, [](IECBArg a)
       {
-  static bool gReverseDirection = false;
+  static bool gReverseDirection = true;
 
   // Array of temperature readings at each simulation cell
   static uint8_t heat[cnt];
@@ -539,10 +539,19 @@ CRGBPalette16 gCurrentPalette(HalloweenColors_p);
 // to use those raw colors directly.
 #define BLENDING NOBLEND
 
+uint8_t sStrobePhase;
+uint8_t sRepeatCounter;
+int8_t sStartPosition;
+uint8_t sStartHue;
+
 void Song2::setupDisco()
 {
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS_DISCO);
+  sStrobePhase = 0;
+  sRepeatCounter = 0;
+  sStartPosition = 0;
+  sStartHue = 0;
   AF1::setIE(IntervalEvent(
       "Song2",
       DISCO_INTERVAL_MS, [](IECBArg a)
@@ -563,7 +572,6 @@ void Song2::discostrobe()
   // sStrobePhase is a counter that runs from zero to kStrobeCycleLength-1,
   // and then resets to zero.
   const uint8_t kStrobeCycleLength = 4; // light every Nth frame
-  static uint8_t sStrobePhase = 0;
   sStrobePhase = sStrobePhase + 1;
   if (sStrobePhase >= kStrobeCycleLength)
   {
@@ -640,10 +648,6 @@ void Song2::discoWorker(
     uint8_t stroberepeats,
     uint8_t huedelta)
 {
-  static uint8_t sRepeatCounter = 0;
-  static int8_t sStartPosition = 0;
-  static uint8_t sStartHue = 0;
-
   // Always keep the hue shifting a little
   sStartHue += 1;
 
