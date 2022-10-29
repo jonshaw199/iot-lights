@@ -428,25 +428,25 @@ void Song2::setupLightning()
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
             if (flashCounter == 2) {
               FastLED.showColor(CHSV(0, 255, 255));
-              AF1::setIEIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
+              setIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
             }
             else {
               FastLED.showColor(CHSV(255, 0, 255/dimmer));
               // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
-              AF1::setIEIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+              setIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
             }
             step = LS_POST_FLASH;
           } else {
             flashCounter = 0;
             // delay(random8(FREQUENCY)*100);          // delay between strikes
-            AF1::setIEIntervalMs("Song2", random8(flashesFreq) * 100);
+            setIntervalMs("Song2", random8(flashesFreq) * 100);
           }
           break;
         case LS_POST_FLASH:
           FastLED.showColor(CHSV(255, 0, 0));
           // if (flashCounter == 0) delay (150);   // longer delay until next flash after the leader
           // delay(50+random8(100));               // shorter delay between strikes
-          AF1::setIEIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
+          setIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
@@ -459,12 +459,12 @@ void Song2::setupLightning()
       { 
         if (flashesFreq == FLASHES_FREQ) {
           flashesFreq = FLASHES_FREQ_FINALE;
-          AF1::setIEIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
+          setIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
           setBuiltinLED(1);
           Serial.println("Start");
         } else {
           flashesFreq = FLASHES_FREQ;
-          AF1::setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
+          setIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
           setBuiltinLED(0);
           Serial.println("End");
         } },
