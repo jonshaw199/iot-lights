@@ -21,7 +21,7 @@ int dirCoef = DIR_COEF_INIT;
 
 void Song2::setup()
 {
-  LightShowBase::setup();
+  Song::setup();
   if (cnt)
   {
     if (CNT_A)
@@ -45,7 +45,7 @@ void Song2::setup()
 
 void Song2::preStateChange(int s)
 {
-  LightShowBase::preStateChange(s);
+  Song::preStateChange(s);
   // Turn off lights
   if (cnt)
   {

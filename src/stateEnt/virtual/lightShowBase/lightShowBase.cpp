@@ -166,21 +166,6 @@ void LightShowBase::setup()
   // musicPlayer.startPlayingFile("/track002.mp3");
   // musicPlayer.startPlayingFile("/track001.mp3");
 #endif
-
-#define AUTO_SHUTOFF_MIN 24 * 60 // EOD
-  if (timeClient.isTimeSet())
-  {
-    unsigned long curSec = timeClient.getEpochTime();
-    unsigned long beginDaySec = curSec - timeClient.getHours() * 60 * 60 - timeClient.getMinutes() * 60 - timeClient.getSeconds();
-    unsigned long autoShutoffSec = beginDaySec + AUTO_SHUTOFF_MIN * 60;
-    set(Event(
-        "LightShowBase_AutoShutoff",
-        [](ECBArg a)
-        {
-          Serial.println("Hello world!");
-        },
-        true, 0, 1, autoShutoffSec, START_EPOCH_SEC));
-  }
 }
 
 void LightShowBase::loop()
