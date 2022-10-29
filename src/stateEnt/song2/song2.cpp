@@ -419,7 +419,7 @@ void Song2::setupLightning()
       "Song2",
       [](ECBArg a)
       { 
-        random16_set_seed(a.elapsedMs / 1000);
+        random16_set_seed(a.curTime / 1000);
         
         switch (step) {
         case LS_PRE_FLASH:
@@ -428,25 +428,25 @@ void Song2::setupLightning()
             else dimmer = random8(1,3);           // return strokes are brighter than the leader
             if (flashCounter == 2) {
               FastLED.showColor(CHSV(0, 255, 255));
-              setIntervalMs("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
+              setIntervalTime("Song2", random8(MIN_FLASH_MS + 3, MAX_FLASH_MS + 3));
             }
             else {
               FastLED.showColor(CHSV(255, 0, 255/dimmer));
               // delay(random8(4,10));                 // each flash only lasts 4-10 milliseconds
-              setIntervalMs("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
+              setIntervalTime("Song2", random8(MIN_FLASH_MS, MAX_FLASH_MS));
             }
             step = LS_POST_FLASH;
           } else {
             flashCounter = 0;
             // delay(random8(FREQUENCY)*100);          // delay between strikes
-            setIntervalMs("Song2", random8(flashesFreq) * 100);
+            setIntervalTime("Song2", random8(flashesFreq) * 100);
           }
           break;
         case LS_POST_FLASH:
           FastLED.showColor(CHSV(255, 0, 0));
           // if (flashCounter == 0) delay (150);   // longer delay until next flash after the leader
           // delay(50+random8(100));               // shorter delay between strikes
-          setIntervalMs("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
+          setIntervalTime("Song2", flashCounter == 0 ? FLASH_DELAY_MS_INITIAL : FLASH_DELAY_MS_BASE + random8(FLASH_DELAY_MS_MAX));
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
@@ -459,12 +459,12 @@ void Song2::setupLightning()
       { 
         if (flashesFreq == FLASHES_FREQ) {
           flashesFreq = FLASHES_FREQ_FINALE;
-          setIntervalMs("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
+          setIntervalTime("Song2_Finale", random8(FINALE_SEC_MIN, FINALE_SEC_MAX) * 1000);
           setBuiltinLED(1);
           Serial.println("Start");
         } else {
           flashesFreq = FLASHES_FREQ;
-          setIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
+          setIntervalTime("Song2_Finale", FINALE_INTERVAL_MS);
           setBuiltinLED(0);
           Serial.println("End");
         } },
