@@ -166,6 +166,26 @@ void LightShowBase::setup()
   // musicPlayer.startPlayingFile("/track002.mp3");
   // musicPlayer.startPlayingFile("/track001.mp3");
 #endif
+
+#define TZ_OFFSET_HOUR -8        // PST
+#define AUTO_SHUTOFF_MIN 24 * 60 // EOD
+  if (timeClient.isTimeSet())
+  {
+    Serial.print("getDay: ");
+    Serial.println(timeClient.getDay());
+    Serial.print("getHours: ");
+    Serial.println(timeClient.getHours());
+    unsigned long curSec = timeClient.getEpochTime() + TZ_OFFSET_HOUR * 60 * 60;
+    unsigned long beginDaySec = curSec - timeClient.getHours() * 60 * 60 - timeClient.getMinutes() * 60 - timeClient.getSeconds();
+    unsigned long autoShutoffSec = beginDaySec + AUTO_SHUTOFF_MIN * 60;
+    set(Event(
+        "LightShowBase_AutoShutoff",
+        [](ECBArg a)
+        {
+          Serial.println(timeClient.getHours());
+        },
+        true, 0, 1, autoShutoffSec, START_EPOCH_SEC));
+  }
 }
 
 void LightShowBase::loop()
