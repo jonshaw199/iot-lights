@@ -40,9 +40,9 @@ String Song1::getName()
 
 void Song1::doSynced()
 {
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song1",
-      15, [](IECBArg a)
+      [](ECBArg a)
       {
   uint8_t beatA = beatsin8(17, 0, 255);                        // Starting hue
   uint8_t beatB = beatsin8(13, 0, 255);
@@ -53,7 +53,7 @@ fill_rainbow(ledsA, CNT_A, (beatA+beatB)/2, 8);
     fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); 
   }
   FastLED.show(); },
-      -1, true));
+      15, 0, 0, true));
 }
 
 bool Song1::doSync()

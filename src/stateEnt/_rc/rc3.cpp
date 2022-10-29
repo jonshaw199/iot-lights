@@ -22,8 +22,9 @@ RC3::RC3(ws_client_info i)
 {
   setWSClientInfo(i);
 
-  intervalEventMap["RC3_1"] = IntervalEvent("RC3_1", 50, [](IECBArg a)
-                                            {
+  eventMap["RC3_1"] = Event(
+      "RC3_1", [](ECBArg a)
+      {
                                               M5.Imu.getAccelData(&accX, &accY, &accZ);
                                               // M5.MPU6886.getAccelData(&accX, &accY, &accZ);
                                               if ((accX < 1) && (accX > -1))
@@ -49,10 +50,12 @@ RC3::RC3(ws_client_info i)
                                               M5.update();
 
                                               last_theta = theta;
-                                              last_phi = phi; });
+                                              last_phi = phi; },
+      50);
 
-  intervalEventMap["RC3_2"] = IntervalEvent("RC3_2", 200, [](IECBArg a)
-                                            {
+  eventMap["RC3_2"] = Event(
+      "RC3_2", [](ECBArg a)
+      {
                                               DynamicJsonDocument d(1024);
 
                                               // Required
@@ -68,7 +71,8 @@ RC3::RC3(ws_client_info i)
                                               d["lastPhi"] = phi;
                                               d["alpha"] = alpha;
 
-                                              pushOutbox(d); });
+                                              pushOutbox(d); },
+      200);
 }
 
 void RC3::setup()

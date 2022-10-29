@@ -22,10 +22,12 @@ TFT_eSprite Disbuff = TFT_eSprite(&M5.Lcd);
 
 RC2::RC2()
 {
-  intervalEventMap["RC2_1"] = IntervalEvent("RC2_1", 50, [](IECBArg a)
-                                            { getInstance().loopM5(); });
+  eventMap["RC2_1"] = Event(
+      "RC2_1", [](ECBArg a)
+      { getInstance().loopM5(); },
+      50);
 
-  /*intervalEventMap.insert(std::pair<String, IntervalEvent>("RC2_2", IntervalEvent(200, [](IECBArg a)
+  /*intervalEventMap.insert(std::pair<String, IntervalEvent>("RC2_2", IntervalEvent(200, [](ECBArg a)
                                                                                   {
     DynamicJsonDocument d(1024);
 

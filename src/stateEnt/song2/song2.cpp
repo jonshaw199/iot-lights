@@ -66,9 +66,9 @@ bool Song2::doScanForPeersESPNow()
 
 // For updating HSV at runtime (solid color)
 
-void Song2::set()
+void Song2::setHSV()
 {
-  AF1::getCurStateEnt()->deactivateIntervalEvents();
+  AF1::getCurStateEnt()->deactivateEvents();
   if (cnt)
   {
     fill_solid(leds, cnt, CHSV(hue, saturation, value));
@@ -79,19 +79,19 @@ void Song2::set()
 void Song2::setValue(uint8_t v)
 {
   value = v;
-  set();
+  setHSV();
 }
 
 void Song2::setHue(uint8_t h)
 {
   hue = h;
-  set();
+  setHSV();
 }
 
 void Song2::setSaturation(uint8_t s)
 {
   saturation = s;
-  set();
+  setHSV();
 }
 
 // Reusable
@@ -129,61 +129,17 @@ void Song2::setupStripes()
   currentBlending = NOBLEND;
   setupHalloweenPalette();
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      25, [](IECBArg a)
+      [](ECBArg a)
       {
     static uint8_t startIndex = 0;
     startIndex = startIndex + dirCoef; /* motion speed... and direction */
     
     fillFromPalette( startIndex);
     
-  FastLED.show(); }));
-
-  /*
-  AF1::setIE(IntervalEvent(
-      "Song2_Direction",
-      15000, [](IECBArg a)
-      {
-        dirCoef = dirCoef * -1;
-  return true; }));
-  */
-
-  /*
-   * This is a ridiculous way to use IEs; TODO revise
-   */
-  /*
-  AF1::setIE(IntervalEvent(
-      "Song2_Crazy",
-      60000, [](IECBArg a)
-      {
-    dirCoef = 0;
-    AF1::setIE(IntervalEvent(
-        "Song2_Crazy_Start",
-        AF1::getCurStateEnt()->getElapsedMs() + 3000, [](IECBArg a)
-        {
-          dirCoef = DIR_COEF_CRAZY;
-
-          AF1::setIE(IntervalEvent(
-              "Song2_Crazy_Start_Dir",
-              2500, [](IECBArg a)
-              { dirCoef = dirCoef * -1; },
-              -1, true)); },
-        1, true));
-    AF1::setIE(IntervalEvent(
-        "Song2_Crazy_Pause",
-        AF1::getCurStateEnt()->getElapsedMs() + 9000, [](IECBArg a)
-        {
-            dirCoef = 0;
-            AF1::getCurStateEnt()->getIntervalEventMap()["Song2_Crazy_Start_Dir"].deactivate(); },
-        1, true));
-        AF1::setIE(IntervalEvent(
-          "Song2_Crazy_End",
-          AF1::getCurStateEnt()->getElapsedMs() + 11000, [](IECBArg a)
-          {
-      dirCoef = DIR_COEF_INIT;
-          }, 1, true)); }));
-          */
+  FastLED.show(); },
+      25));
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
@@ -226,9 +182,9 @@ void Song2::setupStripes()
 
 void Song2::setupFire()
 {
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      15, [](IECBArg a)
+      [](ECBArg a)
       {
   static bool gReverseDirection = true;
 
@@ -269,7 +225,8 @@ void Song2::setupFire()
     }
     leds[pixelnumber] = color;
   }
-  FastLED.show(); }));
+  FastLED.show(); },
+      15));
 }
 
 // Noise
@@ -297,23 +254,26 @@ void Song2::setupNoise()
   setupHalloweenPalette();
   setTargetPalette();
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      1, [](IECBArg a)
+      [](ECBArg a)
       { fillNoise8();
-        FastLED.show(); }));
+        FastLED.show(); },
+      1));
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2_Blend",
-      10, [](IECBArg a)
+      [](ECBArg a)
       {
         nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
-        FastLED.show(); }));
+        FastLED.show(); },
+      10));
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2_MovingTarget",
-      5000, [](IECBArg a)
-      { setTargetPalette(a.getCbCnt()); }));
+      [](ECBArg a)
+      { setTargetPalette(a.getCbCnt()); },
+      5000));
 }
 
 void Song2::fillNoise8()
@@ -369,11 +329,12 @@ void Song2::setTargetPalette(unsigned int seed)
 
 void Song2::setupBreathing()
 {
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      10, [](IECBArg a)
+      [](ECBArg a)
       { breath();
-        FastLED.show(); }));
+        FastLED.show(); },
+      10));
 }
 
 void Song2::breath()
@@ -454,9 +415,9 @@ void Song2::setupLightning()
   // is usually duller and has a longer delay until the next flash. Subsequent
   // flashes, the "strokes," are brighter and happen at shorter intervals.
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      1, [](IECBArg a)
+      [](ECBArg a)
       { 
         random16_set_seed(a.getElapsedMs() / 1000);
         
@@ -489,11 +450,12 @@ void Song2::setupLightning()
           flashCounter++;
           step = LS_PRE_FLASH;
           break;
-        } }));
+        } },
+      1));
 
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2_Finale",
-      FINALE_INTERVAL_MS, [](IECBArg a)
+      [](ECBArg a)
       { 
         if (flashesFreq == FLASHES_FREQ) {
           flashesFreq = FLASHES_FREQ_FINALE;
@@ -505,7 +467,8 @@ void Song2::setupLightning()
           AF1::setIEIntervalMs("Song2_Finale", FINALE_INTERVAL_MS);
           setBuiltinLED(0);
           Serial.println("End");
-        } }));
+        } },
+      FINALE_INTERVAL_MS));
 }
 
 // Discostrobe Halloween
@@ -556,14 +519,15 @@ void Song2::setupDisco()
   sRepeatCounter = 0;
   sStartPosition = 0;
   sStartHue = 0;
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      DISCO_INTERVAL_MS, [](IECBArg a)
+      [](ECBArg a)
       { 
       // draw the light pattern into the 'leds' array
   discostrobe();
   // send the 'leds' array out to the actual LED strip
-  FastLED.show(); }));
+  FastLED.show(); },
+      DISCO_INTERVAL_MS));
 }
 
 void Song2::discostrobe()
@@ -773,21 +737,22 @@ CRGB gBackgroundColor = CRGB::Black;
 void Song2::setupTwinklefox()
 {
   /*chooseNextColorPalette(targetPalette);
-  AF1::setIE(IntervalEvent(
-      "Song2_NextPalette",
-      SECONDS_PER_PALETTE * 1000, [](IECBArg a)
-      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); }));
-  AF1::setIE(IntervalEvent(
+  set(Event(
+      "Song2_NextPalette",timeevent
+      [](ECBArg a)
+      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); }, SECONDS_PER_PALETTE * 1000));
+  set(Event(
       "Song2_BlendPalette",
-      10, [](IECBArg a)
-      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); }));*/
+      [](ECBArg a)
+      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); }, 10));*/
   setupHalloweenPalette();
-  AF1::setIE(IntervalEvent(
+  set(Event(
       "Song2",
-      1, [](IECBArg a)
+      [](ECBArg a)
       { 
         drawTwinkles(leds); 
-        FastLED.show(); }));
+        FastLED.show(); },
+      1, 0, 0, true));
 }
 
 // A mostly red palette with green accents and white trim.

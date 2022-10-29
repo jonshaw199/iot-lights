@@ -45,7 +45,7 @@ public:
   void preStateChange(int s);
   String getName();
   void setup();
-  static void set();
+  static void setHSV();
   static void setValue(uint8_t v);
   static void setHue(uint8_t h);
   static void setSaturation(uint8_t s);
