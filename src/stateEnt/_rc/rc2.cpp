@@ -25,7 +25,7 @@ RC2::RC2()
   eventMap["RC2_1"] = Event(
       "RC2_1", [](ECBArg a)
       { getInstance().loopM5(); },
-      50);
+      false, 50);
 
   /*intervalEventMap.insert(std::pair<String, IntervalEvent>("RC2_2", IntervalEvent(200, [](ECBArg a)
                                                                                   {

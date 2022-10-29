@@ -51,7 +51,7 @@ RC3::RC3(ws_client_info i)
 
                                               last_theta = theta;
                                               last_phi = phi; },
-      50);
+      false, 50);
 
   eventMap["RC3_2"] = Event(
       "RC3_2", [](ECBArg a)
@@ -72,7 +72,7 @@ RC3::RC3(ws_client_info i)
                                               d["alpha"] = alpha;
 
                                               pushOutbox(d); },
-      200);
+      false, 200);
 }
 
 void RC3::setup()

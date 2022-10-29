@@ -139,7 +139,7 @@ void Song2::setupStripes()
     fillFromPalette( startIndex);
     
   FastLED.show(); },
-      25));
+      true, 25));
 }
 
 // Fire2012 by Mark Kriegsman, July 2012
@@ -226,7 +226,7 @@ void Song2::setupFire()
     leds[pixelnumber] = color;
   }
   FastLED.show(); },
-      15));
+      true, 15));
 }
 
 // Noise
@@ -259,7 +259,7 @@ void Song2::setupNoise()
       [](ECBArg a)
       { fillNoise8();
         FastLED.show(); },
-      1));
+      true, 1));
 
   set(Event(
       "Song2_Blend",
@@ -267,13 +267,13 @@ void Song2::setupNoise()
       {
         nblendPaletteTowardPalette(currentPalette, targetPalette, 48);          // Blend towards the target palette over 48 iterations.
         FastLED.show(); },
-      10));
+      true, 10));
 
   set(Event(
       "Song2_MovingTarget",
       [](ECBArg a)
-      { setTargetPalette(a.getCbCnt()); },
-      5000));
+      { setTargetPalette(a.cbCnt); },
+      true, 5000));
 }
 
 void Song2::fillNoise8()
@@ -334,7 +334,7 @@ void Song2::setupBreathing()
       [](ECBArg a)
       { breath();
         FastLED.show(); },
-      10));
+      true, 10));
 }
 
 void Song2::breath()
@@ -419,7 +419,7 @@ void Song2::setupLightning()
       "Song2",
       [](ECBArg a)
       { 
-        random16_set_seed(a.getElapsedMs() / 1000);
+        random16_set_seed(a.elapsedMs / 1000);
         
         switch (step) {
         case LS_PRE_FLASH:
@@ -451,7 +451,7 @@ void Song2::setupLightning()
           step = LS_PRE_FLASH;
           break;
         } },
-      1));
+      true, 1));
 
   set(Event(
       "Song2_Finale",
@@ -468,7 +468,7 @@ void Song2::setupLightning()
           setBuiltinLED(0);
           Serial.println("End");
         } },
-      FINALE_INTERVAL_MS));
+      true, FINALE_INTERVAL_MS));
 }
 
 // Discostrobe Halloween
@@ -527,7 +527,7 @@ void Song2::setupDisco()
   discostrobe();
   // send the 'leds' array out to the actual LED strip
   FastLED.show(); },
-      DISCO_INTERVAL_MS));
+      true, DISCO_INTERVAL_MS));
 }
 
 void Song2::discostrobe()
@@ -740,11 +740,11 @@ void Song2::setupTwinklefox()
   set(Event(
       "Song2_NextPalette",timeevent
       [](ECBArg a)
-      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); }, SECONDS_PER_PALETTE * 1000));
+      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); }, true, SECONDS_PER_PALETTE * 1000));
   set(Event(
       "Song2_BlendPalette",
       [](ECBArg a)
-      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); }, 10));*/
+      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); }, true, 10));*/
   setupHalloweenPalette();
   set(Event(
       "Song2",
@@ -752,7 +752,7 @@ void Song2::setupTwinklefox()
       { 
         drawTwinkles(leds); 
         FastLED.show(); },
-      1, 0, 0, true));
+      true, 1));
 }
 
 // A mostly red palette with green accents and white trim.

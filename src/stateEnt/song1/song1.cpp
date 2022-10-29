@@ -53,7 +53,7 @@ fill_rainbow(ledsA, CNT_A, (beatA+beatB)/2, 8);
     fill_rainbow(ledsB, CNT_B, (beatA+beatB)/2, 8); 
   }
   FastLED.show(); },
-      15, 0, 0, true));
+      true, 15));
 }
 
 bool Song1::doSync()
