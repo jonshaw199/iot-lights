@@ -33,6 +33,13 @@ class Song2 : public LightShowBase
   static void drawRainbowDashes(
       uint8_t startpos, uint16_t lastpos, uint8_t period, uint8_t width,
       uint8_t huestart, uint8_t huedelta, uint8_t saturation, uint8_t value);
+  // Twinkefox
+  static void setupTwinklefox();
+  static void chooseNextColorPalette(CRGBPalette16 &pal);
+  static void drawTwinkles(CRGBSet &L);
+  static CRGB computeOneTwinkle(uint32_t ms, uint8_t salt);
+  static uint8_t attackDecayWave8(uint8_t i);
+  static void coolLikeIncandescent(CRGB &c, uint8_t phase);
 
 public:
   void preStateChange(int s);
