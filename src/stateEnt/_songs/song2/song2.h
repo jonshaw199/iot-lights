@@ -3,9 +3,9 @@
 
 #include <FastLED.h>
 
-#include "stateEnt/virtual/song/song.h"
+#include "stateEnt/virtual/lightShowBase/lightShowBase.h"
 
-class Song2 : public Song
+class Song2 : public LightShowBase
 {
   // Shared
   static void setupHalloweenPalette();

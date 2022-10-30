@@ -21,7 +21,7 @@ int dirCoef = DIR_COEF_INIT;
 
 void Song2::setup()
 {
-  Song::setup();
+  LightShowBase::setup();
   if (cnt)
   {
     if (CNT_A)
@@ -45,7 +45,7 @@ void Song2::setup()
 
 void Song2::preStateChange(int s)
 {
-  Song::preStateChange(s);
+  LightShowBase::preStateChange(s);
   // Turn off lights
   if (cnt)
   {
@@ -736,16 +736,18 @@ CRGB gBackgroundColor = CRGB::Black;
 
 void Song2::setupTwinklefox()
 {
-  /*chooseNextColorPalette(targetPalette);
+  chooseNextColorPalette(currentPalette);
+  chooseNextColorPalette(targetPalette);
   set(Event(
-      "Song2_NextPalette",timeevent
-      [](ECBArg a)
-      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); }, true, SECONDS_PER_PALETTE * 1000));
+      "Song2_NextPalette", [](ECBArg a)
+      { chooseNextColorPalette(targetPalette); Serial.println("Switch"); },
+      true, SECONDS_PER_PALETTE * 1000));
   set(Event(
       "Song2_BlendPalette",
       [](ECBArg a)
-      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); }, true, 10));*/
-  setupHalloweenPalette();
+      { nblendPaletteTowardPalette(currentPalette, targetPalette, 12); },
+      true, 10));
+  // setupHalloweenPalette();
   set(Event(
       "Song2",
       [](ECBArg a)
@@ -787,6 +789,18 @@ const TProgmemRGBPalette16 BlueWhite_p FL_PROGMEM =
      CRGB::Blue, CRGB::Blue, CRGB::Blue, CRGB::Blue,
      CRGB::Blue, CRGB::Blue, CRGB::Blue, CRGB::Blue,
      CRGB::Blue, CRGB::Gray, CRGB::Gray, CRGB::Gray};
+
+const TProgmemRGBPalette16 OrangePurple_p FL_PROGMEM =
+    {CRGB::OrangeRed, CRGB::OrangeRed, CRGB::OrangeRed, CRGB::OrangeRed,
+     CRGB::OrangeRed, CRGB::OrangeRed, CRGB::OrangeRed, CRGB::OrangeRed,
+     CRGB::OrangeRed, CRGB::OrangeRed, CRGB::Purple, CRGB::Purple,
+     CRGB::Purple, CRGB::Purple, CRGB::Purple, CRGB::Purple};
+
+const TProgmemRGBPalette16 GreenRed_p FL_PROGMEM =
+    {CRGB::Purple, CRGB::Purple, CRGB::Purple, CRGB::Purple,
+     CRGB::Purple, CRGB::Purple, CRGB::Purple, CRGB::Purple,
+     CRGB::Purple, CRGB::Purple, CRGB::DarkRed, CRGB::DarkRed,
+     CRGB::DarkRed, CRGB::DarkRed, CRGB::Red, CRGB::Red};
 
 // A pure "fairy light" palette with some brightness variations
 #define HALFFAIRY ((CRGB::FairyLight & 0xFEFEFE) / 2)
@@ -832,16 +846,18 @@ const TProgmemRGBPalette16 Ice_p FL_PROGMEM =
 // Add or remove palette names from this list to control which color
 // palettes are used, and in what order.
 const TProgmemRGBPalette16 *ActivePaletteList[] = {
-    &RetroC9_p,
-    &BlueWhite_p,
-    &RainbowColors_p,
-    &FairyLight_p,
-    &RedGreenWhite_p,
-    &PartyColors_p,
-    &RedWhite_p,
-    &Snow_p,
-    &Holly_p,
-    &Ice_p};
+    // &RetroC9_p,
+    // &BlueWhite_p,
+    // &RainbowColors_p,
+    // &FairyLight_p,
+    // &RedGreenWhite_p,
+    // &PartyColors_p,
+    // &RedWhite_p,
+    // &Snow_p,
+    // &Holly_p,
+    // &Ice_p,
+    &OrangePurple_p,
+    &GreenRed_p};
 
 // Advance to the next color palette in the list (above).
 void Song2::chooseNextColorPalette(CRGBPalette16 &pal)

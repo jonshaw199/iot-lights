@@ -111,6 +111,10 @@ bool LightShowBase::playFile(String f)
 
 #endif
 
+int LightShowBase::ledCnt = CNT;
+// CRGB leds[CNT];
+CRGBArray<CNT> LightShowBase::leds;
+
 static bool motion = false;
 
 void LightShowBase::setup()
@@ -165,6 +169,43 @@ void LightShowBase::setup()
   // Serial.println(F("Playing track 002"));
   // musicPlayer.startPlayingFile("/track002.mp3");
   // musicPlayer.startPlayingFile("/track001.mp3");
+#endif
+
+#define AUTO_SHUTOFF_MIN (24 * 60 /* EOD */ + 7 * 60 /* TZ Offset */)
+  if (timeClient.isTimeSet())
+  {
+    unsigned long curSec = timeClient.getEpochTime();
+    unsigned long beginDaySec = curSec - timeClient.getHours() * 60 * 60 - timeClient.getMinutes() * 60 - timeClient.getSeconds();
+    unsigned long autoShutoffSec = beginDaySec + AUTO_SHUTOFF_MIN * 60;
+    Serial.print("Auto shutoff seconds: ");
+    Serial.println(autoShutoffSec);
+    set(Event(
+        "LightShowBase_AutoShutoff",
+        [](ECBArg a)
+        {
+          setRequestedState(STATE_HOME);
+        },
+        true, 0, 1, autoShutoffSec, START_EPOCH_SEC));
+  }
+
+#if CNT
+#if CNT_A
+  FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(leds, CNT);
+#endif
+#if CNT_B
+  FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(leds, CNT);
+#endif
+  FastLED.setBrightness(10);
+  FastLED.showColor(CRGB::DarkRed);
+#endif
+}
+
+void LightShowBase::preStateChange(int s)
+{
+  Base::preStateChange(s);
+// Turn off lights
+#if CNT
+  FastLED.showColor(CRGB::Black);
 #endif
 }
 

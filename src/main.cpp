@@ -8,8 +8,6 @@
 
 #include "state.h"
 #include "stateEnt/home/home.h"
-#include "stateEnt/song1/song1.h"
-#include "stateEnt/song2/song2.h"
 #include "img/apple.h"
 #include "img/mountains.h"
 
@@ -30,30 +28,6 @@ void setup()
   AF1::registerWifiAP(JSSSID, JSPASS);
 #endif
   AF1::registerStateEnt(STATE_HOME, new Home());
-  AF1::registerStateEnt(STATE_SONG1, new Song1());
-  AF1::registerStateEnt(STATE_SONG2, new Song2());
-  AF1::registerStringHandler("song1", [](SHArg a)
-                             { AF1::setRequestedState(STATE_SONG1); });
-  AF1::registerStringHandler("song2", [](SHArg a)
-                             { AF1::setRequestedState(STATE_SONG2); });
-  AF1::registerStringHandler("v*", [](SHArg a)
-                             {
-                              if (AF1::getCurState() == STATE_SONG2) {
-                                uint8_t v = a.getValue().toInt();
-                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setValue(v);
-                              } });
-  AF1::registerStringHandler("h*", [](SHArg a)
-                             {
-                              if (AF1::getCurState() == STATE_SONG2) {
-                                uint8_t h = a.getValue().toInt();
-                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setHue(h);
-                              } });
-  AF1::registerStringHandler("s*", [](SHArg a)
-                             {
-                              if (AF1::getCurState() == STATE_SONG2) {
-                                uint8_t s = a.getValue().toInt();
-                                (static_cast<Song2 *>(AF1::getCurStateEnt()))->setSaturation(s);
-                              } });
   AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
   AF1::registerStringHandler("otaws", [](SHArg a)
@@ -64,8 +38,6 @@ void setup()
       AF1::getCurStateEnt()->httpPost(String("http://") + String(REMOTE_URL), body); });
 
 #ifdef ARDUINO_M5Stick_C
-  // AF1::registerStateEnt(STATE_RC2, &RC2::getInstance());
-  // AF1::registerStateEnt(STATE_RC3, new RC3({SERVER_IP, "/rc/demo5/ws", SERVER_PORT, ""}));
   delay(500);
   M5.Lcd.fillScreen(TFT_WHITE);
   M5.Lcd.setRotation(0);
