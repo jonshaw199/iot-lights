@@ -10,8 +10,8 @@
 #define COLOR_ORDER GRB
 
 // Params for width and height
-const uint8_t kMatrixWidth = 1;
-const uint8_t kMatrixHeight = CNT;
+const uint8_t kMatrixWidth = CNT;
+const uint8_t kMatrixHeight = 1;
 
 // Param for different pixel layouts
 const bool kMatrixSerpentineLayout = true;
@@ -94,7 +94,8 @@ void NoisePlusPalette::setup()
 
   set(Event(
       "NoisePlusPalette_Loop", [](ECBArg a)
-      { plebLoop(); }));
+      { plebLoop(); },
+      EVENT_TYPE_TEMP, 15));
 }
 
 // Fill the x/y array of 8-bit noise values using the inoise8 function.
@@ -213,7 +214,7 @@ void NoisePlusPalette::plebLoop()
 
 void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
 {
-  uint8_t secondHand = ((millis() / 1000) / HOLD_PALETTES_X_TIMES_AS_LONG) % 60;
+  uint8_t secondHand = ((getCurStateEnt()->getElapsedMs() / 1000) / HOLD_PALETTES_X_TIMES_AS_LONG) % 60;
   static uint8_t lastSecond = 99;
 
   if (lastSecond != secondHand)
@@ -228,7 +229,7 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
       // currentPalette = LavaColors_p;
       setupShawHalloweenPalette();
       Serial.println("setupShawHalloweenPalette()");
-      speed = 1;
+      speed = 20;
       scale = 50;
       colorLoop = 0;
       break;
@@ -238,7 +239,7 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
     case 50:
       currentPalette = hopegoddess_gp;
       Serial.println("hopegoddess_gp");
-      speed = 3;
+      speed = 33;
       scale = 30;
       colorLoop = 1;
       break;
@@ -248,7 +249,7 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
     case 55:
       currentPalette = halloween_gp;
       Serial.println("halloween_gp");
-      speed = 2;
+      speed = 28;
       scale = 30;
       colorLoop = 1;
       break;
