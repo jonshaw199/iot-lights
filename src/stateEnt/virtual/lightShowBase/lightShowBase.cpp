@@ -181,7 +181,7 @@ void LightShowBase::setup()
         {
           setRequestedState(STATE_HOME);
         },
-        true, 0, 1, autoShutoffSec, START_EPOCH_SEC));
+        EVENT_TYPE_TEMP, 0, 1, autoShutoffSec, START_EPOCH_SEC));
   }
 }
 
