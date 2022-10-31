@@ -11,6 +11,7 @@
 #include "img/apple.h"
 #include "img/mountains.h"
 #include "stateEnt/pattern/twinklefox/twinklefox.h"
+#include "stateEnt/pattern/noisePlusPalette/noisePlusPalette.h"
 
 void setup()
 {
@@ -34,6 +35,9 @@ void setup()
   AF1::registerStateEnt(STATE_PATTERN_TWINKLEFOX, new Twinklefox());
   AF1::registerStringHandler("twinklefox", [](SHArg a)
                              { AF1::setRequestedState(STATE_PATTERN_TWINKLEFOX); });
+  AF1::registerStateEnt(STATE_PATTERN_NOISEPLUSPALETTE, new NoisePlusPalette());
+  AF1::registerStringHandler("noisepluspalette", [](SHArg a)
+                             { AF1::setRequestedState(STATE_PATTERN_NOISEPLUSPALETTE); });
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {
       DynamicJsonDocument body(1024);

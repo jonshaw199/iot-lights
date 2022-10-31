@@ -4,7 +4,8 @@
 enum custom_states
 {
   STATE_HOME = 0,
-  STATE_PATTERN_TWINKLEFOX
+  STATE_PATTERN_TWINKLEFOX,
+  STATE_PATTERN_NOISEPLUSPALETTE
 };
 
 enum custom_types
