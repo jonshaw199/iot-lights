@@ -10,6 +10,7 @@
 #include "stateEnt/home/home.h"
 #include "img/apple.h"
 #include "img/mountains.h"
+#include "stateEnt/pattern/twinklefox/twinklefox.h"
 
 void setup()
 {
@@ -30,6 +31,9 @@ void setup()
   AF1::registerStateEnt(STATE_HOME, new Home());
   AF1::registerStringHandler("home", [](SHArg a)
                              { AF1::setRequestedState(STATE_HOME); });
+  AF1::registerStateEnt(STATE_PATTERN_TWINKLEFOX, new Twinklefox());
+  AF1::registerStringHandler("twinklefox", [](SHArg a)
+                             { AF1::setRequestedState(STATE_PATTERN_TWINKLEFOX); });
   AF1::registerStringHandler("otaws", [](SHArg a)
                              {
       DynamicJsonDocument body(1024);
