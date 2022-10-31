@@ -111,10 +111,6 @@ bool LightShowBase::playFile(String f)
 
 #endif
 
-int LightShowBase::ledCnt = CNT;
-// CRGB leds[CNT];
-CRGBArray<CNT> LightShowBase::leds;
-
 static bool motion = false;
 
 void LightShowBase::setup()
@@ -187,26 +183,6 @@ void LightShowBase::setup()
         },
         true, 0, 1, autoShutoffSec, START_EPOCH_SEC));
   }
-
-#if CNT
-#if CNT_A
-  FastLED.addLeds<LED_TYPE_A, LED_PIN_A, LED_ORDER_A>(leds, CNT);
-#endif
-#if CNT_B
-  FastLED.addLeds<LED_TYPE_B, LED_PIN_B, LED_ORDER_B>(leds, CNT);
-#endif
-  FastLED.setBrightness(10);
-  FastLED.showColor(CRGB::DarkRed);
-#endif
-}
-
-void LightShowBase::preStateChange(int s)
-{
-  Base::preStateChange(s);
-// Turn off lights
-#if CNT
-  FastLED.showColor(CRGB::Black);
-#endif
 }
 
 void LightShowBase::loop()
@@ -220,7 +196,7 @@ void LightShowBase::loop()
     M5.Lcd.print('A');
     DynamicJsonDocument body(1024);
     body["type"] = TYPE_CHANGE_STATE;
-    lastState = lastState == 0 ? 2 : 0;
+    lastState = lastState == STATE_HOME ? STATE_PATTERN_TWINKLEFOX : STATE_HOME;
     body["state"] = lastState;
     httpPost(String("http://") + String(REMOTE_URL), body);
   }
