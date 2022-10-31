@@ -5,6 +5,8 @@
 #include "color/palette/blackhorse_gp.h"
 #include "color/palette/flame_gp.h"
 #include "color/palette/halloween_gp.h"
+#include "color/palette/hopegoddess_gp.h"
+#include "color/palette/leo_gp.h"
 
 #if defined(FASTLED_VERSION) && (FASTLED_VERSION < 3001000)
 #warning "Requires FastLED 3.1 or later; check github for latest code."
@@ -390,7 +392,7 @@ const TProgmemRGBPalette16 *ActivePaletteList[] = {
 // Advance to the next color palette in the list (above).
 void Twinklefox::chooseNextColorPalette(CRGBPalette16 &pal)
 {
-  const CRGBPalette16 active[] = {/*autumnrose_gp, blackhorse_gp, */ flame_gp, halloween_gp};
+  const CRGBPalette16 active[] = {halloween_gp, hopegoddess_gp, leo_gp};
   const uint8_t numberOfPalettes = sizeof(active) / sizeof(active[0]);
   static uint8_t whichPalette = -1;
   whichPalette = addmod8(whichPalette, 1, numberOfPalettes);
