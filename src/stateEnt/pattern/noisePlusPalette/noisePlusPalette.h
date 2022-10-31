@@ -14,6 +14,7 @@ class NoisePlusPalette : public Pattern
   static void SetupRandomPalette();
   static void SetupBlackAndWhiteStripedPalette();
   static void SetupPurpleAndGreenPalette();
+  static void setupShawHalloweenPalette();
   static uint16_t XY(uint8_t x, uint8_t y);
 
 public:

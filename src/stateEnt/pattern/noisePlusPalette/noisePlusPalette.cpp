@@ -67,7 +67,7 @@ uint16_t scale = 30; // scale is set dynamically once we've started up
 // This is the array that we keep our computed noise values in
 uint8_t noise[MAX_DIMENSION][MAX_DIMENSION];
 
-CRGBPalette16 currentPalette(PartyColors_p);
+CRGBPalette16 currentPalette(halloween_gp);
 uint8_t colorLoop = 1;
 
 void NoisePlusPalette::setup()
@@ -84,6 +84,8 @@ void NoisePlusPalette::setup()
   // FastLED.showColor(CRGB::DarkRed);
 #endif
   FastLED.setBrightness(BRIGHTNESS);
+
+  random16_set_seed(0);
 
   // Initialize our coordinates to some random values
   x = random16();
@@ -223,9 +225,10 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
     case 15:
     case 30:
     case 45:
-      currentPalette = LavaColors_p;
-      Serial.println("LavaColors_p");
-      speed = 3;
+      // currentPalette = LavaColors_p;
+      setupShawHalloweenPalette();
+      Serial.println("setupShawHalloweenPalette()");
+      speed = 1;
       scale = 50;
       colorLoop = 0;
       break;
@@ -235,7 +238,7 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
     case 50:
       currentPalette = hopegoddess_gp;
       Serial.println("hopegoddess_gp");
-      speed = 7;
+      speed = 3;
       scale = 30;
       colorLoop = 1;
       break;
@@ -245,7 +248,7 @@ void NoisePlusPalette::ChangePaletteAndSettingsPeriodically()
     case 55:
       currentPalette = halloween_gp;
       Serial.println("halloween_gp");
-      speed = 5;
+      speed = 2;
       scale = 30;
       colorLoop = 1;
       break;
@@ -392,6 +395,19 @@ void NoisePlusPalette::SetupPurpleAndGreenPalette()
       purple, purple, black, black,
       green, green, black, black,
       purple, purple, black, black);
+}
+
+void NoisePlusPalette::setupShawHalloweenPalette()
+{
+  CHSV orange = CHSV(10, 255, 225);
+  CHSV purple = CHSV(200, 250, 150); // 200, 150
+  CHSV green = CHSV(70, 250, 150);   // 75, 200
+
+  currentPalette = CHSVPalette16(
+      purple, purple, purple, purple,
+      purple, purple, purple, orange,
+      orange, orange, orange, orange,
+      orange, orange, green, green);
 }
 
 //

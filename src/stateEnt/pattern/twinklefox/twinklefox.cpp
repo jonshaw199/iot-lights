@@ -1,8 +1,12 @@
 #include <FastLED.h>
 
 #include "twinklefox.h"
+
+namespace Twinkle
+{
 #include "color/palette/hopegoddess_gp.h"
 #include "color/palette/halloween_gp.h"
+}
 
 #if defined(FASTLED_VERSION) && (FASTLED_VERSION < 3001000)
 #warning "Requires FastLED 3.1 or later; check github for latest code."
