@@ -4,8 +4,7 @@
 enum custom_states
 {
   STATE_HOME = 0,
-  STATE_SONG1,
-  STATE_SONG2
+  STATE_PATTERN_TWINKLEFOX
 };
 
 enum custom_types
