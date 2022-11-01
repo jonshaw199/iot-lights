@@ -196,8 +196,7 @@ void LightShowBase::loop()
     M5.Lcd.print('A');
     DynamicJsonDocument body(1024);
     body["type"] = TYPE_CHANGE_STATE;
-    lastState = lastState == STATE_HOME ? STATE_PATTERN_NOISEPLUSPALETTE : lastState == STATE_PATTERN_NOISEPLUSPALETTE ? STATE_PATTERN_TWINKLEFOX
-                                                                                                                       : STATE_HOME;
+    lastState = lastState == STATE_HOME ? STATE_PATTERN_NOISE : STATE_HOME;
     body["state"] = lastState;
     httpPost(String("http://") + String(REMOTE_URL), body);
   }
