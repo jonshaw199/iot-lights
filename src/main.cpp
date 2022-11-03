@@ -47,7 +47,7 @@ void setup()
       DynamicJsonDocument body(1024);
       body["type"] = TYPE_CHANGE_STATE;
       body["state"] = STATE_OTA;
-      AF1::getCurStateEnt()->httpPost(String("http://") + String(REMOTE_URL), body); });
+      AF1::httpPost(REMOTE_URL, body); });
 
 #ifdef ARDUINO_M5Stick_C
   delay(500);
@@ -57,7 +57,7 @@ void setup()
 #endif
 
   AF1::setInitialState(INITIAL_STATE);
-  AF1::setDefaultWSClientInfo({SERVER_IP, "/lights/ws", SERVER_PORT, ""});
+  AF1::setDefaultWSClientInfo({SERVER_IP, LIGHTS_WS_PATH, SERVER_PORT, ""});
 
 #ifdef VS1053_CS_PIN
   AF1::registerStringHandler("audiostop", [](SHArg a)
