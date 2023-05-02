@@ -4,15 +4,14 @@
 #ifdef ARDUINO_M5Stick_C
 #include <M5StickCPlus.h> // https://github.com/m5stack/M5Stack/issues/97
 #undef min
+
+#include "img/apple.h"
+#include "img/mountains.h"
 #endif
 
 #include "state.h"
 #include "stateEnt/home/home.h"
-#include "img/apple.h"
-#include "img/mountains.h"
-#include "stateEnt/pattern/twinklefox/twinklefox.h"
-#include "stateEnt/pattern/noisePlusPalette/noisePlusPalette.h"
-#include "stateEnt/pattern/noise/noise.h"
+#include "stateEnt/virtual/lightsBase/lightsBase.h"
 
 void setup()
 {
@@ -26,28 +25,13 @@ void setup()
 #endif
   AF1::begin(JS_ID);
 #ifdef JS_IP_A
-  AF1::registerWifiAP(JSSSID, JSPASS, JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
+  AF1::addWifiAP(JSSSID, JSPASS, JS_IP_A, JS_IP_B, JS_IP_C, JS_IP_D, 192, 168, 1, 254, 255, 255, 255, 0);
 #else
-  AF1::registerWifiAP(JSSSID, JSPASS);
+  AF1::addWifiAP(JSSSID, JSPASS);
 #endif
-  AF1::registerStateEnt(STATE_HOME, new Home());
-  AF1::registerStringHandler("home", [](SHArg a)
-                             { AF1::setRequestedState(STATE_HOME); });
-  AF1::registerStateEnt(STATE_PATTERN_TWINKLEFOX, new Twinklefox());
-  AF1::registerStringHandler("twinklefox", [](SHArg a)
-                             { AF1::setRequestedState(STATE_PATTERN_TWINKLEFOX); });
-  AF1::registerStateEnt(STATE_PATTERN_NOISEPLUSPALETTE, new NoisePlusPalette());
-  AF1::registerStringHandler("noisepluspalette", [](SHArg a)
-                             { AF1::setRequestedState(STATE_PATTERN_NOISEPLUSPALETTE); });
-  AF1::registerStateEnt(STATE_PATTERN_NOISE, new Noise());
-  AF1::registerStringHandler("noise", [](SHArg a)
-                             { AF1::setRequestedState(STATE_PATTERN_NOISE); });
-  AF1::registerStringHandler("otaws", [](SHArg a)
-                             {
-      DynamicJsonDocument body(1024);
-      body["type"] = TYPE_CHANGE_STATE;
-      body["state"] = STATE_OTA;
-      AF1::httpPost(REMOTE_URL, body); });
+  AF1::addStateEnt(STATE_HOME, new Home());
+  AF1::addStringHandler("home", [](SHArg a)
+                        { AF1::setRequestedState(STATE_HOME); });
 
 #ifdef ARDUINO_M5Stick_C
   delay(500);
@@ -57,16 +41,9 @@ void setup()
 #endif
 
   AF1::setInitialState(INITIAL_STATE);
-  AF1::setDefaultWSClientInfo({SERVER_IP, LIGHTS_WS_PATH, SERVER_PORT, ""});
+  AF1::setDefaultWS(SERVER_IP, String("/?deviceId=") + String(JS_ID), SERVER_PORT);
 
-#ifdef VS1053_CS_PIN
-  AF1::registerStringHandler("audiostop", [](SHArg a)
-                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->stopPlaying(); });
-  AF1::registerStringHandler("audiopause", [](SHArg a)
-                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->pausePlaying(true); });
-  AF1::registerStringHandler("audioresume", [](SHArg a)
-                             { (static_cast<LightShowBase *>(AF1::getCurStateEnt()))->pausePlaying(false); });
-#endif
+  LightsBase::init();
 }
 
 void loop()
